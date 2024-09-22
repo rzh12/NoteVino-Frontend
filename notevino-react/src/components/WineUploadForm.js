@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./WineUploadForm.css";
 
-function WineUploadForm() {
+function WineUploadForm({ onUploadSuccess }) {
   const [wineInfo, setWineInfo] = useState({
     name: "",
     region: "",
@@ -31,6 +32,7 @@ function WineUploadForm() {
       .then((response) => {
         if (response.data.success) {
           alert("葡萄酒上傳成功！");
+          onUploadSuccess();
         }
       })
       .catch((error) => {
@@ -39,53 +41,55 @@ function WineUploadForm() {
   };
 
   return (
-    <div>
+    <div className="form-container">
       <h2>上傳葡萄酒資料</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={wineInfo.name}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Region:
-          <input
-            type="text"
-            name="region"
-            value={wineInfo.region}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Type:
-          <input
-            type="text"
-            name="type"
-            value={wineInfo.type}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Vintage:
-          <input
-            type="number"
-            name="vintage"
-            value={wineInfo.vintage}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Upload Image:
-          <input type="file" onChange={handleImageChange} />
-        </label>
+        <label htmlFor="name">Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={wineInfo.name}
+          onChange={handleInputChange}
+          required
+        />
+
+        <label htmlFor="region">Region:</label>
+        <input
+          type="text"
+          name="region"
+          value={wineInfo.region}
+          onChange={handleInputChange}
+          required
+        />
+
+        <label htmlFor="type">Type:</label>
+        <select
+          name="type"
+          value={wineInfo.type}
+          onChange={handleInputChange}
+          required
+        >
+          <option value="">Select Type</option>
+          <option value="Red">Red</option>
+          <option value="White">White</option>
+          <option value="Rose">Rose</option>
+          <option value="Sparkling">Sparkling</option>
+          <option value="Dessert">Dessert</option>
+          <option value="Fortified">Fortified</option>
+        </select>
+
+        <label htmlFor="vintage">Vintage:</label>
+        <input
+          type="number"
+          name="vintage"
+          value={wineInfo.vintage}
+          onChange={handleInputChange}
+          required
+        />
+
+        <label htmlFor="image">Upload Image:</label>
+        <input type="file" onChange={handleImageChange} />
+
         <button type="submit">上傳葡萄酒</button>
       </form>
     </div>

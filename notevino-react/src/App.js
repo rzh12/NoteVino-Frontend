@@ -7,6 +7,7 @@ import WineUploadForm from "./components/WineUploadForm";
 function App() {
   const [selectedWineId, setSelectedWineId] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [reload, setReload] = useState(false);
 
   // 點擊某一支酒時，顯示詳細資訊，隱藏上傳表單
   const handleWineSelect = (wineId) => {
@@ -20,18 +21,23 @@ function App() {
     setSelectedWineId(null); // 不顯示任何酒的詳細資訊
   };
 
+  // 觸發重新加載列表
+  const reloadWines = () => {
+    setReload(!reload); // 改變 reload 來觸發 WinesList 重新加載
+  };
+
   return (
     <div style={styles.container}>
       <Sidebar
         onWineSelect={handleWineSelect}
         onUploadSelect={handleUploadSelect}
+        reload={reload}
       />
       <div style={styles.content}>
-        {/* 如果是上傳狀態，顯示上傳表單 */}
         {isUploading ? (
-          <WineUploadForm />
+          <WineUploadForm onUploadSuccess={reloadWines} /> // 傳入上傳成功後的回調
         ) : selectedWineId ? (
-          <WineDetails wineId={selectedWineId} />
+          <WineDetails wineId={selectedWineId} /> // 顯示選擇的酒詳細資訊
         ) : (
           <div>選擇一支酒以查看詳細資訊</div> // 預設顯示提示
         )}

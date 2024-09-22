@@ -1,7 +1,7 @@
 import React from "react";
 import WinesList from "./WinesList";
 
-function Sidebar({ onWineSelect, onUploadSelect }) {
+function Sidebar({ onWineSelect, onUploadSelect, reload }) {
   return (
     <div style={styles.sidebar}>
       <div style={styles.userInfo}>
@@ -12,6 +12,7 @@ function Sidebar({ onWineSelect, onUploadSelect }) {
         <WinesList
           onWineSelect={onWineSelect}
           onUploadSelect={onUploadSelect}
+          reload={reload}
         />
       </div>
     </div>

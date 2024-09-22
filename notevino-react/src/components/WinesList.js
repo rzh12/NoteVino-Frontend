@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./WinesList.css";
 
-function WinesList({ onWineSelect, onUploadSelect }) {
+function WinesList({ onWineSelect, onUploadSelect, reload }) {
   const [wines, setWines] = useState([]);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function WinesList({ onWineSelect, onUploadSelect }) {
       .catch((error) => {
         console.error("Error fetching wines list:", error);
       });
-  }, []);
+  }, [reload]);
 
   return (
     <div>
