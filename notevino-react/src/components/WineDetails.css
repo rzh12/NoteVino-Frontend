@@ -20,3 +20,33 @@
   height: 200px;
   margin-left: 20px;
 }
+
+.addNoteButton {
+  margin-top: 10px;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+}
+
+.form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submitButton {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}

@@ -24,29 +24,24 @@ function WinesList({ onWineSelect, onUploadSelect, reload }) {
       {wines.length === 0 ? (
         <p>載入中...</p>
       ) : (
-        <ul>
+        <div className="wine-list">
           {wines.map((wine) => (
-            <li
+            <div
               key={wine.wineId}
               onClick={() => onWineSelect(wine.wineId)}
               className="wine-item"
             >
-              <div>
-                <p>{wine.name}</p>
-                <p>
-                  {wine.region} - {wine.type} - {wine.vintage}
-                </p>
-              </div>
-            </li>
+              {wine.name}
+            </div>
           ))}
-          <li
+          <div
             className="wine-item add-wine"
             onClick={onUploadSelect}
             style={{ textAlign: "center", cursor: "pointer" }}
           >
-            <p>+ Add a wine</p>
-          </li>
-        </ul>
+            <p>+ 添加葡萄酒</p> {/* 顯示 + 按鈕 */}
+          </div>
+        </div>
       )}
     </div>
   );

@@ -5,6 +5,8 @@ import "./WineDetails.css";
 function WineDetails({ wineId }) {
   const [wine, setWine] = useState(null);
   const placeholderImage = "https://via.placeholder.com/200?text=No+Image";
+  const [newNote, setNewNote] = useState("");
+  const [isAddingNote, setIsAddingNote] = useState(false);
 
   useEffect(() => {
     if (wineId) {
@@ -20,6 +22,33 @@ function WineDetails({ wineId }) {
         });
     }
   }, [wineId]);
+
+  // 提交新增筆記
+  const handleSubmitNote = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(`/api/wines/${wineId}/notes`, {
+        content: newNote,
+      })
+      .then((response) => {
+        if (response.data.success) {
+          setIsAddingNote(false); // 關閉表單
+          setNewNote(""); // 清空輸入框
+          // 重新加載筆記
+          setWine((prevWine) => ({
+            ...prevWine,
+            notes: [
+              ...prevWine.notes,
+              { content: newNote, createdAt: new Date().toISOString() },
+            ],
+          }));
+        }
+      })
+      .catch((error) => {
+        console.error("Error creating note:", error);
+      });
+  };
 
   if (!wine) {
     return null; // 在 wine 資料還未載入時，返回 null
@@ -45,12 +74,35 @@ function WineDetails({ wineId }) {
       </div>
       <h3>Tasting Notes</h3>
       <ul>
-        {wine.notes.map((note, index) => (
-          <li key={index}>
-            {note.content} - {new Date(note.createdAt).toLocaleDateString()}
-          </li>
-        ))}
+        {wine.notes && wine.notes.length > 0 ? (
+          wine.notes.map((note, index) => (
+            <li key={index}>
+              {note.content} - {new Date(note.createdAt).toLocaleDateString()}
+            </li>
+          ))
+        ) : (
+          <li>無品酒記錄</li>
+        )}
       </ul>
+
+      <button onClick={() => setIsAddingNote(true)} className="addNoteButton">
+        + 添加筆記
+      </button>
+
+      {isAddingNote && (
+        <form onSubmit={handleSubmitNote} className="form">
+          <textarea
+            value={newNote}
+            onChange={(e) => setNewNote(e.target.value)}
+            placeholder="輸入您的品酒筆記"
+            required
+            className="textarea"
+          />
+          <button type="submit" className="submitButton">
+            提交筆記
+          </button>
+        </form>
+      )}
     </div>
   );
 }
