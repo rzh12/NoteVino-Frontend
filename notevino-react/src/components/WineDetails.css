@@ -1,24 +1,104 @@
+/* WineDetails.css */
+
 .container {
   padding: 20px;
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: space-between; /* 確保圖片和文本左右對齊 */
+  align-items: flex-start; /* 確保文本和圖片的上方對齊 */
+  padding: 0px 15px; /* 上下為 0px，左右為 15px */
 }
 
 .details {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  gap: 10px; /* 增加上下間距 */
   flex: 1;
 }
 
+/* 標籤與輸入框的佈局 */
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 標籤與輸入框的間距 */
+}
+
+.detail-item label {
+  font-weight: bold;
+  min-width: 80px; /* 固定標籤的寬度 */
+}
+
+/* 輸入框與下拉選單樣式 */
+.input {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%; /* 讓輸入框和選單自適應寬度 */
+}
+
+/* 當選擇框和輸入框聚焦時的樣式 */
+.input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 聚焦時增加陰影效果 */
+}
+
+/* 儲存按鈕樣式 */
+.saveButton {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.image-wrapper {
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  width: 200px; /* 設置寬度 */
+  height: 200px; /* 設置高度 */
+  /* background-color: #ffffff; 可選：設置背景顏色 */
+}
+
+/* 圖片樣式 */
 .image {
-  width: auto;
-  height: 200px;
-  margin-left: 20px;
+  max-width: 100%;
+  max-height: 100%;
+  display: block; /* 確保圖片是塊級元素 */
+}
+
+/* 齒輪按鈕 */
+.gearButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  position: absolute;
+  top: 20px;
+  right: 10px; /* 使其顯示在圖片的右上角 */
+}
+
+/* 刪除按鈕 */
+.deleteButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: red;
+  position: absolute;
+  top: 60px; /* 調整位置使其位於齒輪下方 */
+  right: 10px; /* 使其顯示在圖片右側 */
+}
+
+/* Notes */
+.bottom-section {
+  padding: 0px 15px;
 }
 
 .addNoteButton {

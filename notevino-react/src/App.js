@@ -26,6 +26,12 @@ function App() {
     setReload(!reload); // 改變 reload 來觸發 WinesList 重新加載
   };
 
+  // 刪除成功後的回調，清除選中的 wine
+  const handleDeleteSuccess = () => {
+    setSelectedWineId(null); // 清空詳細頁，回到「選擇一支酒」
+    reloadWines(); // 重新加載列表
+  };
+
   return (
     <div style={styles.container}>
       <Sidebar
@@ -37,7 +43,11 @@ function App() {
         {isUploading ? (
           <WineUploadForm onUploadSuccess={reloadWines} /> // 傳入上傳成功後的回調
         ) : selectedWineId ? (
-          <WineDetails wineId={selectedWineId} /> // 顯示選擇的酒詳細資訊
+          <WineDetails
+            wineId={selectedWineId}
+            onDeleteSuccess={handleDeleteSuccess} // 傳入刪除成功後的回調
+            reloadWines={reloadWines} // 傳入重新加載函數
+          />
         ) : (
           <div>選擇一支酒以查看詳細資訊</div> // 預設顯示提示
         )}
