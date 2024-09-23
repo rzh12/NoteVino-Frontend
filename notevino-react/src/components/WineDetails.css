@@ -1,5 +1,3 @@
-/* WineDetails.css */
-
 .container {
   padding: 20px;
 }
@@ -50,11 +48,15 @@
 .saveButton {
   padding: 10px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
   margin-top: 10px;
+}
+
+.saveButton:hover {
+  background-color: #45a049;
 }
 
 .image-wrapper {
@@ -98,15 +100,23 @@
 
 /* Notes */
 .bottom-section {
-  padding: 0px 15px;
+  padding: 20px 15px;
 }
 
 .addNoteButton {
   margin-top: 10px;
-  padding: 10px;
+  padding: 12px 20px;
   cursor: pointer;
-  background-color: #f4f4f4;
-  border: 1px solid #ccc;
+  background-color: #007bff; /* Muted blue to match the overall page tone */
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  transition: background-color 0.2s ease; /* Keep hover effect subtle */
+}
+
+.addNoteButton:hover {
+  background-color: #0056b3; /* Subtle change on hover */
 }
 
 .form {
@@ -120,13 +130,117 @@
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  resize: vertical;
 }
 
 .submitButton {
   padding: 10px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
+}
+
+.submitButton:hover {
+  background-color: #45a049;
+}
+
+/* 筆記內容的容器 */
+ul {
+  padding-left: 0; /* 移除 ul 預設的 padding */
+  margin-left: 0; /* 移除 ul 預設的 margin */
+}
+
+.note-item {
+  display: flex;
+  align-items: center;
+  list-style-type: none; /* 移除 li 的預設符號 */
+  padding-left: 0; /* 確保 li 元素也沒有 padding */
+  margin-left: 0; /* 確保 li 元素沒有 margin */
+}
+
+/* 編輯圖示的樣式 */
+.editIcon {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+/* 當使用者將鼠標移到筆記項目時，讓鉛筆圖示更顯著 */
+.note-item:hover .editIcon {
+  color: #007bff;
+}
+
+/* 筆記內容文字樣式 */
+.note-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* 鉛筆圖示和筆記內容同一行，間距調整 */
+.note-content p {
+  margin-left: 0px;
+}
+
+/* 編輯模式下的文本區域樣式 */
+.note-input {
+  width: 100%;
+  min-height: 60px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;
+}
+
+/* 按鈕容器樣式 */
+.button-container {
+  display: flex; /* 使用 Flexbox 排版 */
+  flex-direction: column; /* 垂直排列按鈕 */
+  align-items: center; /* 水平居中對齊 */
+}
+
+/* 保存按鈕樣式 */
+.saveButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  margin-left: 10px; /* 與刪除按鈕對齊 */
+  padding: 8px 20px;
+}
+
+/* 保存按鈕在鼠標移動時的效果 */
+.saveButton:hover {
+  background-color: #45a049;
+}
+
+/* 刪除按鈕樣式 */
+.note-deleteButton {
+  background-color: #f44336; /* 紅色背景 */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  margin-left: 10px; /* 與保存按鈕對齊 */
+  padding: 8px 20px;
+}
+
+/* 刪除按鈕在鼠標移動時的效果 */
+.note-deleteButton:hover {
+  background-color: #e53935; /* 更深的紅色 */
 }

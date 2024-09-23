@@ -39,7 +39,7 @@ function WinesList({ onWineSelect, onUploadSelect, reload }) {
             onClick={onUploadSelect}
             style={{ textAlign: "center", cursor: "pointer" }}
           >
-            <p>+ 添加葡萄酒</p> {/* 顯示 + 按鈕 */}
+            <p>+ 新增葡萄酒</p> {/* 顯示 + 按鈕 */}
           </div>
         </div>
       )}

@@ -9,6 +9,8 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [updatedWine, setUpdatedWine] = useState({});
+  const [editNoteId, setEditNoteId] = useState(null);
+  const [noteContent, setNoteContent] = useState("");
 
   useEffect(() => {
     if (wineId) {
@@ -36,15 +38,17 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
       })
       .then((response) => {
         if (response.data.success) {
+          const newNoteFromServer = {
+            noteId: response.data.data.noteId, // 獲取返回的 noteId
+            content: newNote,
+            createdAt: response.data.data.createdAt, // 使用返回的 createdAt
+          };
           setIsAddingNote(false); // 關閉表單
           setNewNote(""); // 清空輸入框
           // 重新加載筆記
           setWine((prevWine) => ({
             ...prevWine,
-            notes: [
-              ...prevWine.notes,
-              { content: newNote, createdAt: new Date().toISOString() },
-            ],
+            notes: [...prevWine.notes, newNoteFromServer],
           }));
         }
       })
@@ -53,7 +57,7 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
       });
   };
 
-  // 提交修改
+  // 提交修改葡萄酒資訊
   const handleSave = () => {
     const updatedInfo = {
       name: updatedWine.name,
@@ -82,6 +86,27 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
       });
   };
 
+  // 提交修改筆記
+  const handleSaveNote = (noteId) => {
+    axios
+      .put(`/api/wines/${wineId}/notes/${noteId}`, { content: noteContent })
+      .then((response) => {
+        if (response.data.success) {
+          setWine((prevWine) => ({
+            ...prevWine,
+            notes: prevWine.notes.map((note) =>
+              note.noteId === noteId ? { ...note, content: noteContent } : note
+            ),
+          }));
+          setEditNoteId(null); // 退出編輯模式
+          setNoteContent(""); // 清空編輯框
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating note:", error);
+      });
+  };
+
   // 刪除葡萄酒記錄
   const handleDelete = () => {
     if (window.confirm("確定要刪除此葡萄酒記錄？")) {
@@ -100,6 +125,27 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
     }
   };
 
+  // 刪除筆記
+  const handleDeleteNote = (noteId) => {
+    if (window.confirm("確定要刪除此筆記？")) {
+      axios
+        .delete(`/api/wines/${wineId}/notes/${noteId}`)
+        .then((response) => {
+          if (response.status === 204) {
+            // 刪除成功，從筆記列表中移除該筆記
+            setWine((prevWine) => ({
+              ...prevWine,
+              notes: prevWine.notes.filter((note) => note.noteId !== noteId),
+            }));
+            setEditNoteId(null); // 退出編輯模式
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting note:", error);
+        });
+    }
+  };
+
   // 處理表單變更
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -107,6 +153,12 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
       ...updatedWine,
       [name]: value,
     });
+  };
+
+  // 進入筆記編輯模式
+  const handleEditNote = (noteId, content) => {
+    setEditNoteId(noteId);
+    setNoteContent(content);
   };
 
   if (!wine) {
@@ -197,12 +249,44 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
         </button>
       </div>
       <div className="bottom-section">
-        <h3>Tasting Notes</h3>
+        <h2>Tasting Notes</h2>
         <ul>
           {wine.notes && wine.notes.length > 0 ? (
-            wine.notes.map((note, index) => (
-              <li key={note.noteId}>
-                {note.content} - {new Date(note.createdAt).toLocaleDateString()}
+            wine.notes.map((note) => (
+              <li key={note.noteId} className="note-item">
+                {editNoteId === note.noteId ? (
+                  <div className="note-content">
+                    <textarea
+                      value={noteContent}
+                      onChange={(e) => setNoteContent(e.target.value)}
+                      className="note-input"
+                    />
+                    <div className="button-container">
+                      <button
+                        onClick={() => handleDeleteNote(note.noteId)} // 調用刪除函數
+                        className="note-deleteButton"
+                      >
+                        刪除
+                      </button>
+                      <button
+                        onClick={() => handleSaveNote(note.noteId)} // 使用正確的 noteId 保存
+                        className="saveButton"
+                      >
+                        保存
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="note-content">
+                    <button
+                      onClick={() => handleEditNote(note.noteId, note.content)} // 編輯時使用正確的 noteId
+                      className="editIcon"
+                    >
+                      ✏️
+                    </button>
+                    <p>{note.content}</p>
+                  </div>
+                )}
               </li>
             ))
           ) : (
@@ -211,7 +295,7 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
         </ul>
 
         <button onClick={() => setIsAddingNote(true)} className="addNoteButton">
-          + 添加筆記
+          + 新增筆記
         </button>
 
         {isAddingNote && (
