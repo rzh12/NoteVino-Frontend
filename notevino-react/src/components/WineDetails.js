@@ -76,7 +76,7 @@ function WineDetails({ wineId }) {
       <ul>
         {wine.notes && wine.notes.length > 0 ? (
           wine.notes.map((note, index) => (
-            <li key={index}>
+            <li key={note.noteId}>
               {note.content} - {new Date(note.createdAt).toLocaleDateString()}
             </li>
           ))
