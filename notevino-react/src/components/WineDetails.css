@@ -15,6 +15,7 @@
   flex-direction: column;
   gap: 10px; /* 增加上下間距 */
   flex: 1;
+  max-width: 580px; /* 設置最大寬度，防止輸入框過長 */
 }
 
 /* 標籤與輸入框的佈局 */
