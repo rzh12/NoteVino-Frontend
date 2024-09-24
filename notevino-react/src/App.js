@@ -49,7 +49,12 @@ function App() {
             reloadWines={reloadWines} // 傳入重新加載函數
           />
         ) : (
-          <div>選擇一支酒以查看詳細資訊</div> // 預設顯示提示
+          <div style={styles.placeholderWrapper}>
+            <div style={styles.placeholderText}>
+              <p>Welcome!</p>
+              <p>選擇一支酒以查看詳細資訊</p>
+            </div>
+          </div>
         )}
       </div>
     </div>
@@ -64,6 +69,19 @@ const styles = {
     flex: 1,
     padding: "20px",
     backgroundColor: "#fafafa",
+  },
+  placeholderWrapper: {
+    display: "flex", // 使用 Flexbox
+    justifyContent: "center", // 水平居中
+    alignItems: "center", // 垂直居中
+    minHeight: "100vh", // 讓其高度覆蓋整個視窗高度
+  },
+  placeholderText: {
+    fontSize: "36px",
+    color: "#333",
+    textAlign: "center", // 居中
+    fontFamily: "'Libre Baskerville', serif",
+    fontWeight: "600",
   },
 };
 

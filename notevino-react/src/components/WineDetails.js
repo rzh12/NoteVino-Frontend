@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { faPenToSquare, faPencil } from "@fortawesome/free-solid-svg-icons";
 import "./WineDetails.css";
 
 function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
   const [wine, setWine] = useState(null);
-  const placeholderImage = "https://via.placeholder.com/200?text=No+Image";
+  const placeholderImage = "https://via.placeholder.com/250?text=No+Image";
   const [newNote, setNewNote] = useState("");
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -222,12 +225,12 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
               </button>
             </>
           ) : (
-            <>
-              <h2>Name: {wine.name}</h2>
+            <div className="wine-details">
+              <h2>{wine.name}</h2>
               <p>Region: {wine.region}</p>
               <p>Type: {wine.type}</p>
               <p>Vintage: {wine.vintage}</p>
-            </>
+            </div>
           )}
         </div>
         <div class="image-wrapper">
@@ -241,11 +244,11 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
           />
         </div>
         <button onClick={() => setIsEditing(!isEditing)} className="gearButton">
-          ⚙️
+          <FontAwesomeIcon icon={faPenToSquare} />
         </button>
 
         <button onClick={handleDelete} className="deleteButton">
-          🗑️
+          <FontAwesomeIcon icon={faTrashCan} />
         </button>
       </div>
       <div className="bottom-section">
@@ -282,7 +285,7 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
                       onClick={() => handleEditNote(note.noteId, note.content)} // 編輯時使用正確的 noteId
                       className="editIcon"
                     >
-                      ✏️
+                      <FontAwesomeIcon icon={faPencil} />
                     </button>
                     <p>{note.content}</p>
                   </div>
@@ -294,7 +297,10 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
           )}
         </ul>
 
-        <button onClick={() => setIsAddingNote(true)} className="addNoteButton">
+        <button
+          onClick={() => setIsAddingNote(!isAddingNote)}
+          className="addNoteButton"
+        >
           + 新增筆記
         </button>
 

@@ -6,7 +6,6 @@ function Sidebar({ onWineSelect, onUploadSelect, reload }) {
     <div style={styles.sidebar}>
       <div style={styles.userInfo}>
         <h2>User Info</h2>
-        <p>Function-1</p>
       </div>
       <div style={styles.wineList}>
         <WinesList

@@ -7,6 +7,7 @@
   justify-content: space-between; /* 確保圖片和文本左右對齊 */
   align-items: flex-start; /* 確保文本和圖片的上方對齊 */
   padding: 0px 15px; /* 上下為 0px，左右為 15px */
+  /* border: 1px solid #ff0000; */
 }
 
 .details {
@@ -56,15 +57,15 @@
 }
 
 .saveButton:hover {
-  background-color: #45a049;
+  background-color: #66c266;
 }
 
 .image-wrapper {
   display: flex;
   justify-content: center; /* 水平居中 */
   align-items: center; /* 垂直居中 */
-  width: 200px; /* 設置寬度 */
-  height: 200px; /* 設置高度 */
+  width: 250px; /* 設置寬度 */
+  height: 250px; /* 設置高度 */
   /* background-color: #ffffff; 可選：設置背景顏色 */
 }
 
@@ -95,7 +96,7 @@
   color: red;
   position: absolute;
   top: 60px; /* 調整位置使其位於齒輪下方 */
-  right: 10px; /* 使其顯示在圖片右側 */
+  right: 13px; /* 使其顯示在圖片右側 */
 }
 
 /* Notes */
@@ -107,7 +108,7 @@
   margin-top: 10px;
   padding: 12px 20px;
   cursor: pointer;
-  background-color: #007bff; /* Muted blue to match the overall page tone */
+  background-color: #9b1d30; /* Muted blue to match the overall page tone */
   border: none;
   border-radius: 4px;
   color: white;
@@ -116,7 +117,7 @@
 }
 
 .addNoteButton:hover {
-  background-color: #0056b3; /* Subtle change on hover */
+  background-color: #b53349; /* Subtle change on hover */
 }
 
 .form {
@@ -143,7 +144,7 @@
 }
 
 .submitButton:hover {
-  background-color: #45a049;
+  background-color: #66c266;
 }
 
 /* 筆記內容的容器 */
@@ -171,7 +172,7 @@ ul {
 
 /* 當使用者將鼠標移到筆記項目時，讓鉛筆圖示更顯著 */
 .note-item:hover .editIcon {
-  color: #007bff;
+  color: #9b1d30;
 }
 
 /* 筆記內容文字樣式 */
@@ -223,7 +224,7 @@ ul {
 
 /* 保存按鈕在鼠標移動時的效果 */
 .saveButton:hover {
-  background-color: #45a049;
+  background-color: #66c266;
 }
 
 /* 刪除按鈕樣式 */
@@ -243,4 +244,25 @@ ul {
 /* 刪除按鈕在鼠標移動時的效果 */
 .note-deleteButton:hover {
   background-color: #e53935; /* 更深的紅色 */
+}
+
+/* 為 h2 標題設置樣式 */
+.wine-details h2 {
+  font-size: 36px; /* 調整字體大小 */
+  color: #333; /* 深色字體 */
+  margin-top: 0;
+  margin-bottom: 10px; /* 下方間距 */
+  text-align: left; /* 置中標題 */
+  font-family: "Georgia", serif; /* 美化字體 */
+}
+
+/* 為 p 段落設置樣式 */
+.wine-details p {
+  font-size: 20px; /* 調整字體大小 */
+  color: #333; /* 比標題略淺的顏色 */
+  line-height: 1.6; /* 增加行高，讓文字更易讀 */
+  margin-bottom: 4px; /* 段落之間的間距 */
+  text-align: left; /* 置中段落 */
+  font-family: "Libre Baskerville", serif;
+  font-weight: 600;
 }
