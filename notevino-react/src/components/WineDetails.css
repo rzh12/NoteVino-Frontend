@@ -183,6 +183,8 @@ ul {
   flex: 1;
   font-size: 16px;
   margin: 0;
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
 }
 
 /* 鉛筆圖示和筆記內容同一行，間距調整 */
