@@ -192,6 +192,12 @@ ul {
   margin-left: 0px;
 }
 
+.no-notes-tag {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+
 /* 編輯模式下的文本區域樣式 */
 .note-input {
   width: 100%;

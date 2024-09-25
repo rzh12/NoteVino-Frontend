@@ -293,7 +293,9 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
               </li>
             ))
           ) : (
-            <li>無品酒記錄</li>
+            <ul>
+              <span className="no-notes-tag">無品酒記錄</span>
+            </ul>
           )}
         </ul>
 
