@@ -1,88 +1,35 @@
-import React, { useState } from "react";
-import "./App.css";
-import Sidebar from "./components/Sidebar";
-import WineDetails from "./components/WineDetails";
-import WineUploadForm from "./components/WineUploadForm";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
-  const [selectedWineId, setSelectedWineId] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [reload, setReload] = useState(false);
-
-  // 點擊某一支酒時，顯示詳細資訊，隱藏上傳表單
-  const handleWineSelect = (wineId) => {
-    setSelectedWineId(wineId);
-    setIsUploading(false); // 關閉上傳表單
-  };
-
-  // 點擊 + 按鈕時，顯示上傳表單
-  const handleUploadSelect = () => {
-    setIsUploading(true); // 顯示上傳表單
-    setSelectedWineId(null); // 不顯示任何酒的詳細資訊
-  };
-
-  // 觸發重新加載列表
-  const reloadWines = () => {
-    setReload(!reload); // 改變 reload 來觸發 WinesList 重新加載
-  };
-
-  // 刪除成功後的回調，清除選中的 wine
-  const handleDeleteSuccess = () => {
-    setSelectedWineId(null); // 清空詳細頁，回到「選擇一支酒」
-    reloadWines(); // 重新加載列表
+  const handleLoginSuccess = () => {
+    console.log("Login successful!");
+    // 可以在這裡進行更多操作，比如記錄登入成功
   };
 
   return (
-    <div style={styles.container}>
-      <Sidebar
-        onWineSelect={handleWineSelect}
-        onUploadSelect={handleUploadSelect}
-        reload={reload}
-      />
-      <div style={styles.content}>
-        {isUploading ? (
-          <WineUploadForm onUploadSuccess={reloadWines} /> // 傳入上傳成功後的回調
-        ) : selectedWineId ? (
-          <WineDetails
-            wineId={selectedWineId}
-            onDeleteSuccess={handleDeleteSuccess} // 傳入刪除成功後的回調
-            reloadWines={reloadWines} // 傳入重新加載函數
-          />
-        ) : (
-          <div style={styles.placeholderWrapper}>
-            <div style={styles.placeholderText}>
-              <p>Welcome!</p>
-              <p>選擇一支酒以查看詳細資訊</p>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        {/* 設置路由 */}
+        <Route
+          path="/login"
+          element={<LoginPage onLoginSuccess={handleLoginSuccess} />}
+        />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        {/* 默認路由重定向到 /home */}
+        <Route path="/" element={<Navigate to="/home" />} />
+      </Routes>
+    </Router>
   );
 }
-
-const styles = {
-  container: {
-    display: "flex",
-  },
-  content: {
-    flex: 1,
-    padding: "20px",
-    backgroundColor: "#fafafa",
-  },
-  placeholderWrapper: {
-    display: "flex", // 使用 Flexbox
-    justifyContent: "center", // 水平居中
-    alignItems: "center", // 垂直居中
-    minHeight: "100vh", // 讓其高度覆蓋整個視窗高度
-  },
-  placeholderText: {
-    fontSize: "36px",
-    color: "#333",
-    textAlign: "center", // 居中
-    fontFamily: "'Libre Baskerville', serif",
-    fontWeight: "600",
-  },
-};
 
 export default App;

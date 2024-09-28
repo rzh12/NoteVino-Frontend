@@ -15,10 +15,17 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
   const [editNoteId, setEditNoteId] = useState(null);
   const [noteContent, setNoteContent] = useState("");
 
+  // 從 localStorage 中獲取 token
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     if (wineId) {
       axios
-        .get(`/api/wines/${wineId}`)
+        .get(`/api/wines/${wineId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           if (response.data.success) {
             setWine(response.data.data);
@@ -29,15 +36,23 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
           console.error("Error fetching wine details:", error);
         });
     }
-  }, [wineId]);
+  }, [wineId, token]);
 
   // 提交新增筆記
   const handleSubmitNote = (e) => {
     e.preventDefault();
 
+    // 構建與後端期望的 FreeFormNoteRequest 對應的數據
+    const freeFormNoteRequest = {
+      content: newNote,
+    };
+
     axios
-      .post(`/api/wines/${wineId}/notes`, {
-        content: newNote,
+      .post(`/api/wines/${wineId}/notes`, freeFormNoteRequest, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       })
       .then((response) => {
         if (response.data.success) {
@@ -75,11 +90,23 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
     }).toString();
 
     axios
-      .put(`/api/wines/${wineId}?${queryParams}`)
+      .put(
+        `/api/wines/${wineId}?${queryParams}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         if (response.data.success) {
           alert("更新成功");
-          setWine(updatedWine); // 更新顯示的數據
+          // 保留現有的筆記數據，避免更新時丟失
+          setWine((prevWine) => ({
+            ...updatedWine, // 更新葡萄酒的基本信息
+            notes: prevWine.notes, // 保留原有的筆記數據
+          }));
           setIsEditing(false); // 關閉編輯模式
           reloadWines();
         }
@@ -92,7 +119,15 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
   // 提交修改筆記
   const handleSaveNote = (noteId) => {
     axios
-      .put(`/api/wines/${wineId}/notes/${noteId}`, { content: noteContent })
+      .put(
+        `/api/wines/${wineId}/notes/${noteId}`,
+        { content: noteContent },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         if (response.data.success) {
           setWine((prevWine) => ({
@@ -114,7 +149,11 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
   const handleDelete = () => {
     if (window.confirm("確定要刪除此葡萄酒記錄？")) {
       axios
-        .delete(`/api/wines/${wineId}`)
+        .delete(`/api/wines/${wineId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           if (response.status === 204) {
             // 確認成功回應是 204
@@ -132,7 +171,11 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
   const handleDeleteNote = (noteId) => {
     if (window.confirm("確定要刪除此筆記？")) {
       axios
-        .delete(`/api/wines/${wineId}/notes/${noteId}`)
+        .delete(`/api/wines/${wineId}/notes/${noteId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           if (response.status === 204) {
             // 刪除成功，從筆記列表中移除該筆記
@@ -233,7 +276,7 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
             </div>
           )}
         </div>
-        <div class="image-wrapper">
+        <div className="image-wrapper">
           <img
             src={wine.imageUrl || placeholderImage}
             alt={wine.name}

@@ -27,8 +27,16 @@ function WineUploadForm({ onUploadSuccess }) {
     formData.append("info", JSON.stringify(wineInfo));
     formData.append("image", image);
 
+    // 獲取 JWT token
+    const token = localStorage.getItem("token"); // 假設 token 存儲在 localStorage
+
     axios
-      .post("/api/wines/upload", formData)
+      .post("/api/wines/upload", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // 在請求頭中添加 JWT token
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         if (response.data.success) {
           alert("葡萄酒上傳成功！");
