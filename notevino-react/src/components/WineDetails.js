@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { faPenToSquare, faPencil } from "@fortawesome/free-solid-svg-icons";
-import { Button, Card, CardBody, CardTitle } from "shards-react";
+import { Button, Card, CardTitle } from "shards-react";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import "./WineDetails.css";
 
-function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
+function WineDetails({
+  wineId,
+  onDeleteSuccess,
+  reloadWines,
+  isEditing,
+  handleSave,
+}) {
   const [wine, setWine] = useState(null);
   const placeholderImage = "https://via.placeholder.com/250?text=No+Image";
   const [newNote, setNewNote] = useState("");
   const [isAddingNote, setIsAddingNote] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [updatedWine, setUpdatedWine] = useState({});
   const [editNoteId, setEditNoteId] = useState(null);
   const [noteContent, setNoteContent] = useState("");
@@ -76,47 +80,6 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
       });
   };
 
-  // 提交修改葡萄酒資訊
-  const handleSave = () => {
-    const updatedInfo = {
-      name: updatedWine.name,
-      region: updatedWine.region,
-      type: updatedWine.type,
-      vintage: updatedWine.vintage,
-    };
-
-    // 將 updatedInfo 轉換為 JSON 字串，並附加到 URL 的查詢參數
-    const queryParams = new URLSearchParams({
-      info: JSON.stringify(updatedInfo),
-    }).toString();
-
-    axios
-      .put(
-        `/api/wines/${wineId}?${queryParams}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        if (response.data.success) {
-          alert("更新成功");
-          // 保留現有的筆記數據，避免更新時丟失
-          setWine((prevWine) => ({
-            ...updatedWine, // 更新葡萄酒的基本信息
-            notes: prevWine.notes, // 保留原有的筆記數據
-          }));
-          setIsEditing(false); // 關閉編輯模式
-          reloadWines();
-        }
-      })
-      .catch((error) => {
-        console.error("Error updating wine:", error);
-      });
-  };
-
   // 提交修改筆記
   const handleSaveNote = (noteId) => {
     axios
@@ -146,28 +109,6 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
       });
   };
 
-  // 刪除葡萄酒記錄
-  const handleDelete = () => {
-    if (window.confirm("確定要刪除此葡萄酒記錄？")) {
-      axios
-        .delete(`/api/wines/${wineId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          if (response.status === 204) {
-            // 確認成功回應是 204
-            onDeleteSuccess(); // 刪除成功後回調，清空詳細頁
-            reloadWines(); // 刪除成功後重新加載列表
-          }
-        })
-        .catch((error) => {
-          console.error("Error deleting wine:", error);
-        });
-    }
-  };
-
   // 刪除筆記
   const handleDeleteNote = (noteId) => {
     if (window.confirm("確定要刪除此筆記？")) {
@@ -193,14 +134,22 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
     }
   };
 
-  // // 處理表單變更
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setUpdatedWine({
-  //     ...updatedWine,
-  //     [name]: value,
-  //   });
-  // };
+  // 提交修改葡萄酒資訊
+  const saveUpdatedWine = () => {
+    handleSave(updatedWine); // 調用傳遞進來的 handleSave 函數保存修改
+
+    // 在保存成功後，立即更新 wine 狀態以觸發重新渲染
+    setWine(updatedWine);
+  };
+
+  // 處理表單變更
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedWine({
+      ...updatedWine,
+      [name]: value,
+    });
+  };
 
   // 進入筆記編輯模式
   const handleEditNote = (noteId, content) => {
@@ -214,9 +163,9 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
 
   return (
     <div className="wine-details-container">
-      <Card>
+      <Card className="wine-details-card">
         <div className="wine-details-header">
-          <div className="wine-details-title">
+          <div className="wine-details-content">
             {isEditing ? (
               <>
                 <div className="detail-item">
@@ -225,9 +174,7 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
                     type="text"
                     name="name"
                     value={updatedWine.name}
-                    onChange={(e) =>
-                      setUpdatedWine({ ...updatedWine, name: e.target.value })
-                    }
+                    onChange={handleInputChange}
                     className="input"
                   />
                 </div>
@@ -237,13 +184,37 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
                     type="text"
                     name="region"
                     value={updatedWine.region}
-                    onChange={(e) =>
-                      setUpdatedWine({ ...updatedWine, region: e.target.value })
-                    }
+                    onChange={handleInputChange}
                     className="input"
                   />
                 </div>
-                <Button onClick={handleSave} className="save-button">
+                <div className="detail-item">
+                  <label htmlFor="type">Type:</label>
+                  <select
+                    name="type"
+                    value={updatedWine.type}
+                    onChange={handleInputChange}
+                    className="input"
+                  >
+                    <option value="Red">Red</option>
+                    <option value="White">White</option>
+                    <option value="Sparkling">Sparkling</option>
+                    <option value="Rose">Rose</option>
+                    <option value="Dessert">Dessert</option>
+                    <option value="Fortified">Fortified</option>
+                  </select>
+                </div>
+                <div className="detail-item">
+                  <label htmlFor="vintage">Vintage:</label>
+                  <input
+                    type="number"
+                    name="vintage"
+                    value={updatedWine.vintage}
+                    onChange={handleInputChange}
+                    className="input"
+                  />
+                </div>
+                <Button onClick={saveUpdatedWine} className="save-button">
                   儲存
                 </Button>
               </>
@@ -256,28 +227,17 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
               </>
             )}
           </div>
-          <div className="wine-details-controls">
-            <Button
-              onClick={() => setIsEditing(!isEditing)}
-              className="edit-button"
-            >
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </Button>
-            <Button onClick={handleDelete} className="delete-button">
-              <FontAwesomeIcon icon={faTrashCan} />
-            </Button>
+          <div className="wine-image-container">
+            <img
+              src={wine.imageUrl || placeholderImage}
+              alt={wine.name}
+              className="wine-image"
+              onError={(e) => {
+                e.target.src = placeholderImage;
+              }}
+            />
           </div>
         </div>
-        <CardBody>
-          <img
-            src={wine.imageUrl || placeholderImage}
-            alt={wine.name}
-            className="wine-image"
-            onError={(e) => {
-              e.target.src = placeholderImage;
-            }}
-          />
-        </CardBody>
       </Card>
 
       {/* Tasting Notes Section */}

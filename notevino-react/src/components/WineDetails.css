@@ -1,27 +1,62 @@
 .wine-details-container {
+  padding: 20px;
+}
+
+.wine-details-card {
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加陰影 */
+  border-radius: 10px; /* 圓角邊框 */
 }
 
 .wine-details-header {
   display: flex;
+  align-items: flex-start; /* 垂直方向圖片和文字頂部對齊 */
   justify-content: space-between;
-  align-items: center;
+  min-height: 250px; /* 設置容器的最小高度，防止編輯模式中變動 */
 }
 
-.wine-details-title {
-  max-width: 500px;
+.wine-details-content {
+  flex: 1;
+  padding-right: 20px; /* 文字與圖片之間的間距 */
 }
 
-.wine-details-controls {
+.wine-image-container {
+  flex-shrink: 0;
+  width: 250px;
+  height: 250px;
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  align-items: center; /* 保持圖片在容器中居中 */
 }
 
 .wine-image {
   width: 100%;
-  max-width: 250px;
-  display: block;
-  margin: 0 auto;
-  border-radius: 10px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.detail-item {
+  display: flex; /* 使用 flex 排版 */
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.detail-item label {
+  width: 100px; /* 固定標籤寬度 */
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.input {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 內陰影 */
 }
 
 .save-button {
@@ -36,34 +71,6 @@
 
 .save-button:hover {
   background-color: #66c266 !important;
-}
-
-.edit-button {
-  background-color: #007bff !important;
-  color: white !important;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.edit-button:hover {
-  background-color: #0056b3 !important;
-}
-
-.delete-button {
-  background-color: #f44336 !important;
-  color: white !important;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.delete-button:hover {
-  background-color: #e53935 !important;
 }
 
 /* Notes Section */
