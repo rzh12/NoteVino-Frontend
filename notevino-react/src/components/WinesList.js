@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./WinesList.css";
 
-function WinesList({ onWineSelect, onUploadSelect, reload }) {
+function WinesList({ onWineSelect, reload }) {
   const [wines, setWines] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,9 +41,9 @@ function WinesList({ onWineSelect, onUploadSelect, reload }) {
       <div className="wine-list">
         {/* 顯示載入中的狀態 */}
         {loading ? (
-          <p>載入中...</p>
+          <p className="loading">載入中...</p>
         ) : wines.length === 0 ? (
-          <p>目前沒有任何酒款。</p> // 當沒有酒款時顯示
+          <p className="no-wines">目前沒有任何酒款。</p> // 當沒有酒款時顯示
         ) : (
           wines.map((wine) => (
             <div
@@ -55,14 +55,6 @@ function WinesList({ onWineSelect, onUploadSelect, reload }) {
             </div>
           ))
         )}
-        {/* 新增葡萄酒的按鈕，無論有沒有酒款，這個按鈕都會顯示 */}
-        <div
-          className="wine-item add-wine"
-          onClick={onUploadSelect}
-          style={{ textAlign: "center", cursor: "pointer" }}
-        >
-          <p>+ 新增葡萄酒</p> {/* 顯示 + 按鈕 */}
-        </div>
       </div>
     </div>
   );

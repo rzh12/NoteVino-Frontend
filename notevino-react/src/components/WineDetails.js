@@ -3,6 +3,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faPenToSquare, faPencil } from "@fortawesome/free-solid-svg-icons";
+import { Button, Card, CardBody, CardTitle } from "shards-react";
 import "./WineDetails.css";
 
 function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
@@ -192,14 +193,14 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
     }
   };
 
-  // 處理表單變更
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedWine({
-      ...updatedWine,
-      [name]: value,
-    });
-  };
+  // // 處理表單變更
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setUpdatedWine({
+  //     ...updatedWine,
+  //     [name]: value,
+  //   });
+  // };
 
   // 進入筆記編輯模式
   const handleEditNote = (noteId, content) => {
@@ -212,88 +213,74 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
   }
 
   return (
-    <div className="container">
-      <div className="header">
-        <div className="details">
-          {isEditing ? (
-            <>
-              <div className="detail-item">
-                <label htmlFor="name">Name:</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={updatedWine.name}
-                  onChange={handleInputChange}
-                  className="input"
-                />
-              </div>
-              <div className="detail-item">
-                <label htmlFor="region">Region:</label>
-                <input
-                  type="text"
-                  name="region"
-                  value={updatedWine.region}
-                  onChange={handleInputChange}
-                  className="input"
-                />
-              </div>
-              <div className="detail-item">
-                <label htmlFor="type">Type:</label>
-                <select
-                  name="type"
-                  value={updatedWine.type}
-                  onChange={handleInputChange}
-                  className="input"
-                >
-                  <option value="Red">Red</option>
-                  <option value="White">White</option>
-                  <option value="Sparkling">Sparkling</option>
-                  <option value="Rose">Rose</option>
-                  <option value="Dessert">Dessert</option>
-                  <option value="Fortified">Fortified</option>
-                </select>
-              </div>
-              <div className="detail-item">
-                <label htmlFor="vintage">Vintage:</label>
-                <input
-                  type="number"
-                  name="vintage"
-                  value={updatedWine.vintage}
-                  onChange={handleInputChange}
-                  className="input"
-                />
-              </div>
-              <button onClick={handleSave} className="saveButton">
-                儲存
-              </button>
-            </>
-          ) : (
-            <div className="wine-details">
-              <h2>{wine.name}</h2>
-              <p>Region: {wine.region}</p>
-              <p>Type: {wine.type}</p>
-              <p>Vintage: {wine.vintage}</p>
-            </div>
-          )}
+    <div className="wine-details-container">
+      <Card>
+        <div className="wine-details-header">
+          <div className="wine-details-title">
+            {isEditing ? (
+              <>
+                <div className="detail-item">
+                  <label htmlFor="name">Name:</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={updatedWine.name}
+                    onChange={(e) =>
+                      setUpdatedWine({ ...updatedWine, name: e.target.value })
+                    }
+                    className="input"
+                  />
+                </div>
+                <div className="detail-item">
+                  <label htmlFor="region">Region:</label>
+                  <input
+                    type="text"
+                    name="region"
+                    value={updatedWine.region}
+                    onChange={(e) =>
+                      setUpdatedWine({ ...updatedWine, region: e.target.value })
+                    }
+                    className="input"
+                  />
+                </div>
+                <Button onClick={handleSave} className="save-button">
+                  儲存
+                </Button>
+              </>
+            ) : (
+              <>
+                <CardTitle>{wine.name}</CardTitle>
+                <p>Region: {wine.region}</p>
+                <p>Type: {wine.type}</p>
+                <p>Vintage: {wine.vintage}</p>
+              </>
+            )}
+          </div>
+          <div className="wine-details-controls">
+            <Button
+              onClick={() => setIsEditing(!isEditing)}
+              className="edit-button"
+            >
+              <FontAwesomeIcon icon={faPenToSquare} />
+            </Button>
+            <Button onClick={handleDelete} className="delete-button">
+              <FontAwesomeIcon icon={faTrashCan} />
+            </Button>
+          </div>
         </div>
-        <div className="image-wrapper">
+        <CardBody>
           <img
             src={wine.imageUrl || placeholderImage}
             alt={wine.name}
-            className="image"
+            className="wine-image"
             onError={(e) => {
               e.target.src = placeholderImage;
-            }} // 圖片加載失敗時替換成預設圖片
+            }}
           />
-        </div>
-        <button onClick={() => setIsEditing(!isEditing)} className="gearButton">
-          <FontAwesomeIcon icon={faPenToSquare} />
-        </button>
+        </CardBody>
+      </Card>
 
-        <button onClick={handleDelete} className="deleteButton">
-          <FontAwesomeIcon icon={faTrashCan} />
-        </button>
-      </div>
+      {/* Tasting Notes Section */}
       <div className="bottom-section">
         <h2>Tasting Notes</h2>
         <ul>
@@ -301,55 +288,45 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
             wine.notes.map((note) => (
               <li key={note.noteId} className="note-item">
                 {editNoteId === note.noteId ? (
-                  <div className="note-content">
+                  <>
                     <textarea
                       value={noteContent}
                       onChange={(e) => setNoteContent(e.target.value)}
                       className="note-input"
                     />
-                    <div className="button-container">
-                      <button
-                        onClick={() => handleDeleteNote(note.noteId)} // 調用刪除函數
-                        className="note-deleteButton"
-                      >
-                        刪除
-                      </button>
-                      <button
-                        onClick={() => handleSaveNote(note.noteId)} // 使用正確的 noteId 保存
-                        className="saveButton"
-                      >
-                        保存
-                      </button>
-                    </div>
-                  </div>
+                    <Button
+                      onClick={() => handleSaveNote(note.noteId)}
+                      className="save-button"
+                    >
+                      保存
+                    </Button>
+                    <Button
+                      onClick={() => handleDeleteNote(note.noteId)}
+                      className="delete-button"
+                    >
+                      刪除
+                    </Button>
+                  </>
                 ) : (
                   <div className="note-content">
-                    <button
-                      onClick={() => handleEditNote(note.noteId, note.content)} // 編輯時使用正確的 noteId
+                    <Button
+                      onClick={() => handleEditNote(note.noteId, note.content)}
                       className="editIcon"
                     >
                       <FontAwesomeIcon icon={faPencil} />
-                    </button>
+                    </Button>
                     <p>{note.content}</p>
                   </div>
                 )}
               </li>
             ))
           ) : (
-            <ul>
-              <span className="no-notes-tag">無品酒記錄</span>
-            </ul>
+            <span className="no-notes-tag">無品酒記錄</span>
           )}
         </ul>
 
-        <button
-          onClick={() => setIsAddingNote(!isAddingNote)}
-          className="addNoteButton"
-        >
-          + 新增筆記
-        </button>
-
-        {isAddingNote && (
+        {/* 新增筆記 */}
+        {isAddingNote ? (
           <form onSubmit={handleSubmitNote} className="form">
             <textarea
               value={newNote}
@@ -358,10 +335,17 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
               required
               className="textarea"
             />
-            <button type="submit" className="submitButton">
+            <Button type="submit" className="submitButton">
               提交筆記
-            </button>
+            </Button>
           </form>
+        ) : (
+          <Button
+            onClick={() => setIsAddingNote(!isAddingNote)}
+            className="addNoteButton"
+          >
+            + 新增筆記
+          </Button>
         )}
       </div>
     </div>

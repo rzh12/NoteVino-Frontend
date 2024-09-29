@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {
+  Button,
+  Form,
+  FormGroup,
+  FormInput,
+  FormSelect,
+  FormTextarea,
+} from "shards-react";
 import "./WineUploadForm.css";
 
 function WineUploadForm({ onUploadSuccess }) {
@@ -27,7 +35,6 @@ function WineUploadForm({ onUploadSuccess }) {
     formData.append("info", JSON.stringify(wineInfo));
     formData.append("image", image);
 
-    // 獲取 JWT token
     const token = localStorage.getItem("token"); // 假設 token 存儲在 localStorage
 
     axios
@@ -51,55 +58,67 @@ function WineUploadForm({ onUploadSuccess }) {
   return (
     <div className="form-container">
       <h2>上傳葡萄酒資料</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={wineInfo.name}
-          onChange={handleInputChange}
-          required
-        />
+      <Form onSubmit={handleSubmit}>
+        <FormGroup>
+          <label htmlFor="name">Name:</label>
+          <FormInput
+            type="text"
+            name="name"
+            value={wineInfo.name}
+            onChange={handleInputChange}
+            required
+          />
+        </FormGroup>
 
-        <label htmlFor="region">Region:</label>
-        <input
-          type="text"
-          name="region"
-          value={wineInfo.region}
-          onChange={handleInputChange}
-          required
-        />
+        <FormGroup>
+          <label htmlFor="region">Region:</label>
+          <FormInput
+            type="text"
+            name="region"
+            value={wineInfo.region}
+            onChange={handleInputChange}
+            required
+          />
+        </FormGroup>
 
-        <label htmlFor="type">Type:</label>
-        <select
-          name="type"
-          value={wineInfo.type}
-          onChange={handleInputChange}
-          required
-        >
-          <option value="">Select Type</option>
-          <option value="Red">Red</option>
-          <option value="White">White</option>
-          <option value="Rose">Rose</option>
-          <option value="Sparkling">Sparkling</option>
-          <option value="Dessert">Dessert</option>
-          <option value="Fortified">Fortified</option>
-        </select>
+        <FormGroup>
+          <label htmlFor="type">Type:</label>
+          <FormSelect
+            name="type"
+            value={wineInfo.type}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Select Type</option>
+            <option value="Red">Red</option>
+            <option value="White">White</option>
+            <option value="Rose">Rose</option>
+            <option value="Sparkling">Sparkling</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Fortified">Fortified</option>
+          </FormSelect>
+        </FormGroup>
 
-        <label htmlFor="vintage">Vintage:</label>
-        <input
-          type="number"
-          name="vintage"
-          value={wineInfo.vintage}
-          onChange={handleInputChange}
-          required
-        />
+        <FormGroup>
+          <label htmlFor="vintage">Vintage:</label>
+          <FormInput
+            type="number"
+            name="vintage"
+            value={wineInfo.vintage}
+            onChange={handleInputChange}
+            required
+          />
+        </FormGroup>
 
-        <label htmlFor="image">Upload Image:</label>
-        <input type="file" onChange={handleImageChange} />
+        <FormGroup>
+          <label htmlFor="image">Upload Image:</label>
+          <FormInput type="file" onChange={handleImageChange} />
+        </FormGroup>
 
-        <button type="submit">上傳葡萄酒</button>
-      </form>
+        <Button type="submit" theme="success" block>
+          上傳葡萄酒
+        </Button>
+      </Form>
     </div>
   );
 }

@@ -1,124 +1,137 @@
-.container {
-  padding: 20px;
+.wine-details-container {
 }
 
-.header {
+.wine-details-header {
   display: flex;
-  justify-content: space-between; /* 確保圖片和文本左右對齊 */
-  align-items: flex-start; /* 確保文本和圖片的上方對齊 */
-  padding: 0px 15px; /* 上下為 0px，左右為 15px */
-  /* border: 1px solid #ff0000; */
+  justify-content: space-between;
+  align-items: center;
 }
 
-.details {
+.wine-details-title {
+  max-width: 500px;
+}
+
+.wine-details-controls {
   display: flex;
-  flex-direction: column;
-  gap: 10px; /* 增加上下間距 */
-  flex: 1;
-  max-width: 580px; /* 設置最大寬度，防止輸入框過長 */
+  gap: 10px;
 }
 
-/* 標籤與輸入框的佈局 */
-.detail-item {
+.wine-image {
+  width: 100%;
+  max-width: 250px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+.save-button {
+  background-color: #4caf50 !important;
+  color: white !important;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: #66c266 !important;
+}
+
+.edit-button {
+  background-color: #007bff !important;
+  color: white !important;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #0056b3 !important;
+}
+
+.delete-button {
+  background-color: #f44336 !important;
+  color: white !important;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #e53935 !important;
+}
+
+/* Notes Section */
+.bottom-section {
+  margin-top: 20px;
+}
+
+.note-item {
+  background-color: #f8f8f8 !important;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
-  gap: 10px; /* 標籤與輸入框的間距 */
 }
 
-.detail-item label {
-  font-weight: bold;
-  min-width: 80px; /* 固定標籤的寬度 */
+.no-notes-tag {
+  font-style: italic;
+  color: #888 !important;
 }
 
-/* 輸入框與下拉選單樣式 */
-.input {
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 100%; /* 讓輸入框和選單自適應寬度 */
-}
-
-/* 當選擇框和輸入框聚焦時的樣式 */
-.input:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 聚焦時增加陰影效果 */
-}
-
-/* 儲存按鈕樣式 */
-.saveButton {
-  padding: 10px;
-  cursor: pointer;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  margin-top: 10px;
-}
-
-.saveButton:hover {
-  background-color: #66c266;
-}
-
-.image-wrapper {
+.note-content {
+  flex-grow: 1;
   display: flex;
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
-  width: 250px; /* 設置寬度 */
-  height: 250px; /* 設置高度 */
-  /* background-color: #ffffff; 可選：設置背景顏色 */
+  align-items: center;
 }
 
-/* 圖片樣式 */
-.image {
-  max-width: 100%;
-  max-height: 100%;
-  display: block; /* 確保圖片是塊級元素 */
+.note-content p {
+  margin-left: 10px;
+  font-size: 16px;
 }
 
-/* 齒輪按鈕 */
-.gearButton {
+.editIcon {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  font-size: 24px;
-  position: absolute;
-  top: 20px;
-  right: 10px; /* 使其顯示在圖片的右上角 */
+  font-size: 20px;
+  margin-right: 10px;
+  transition: color 0.3s ease;
 }
 
-/* 刪除按鈕 */
-.deleteButton {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: red;
-  position: absolute;
-  top: 60px; /* 調整位置使其位於齒輪下方 */
-  right: 13px; /* 使其顯示在圖片右側 */
+.editIcon:hover {
+  color: #9b1d30 !important;
 }
 
-/* Notes */
-.bottom-section {
-  padding: 20px 15px;
+.note-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc !important;
+  border-radius: 4px;
+  resize: vertical;
 }
 
 .addNoteButton {
   margin-top: 10px;
   padding: 12px 20px;
-  cursor: pointer;
-  background-color: #9b1d30; /* Muted blue to match the overall page tone */
+  background-color: #9b1d30 !important;
+  color: white !important;
   border: none;
   border-radius: 4px;
-  color: white;
   font-size: 16px;
-  transition: background-color 0.2s ease; /* Keep hover effect subtle */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .addNoteButton:hover {
-  background-color: #b53349; /* Subtle change on hover */
+  background-color: #b53349 !important;
 }
 
 .form {
@@ -129,149 +142,21 @@
 
 .textarea {
   padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #ccc !important;
   border-radius: 4px;
   resize: vertical;
 }
 
 .submitButton {
+  background-color: #4caf50 !important;
+  color: white !important;
   padding: 10px;
-  cursor: pointer;
-  background-color: #4caf50;
-  color: white;
   border: none;
   border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .submitButton:hover {
-  background-color: #66c266;
-}
-
-/* 筆記內容的容器 */
-ul {
-  padding-left: 0; /* 移除 ul 預設的 padding */
-  margin-left: 0; /* 移除 ul 預設的 margin */
-}
-
-.note-item {
-  display: flex;
-  align-items: center;
-  list-style-type: none; /* 移除 li 的預設符號 */
-  padding-left: 0; /* 確保 li 元素也沒有 padding */
-  margin-left: 0; /* 確保 li 元素沒有 margin */
-}
-
-/* 編輯圖示的樣式 */
-.editIcon {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  margin-right: 10px;
-}
-
-/* 當使用者將鼠標移到筆記項目時，讓鉛筆圖示更顯著 */
-.note-item:hover .editIcon {
-  color: #9b1d30;
-}
-
-/* 筆記內容文字樣式 */
-.note-content {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  font-size: 16px;
-  margin: 0;
-  font-family: "Libre Baskerville", serif;
-  font-weight: 400;
-}
-
-/* 鉛筆圖示和筆記內容同一行，間距調整 */
-.note-content p {
-  margin-left: 0px;
-}
-
-.no-notes-tag {
-  font-family: "Libre Baskerville", serif;
-  font-weight: 400;
-  font-size: 18px;
-}
-
-/* 編輯模式下的文本區域樣式 */
-.note-input {
-  width: 100%;
-  min-height: 60px;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  resize: vertical;
-}
-
-/* 按鈕容器樣式 */
-.button-container {
-  display: flex; /* 使用 Flexbox 排版 */
-  flex-direction: column; /* 垂直排列按鈕 */
-  align-items: center; /* 水平居中對齊 */
-}
-
-/* 保存按鈕樣式 */
-.saveButton {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-  white-space: nowrap;
-  margin-left: 10px; /* 與刪除按鈕對齊 */
-  padding: 8px 20px;
-}
-
-/* 保存按鈕在鼠標移動時的效果 */
-.saveButton:hover {
-  background-color: #66c266;
-}
-
-/* 刪除按鈕樣式 */
-.note-deleteButton {
-  background-color: #f44336; /* 紅色背景 */
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-  white-space: nowrap;
-  margin-left: 10px; /* 與保存按鈕對齊 */
-  padding: 8px 20px;
-}
-
-/* 刪除按鈕在鼠標移動時的效果 */
-.note-deleteButton:hover {
-  background-color: #e53935; /* 更深的紅色 */
-}
-
-/* 為 h2 標題設置樣式 */
-.wine-details h2 {
-  font-size: 36px; /* 調整字體大小 */
-  color: #333; /* 深色字體 */
-  margin-top: 0;
-  margin-bottom: 10px; /* 下方間距 */
-  text-align: left; /* 置中標題 */
-  font-family: "Georgia", serif; /* 美化字體 */
-}
-
-/* 為 p 段落設置樣式 */
-.wine-details p {
-  font-size: 20px; /* 調整字體大小 */
-  color: #333; /* 比標題略淺的顏色 */
-  line-height: 1.6; /* 增加行高，讓文字更易讀 */
-  margin-bottom: 4px; /* 段落之間的間距 */
-  text-align: left; /* 置中段落 */
-  font-family: "Libre Baskerville", serif;
-  font-weight: 600;
+  background-color: #66c266 !important;
 }
