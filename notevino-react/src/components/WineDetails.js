@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Card, CardTitle } from "shards-react";
+import { Button, Card, CardBody, CardTitle } from "shards-react";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import "./WineDetails.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // 引入Quill的樣式
 
 function WineDetails({
   wineId,
@@ -241,73 +243,84 @@ function WineDetails({
       </Card>
 
       {/* Tasting Notes Section */}
-      <div className="bottom-section">
-        <h2>Tasting Notes</h2>
-        <ul>
-          {wine.notes && wine.notes.length > 0 ? (
-            wine.notes.map((note) => (
-              <li key={note.noteId} className="note-item">
-                {editNoteId === note.noteId ? (
-                  <>
-                    <textarea
-                      value={noteContent}
-                      onChange={(e) => setNoteContent(e.target.value)}
-                      className="note-input"
-                    />
-                    <Button
-                      onClick={() => handleSaveNote(note.noteId)}
-                      className="save-button"
-                    >
-                      保存
-                    </Button>
-                    <Button
-                      onClick={() => handleDeleteNote(note.noteId)}
-                      className="delete-button"
-                    >
-                      刪除
-                    </Button>
-                  </>
-                ) : (
-                  <div className="note-content">
-                    <Button
-                      onClick={() => handleEditNote(note.noteId, note.content)}
-                      className="editIcon"
-                    >
-                      <FontAwesomeIcon icon={faPencil} />
-                    </Button>
-                    <p>{note.content}</p>
-                  </div>
-                )}
-              </li>
-            ))
-          ) : (
-            <span className="no-notes-tag">無品酒記錄</span>
-          )}
-        </ul>
+      <Card className="notes-card">
+        <CardBody>
+          <h2>Tasting Notes</h2>
+          <ul>
+            {wine.notes && wine.notes.length > 0 ? (
+              wine.notes.map((note) => (
+                <li key={note.noteId} className="note-item">
+                  {editNoteId === note.noteId ? (
+                    <>
+                      <ReactQuill
+                        value={noteContent}
+                        onChange={setNoteContent}
+                        className="note-input"
+                      />
+                      <Button
+                        onClick={() => handleSaveNote(note.noteId)}
+                        className="save-button"
+                      >
+                        保存
+                      </Button>
+                      <Button
+                        onClick={() => handleDeleteNote(note.noteId)}
+                        className="delete-button"
+                      >
+                        刪除
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      {/* Display note content */}
+                      <div className="note-content">
+                        <Button
+                          theme="none"
+                          className="editIcon"
+                          onClick={() =>
+                            handleEditNote(note.noteId, note.content)
+                          }
+                        >
+                          <FontAwesomeIcon icon={faPencil} />
+                        </Button>
+                        <p
+                          dangerouslySetInnerHTML={{ __html: note.content }}
+                        ></p>
+                      </div>
+                    </>
+                  )}
+                </li>
+              ))
+            ) : (
+              <span className="no-notes-tag">無品酒記錄</span>
+            )}
+          </ul>
 
-        {/* 新增筆記 */}
-        {isAddingNote ? (
-          <form onSubmit={handleSubmitNote} className="form">
-            <textarea
-              value={newNote}
-              onChange={(e) => setNewNote(e.target.value)}
-              placeholder="輸入您的品酒筆記"
-              required
-              className="textarea"
-            />
-            <Button type="submit" className="submitButton">
-              提交筆記
+          {/* New note section */}
+          {/* 新增筆記 */}
+          {isAddingNote ? (
+            <form onSubmit={handleSubmitNote} className="form">
+              <ReactQuill
+                value={newNote}
+                onChange={setNewNote}
+                placeholder="輸入您的品酒筆記"
+                required
+                className="note-editor"
+              />
+              <Button type="submit" className="submitButton">
+                提交筆記
+              </Button>
+            </form>
+          ) : (
+            <Button
+              onClick={() => setIsAddingNote(!isAddingNote)}
+              className="addNoteButton"
+            >
+              + 新增筆記
             </Button>
-          </form>
-        ) : (
-          <Button
-            onClick={() => setIsAddingNote(!isAddingNote)}
-            className="addNoteButton"
-          >
-            + 新增筆記
-          </Button>
-        )}
-      </div>
+          )}
+        </CardBody>
+      </Card>
     </div>
   );
 }

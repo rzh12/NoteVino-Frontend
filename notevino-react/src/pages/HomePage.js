@@ -11,7 +11,7 @@ function HomePage() {
   const [selectedWineId, setSelectedWineId] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [reload, setReload] = useState(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true); // 控制側邊欄狀態
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // 控制側邊欄狀態
   const [isEditing, setIsEditing] = useState(false); // 控制是否進入編輯模式
 
   const handleWineSelect = (wineId) => {

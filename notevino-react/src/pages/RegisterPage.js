@@ -6,7 +6,6 @@ import {
   Box,
   Typography,
   Link,
-  Grid,
 } from "@mui/material";
 import axios from "axios";
 import nvLogo from "../nv-logo-2.svg";
@@ -257,41 +256,26 @@ export default function RegisterPage() {
           />
 
           {/* Avatar 與上傳按鈕排成一行 */}
-          <Grid container alignItems="center" justifyContent="center">
-            <Grid item>
-              <Button
-                variant="contained"
-                component="label"
-                sx={{
-                  backgroundColor: "#901B4E",
-                  color: "white",
-                  padding: "6px 16px",
-                  marginRight: "10px",
-                  "&:hover": {
-                    backgroundColor: "#d22772",
-                  },
-                }}
-              >
-                Upload Avatar
-                <input
-                  type="file"
-                  hidden
-                  accept="image/*"
-                  onChange={handleAvatarUpload}
-                />
-              </Button>
-            </Grid>
-            <Grid item>
-              <Avatar
-                sx={{
-                  width: 60,
-                  height: 60,
-                  marginLeft: "10px",
-                }}
-                src={avatar || nvLogo} // 使用者上傳的頭像或預設顯示 logo
-              />
-            </Grid>
-          </Grid>
+          <Button
+            variant="contained"
+            component="label"
+            sx={{
+              backgroundColor: "#901B4E",
+              color: "white",
+              padding: "6px 16px",
+              "&:hover": {
+                backgroundColor: "#d22772",
+              },
+            }}
+          >
+            Upload Avatar
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              onChange={handleAvatarUpload}
+            />
+          </Button>
 
           {errorMessage && (
             <Typography

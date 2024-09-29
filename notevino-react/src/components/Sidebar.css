@@ -1,0 +1,13 @@
+.auth-item {
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  border-bottom: 1px solid #e5e5e5;
+  transition: background-color 0.2s ease;
+}
+
+.auth-item:hover {
+  background-color: #f5f5f5; /* 懸停時的背景色 */
+}

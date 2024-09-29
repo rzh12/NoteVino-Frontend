@@ -1,34 +1,40 @@
 .form-container {
-  padding: 20px;
+  padding: 30px; /* 加大表單內邊距 */
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #f9f9f9;
   max-width: 500px;
-  margin: 20px auto;
+  margin: 40px auto; /* 增加表單與外圍的距離 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
 }
 
 .form-container h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px; /* 增加標題與表單間的距離 */
+  font-size: 24px; /* 加大標題字體 */
+  color: #333;
 }
 
 .form-container label {
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   display: block;
+  color: #333;
 }
 
 .form-container .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 25px; /* 增加每個輸入框之間的間距 */
 }
 
 .form-container .form-input,
 .form-container .form-select {
   width: 100%;
-  padding: 10px;
+  padding: 12px; /* 調整輸入框的內邊距 */
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-container .form-input:focus,
@@ -38,8 +44,12 @@
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.form-container .form-input[type="file"] {
-  padding: 5px;
+.form-container input[type="file"].form-control {
+  padding: 12px !important; /* 調整內邊距 */
+  font-size: 16px !important;
+  line-height: 2 !important; /* 調整行距 */
+  height: auto !important; /* 允許更動高度 */
+  display: block !important;
 }
 
 .form-container button {
@@ -48,12 +58,25 @@
   color: white;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 18px; /* 增加按鈕字體 */
   cursor: pointer;
   width: 100%;
   margin-top: 20px;
+  transition: background-color 0.3s ease; /* 添加動畫效果 */
 }
 
 .form-container button:hover {
   background-color: #45a049;
+}
+
+.form-container .form-group .custom-file-label {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.form-container .form-group #file-name {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #666;
 }
