@@ -140,8 +140,11 @@ function WineDetails({
   const saveUpdatedWine = () => {
     handleSave(updatedWine); // 調用傳遞進來的 handleSave 函數保存修改
 
-    // 在保存成功後，立即更新 wine 狀態以觸發重新渲染
-    setWine(updatedWine);
+    // 保留現有的筆記，避免更新時丟失筆記
+    setWine((prevWine) => ({
+      ...updatedWine, // 更新葡萄酒的基本信息
+      notes: prevWine.notes, // 保留原有的筆記數據
+    }));
   };
 
   // 處理表單變更

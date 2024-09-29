@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "./WinesList.css";
 
 function WinesList({ onWineSelect, reload }) {
   const [wines, setWines] = useState([]);
   const [loading, setLoading] = useState(true);
+  const isFirstLoad = useRef(true); // 使用 useRef 替代 state
 
   useEffect(() => {
     // 從 localStorage 中獲取 JWT token
     const token = localStorage.getItem("token");
 
-    setLoading(true); // 開始加載資料
+    if (isFirstLoad.current) {
+      setLoading(true); // 只在第一次加載時顯示 loading
+    }
+
     axios
       .get("/api/wines/list", {
         headers: {
@@ -22,9 +26,11 @@ function WinesList({ onWineSelect, reload }) {
           setWines(response.data.data); // 提取 data 來顯示
         }
         setLoading(false); // 資料加載完成
+        isFirstLoad.current = false; // 第一次加載完成後將標記設為 false
       })
       .catch((error) => {
         setLoading(false); // 無論發生什麼錯誤，都結束 loading
+        isFirstLoad.current = false; // 第一次加載完成後將標記設為 false
         if (error.response) {
           console.error("Response error:", error.response.data);
         } else if (error.request) {
@@ -33,14 +39,14 @@ function WinesList({ onWineSelect, reload }) {
           console.error("Error setting up request:", error.message);
         }
       });
-  }, [reload]);
+  }, [reload]); // 不需要 isFirstLoad 作為依賴
 
   return (
     <div>
       <h3>Wines List</h3>
       <div className="wine-list">
-        {/* 顯示載入中的狀態 */}
-        {loading ? (
+        {/* 顯示載入中的狀態，只在第一次加載時顯示 */}
+        {loading && isFirstLoad.current ? (
           <p className="loading">載入中...</p>
         ) : wines.length === 0 ? (
           <p className="no-wines">目前沒有任何酒款。</p> // 當沒有酒款時顯示
