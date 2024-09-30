@@ -1,0 +1,73 @@
+/* 表格的通用樣式 */
+.recommendations-table {
+  width: 100%;
+  border-collapse: collapse; /* 移除表格的間隙，讓邊框合併 */
+  font-family: "Roboto", sans-serif; /* 使用更現代的字體 */
+  background-color: #fff; /* 背景色為白色 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+  border-radius: 2px; /* 添加圓角 */
+  overflow: hidden; /* 隱藏圓角外部的內容 */
+}
+
+/* 表頭樣式 */
+.recommendations-table-header {
+  background-color: #f1f1f1; /* 表頭背景色 */
+}
+
+.recommendation-table-header-cell {
+  padding: 15px; /* 增加單元格的填充 */
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+  border-bottom: 2px solid #ddd; /* 表頭與表體之間的邊框 */
+}
+
+/* 表格每行的樣式 */
+.recommendation-row {
+  border-bottom: 1px solid #ddd !important; /* 每行之間的分隔線 */
+  transition: background-color 0.3s ease; /* 平滑的背景色變化 */
+}
+
+/* 最後一行的特殊樣式 */
+.last-row {
+  border-bottom: none !important; /* 移除最後一行的邊框 */
+}
+
+/* 單元格的樣式 */
+.recommendation-cell {
+  padding: 12px;
+  text-align: left; /* 將單元格內容靠左對齊 */
+  font-size: 14px;
+  color: #555; /* 改變字體顏色 */
+}
+
+/* 懸停效果 */
+.recommendation-row:hover {
+  background-color: #f9f9f9; /* 當鼠標懸停時，改變背景色 */
+}
+
+/* 鼠標懸停在表格行時的行高亮效果 */
+.recommendation-table-body-row:hover {
+  background-color: #f2f7ff; /* 輕微藍色背景 */
+}
+
+/* 表格底部的樣式 */
+.table-footer {
+  text-align: right;
+  padding: 10px;
+  background-color: #fafafa;
+  border-top: 2px solid #ddd; /* 底部邊框 */
+}
+
+.table-container {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.title {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: bold; /* 如果需要字體加粗，可以加這個屬性 */
+  color: #333; /* 可選：調整字體顏色 */
+}

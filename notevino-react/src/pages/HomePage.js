@@ -7,6 +7,16 @@ import { FaBars, FaTrashAlt, FaEdit } from "react-icons/fa";
 import { Button } from "shards-react";
 import axios from "axios";
 import RecommendationForm from "../components/RecommendationForm";
+import "./HomePage.css";
+
+// Material-UI 表格組件
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 function HomePage() {
   const [selectedWineId, setSelectedWineId] = useState(null);
@@ -166,7 +176,6 @@ function HomePage() {
         </div>
 
         <div style={styles.contentBody}>
-          {/* 如果顯示推薦表單 */}
           {showRecommendationForm ? (
             <>
               <RecommendationForm
@@ -176,12 +185,86 @@ function HomePage() {
                 <div style={styles.outerContainer}>
                   <Card style={styles.recommendationsCard}>
                     <CardBody>
-                      <h3 style={styles.title}>推薦結果</h3>
-                      <ul>
-                        {recommendations.map((recommendation, index) => (
-                          <li key={index}>{JSON.stringify(recommendation)}</li>
-                        ))}
-                      </ul>
+                      <h3 className="title">推薦結果</h3>
+                      {/* 使用 Material-UI 表格組件 */}
+                      <TableContainer
+                        component={Paper}
+                        className="table-container"
+                      >
+                        <Table
+                          className="recommendations-table"
+                          aria-label="recommendations table"
+                        >
+                          <TableHead className="recommendations-table-header">
+                            <TableRow>
+                              <TableCell className="recommendation-table-header-cell">
+                                名稱
+                              </TableCell>
+                              <TableCell className="recommendation-table-header-cell">
+                                酒莊
+                              </TableCell>
+                              <TableCell className="recommendation-table-header-cell">
+                                地區
+                              </TableCell>
+                              <TableCell className="recommendation-table-header-cell">
+                                國家
+                              </TableCell>
+                              <TableCell
+                                className="recommendation-table-header-cell"
+                                style={{ width: "80px" }}
+                              >
+                                評分
+                              </TableCell>
+                              <TableCell
+                                className="recommendation-table-header-cell"
+                                style={{ width: "120px" }}
+                              >
+                                價格
+                              </TableCell>
+                              <TableCell
+                                className="recommendation-table-header-cell"
+                                style={{ width: "80px" }}
+                              >
+                                類型
+                              </TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {recommendations.map((recommendation, index) => (
+                              <TableRow
+                                key={index}
+                                className={`recommendation-row ${
+                                  index === recommendations.length - 1
+                                    ? "last-row"
+                                    : ""
+                                }`}
+                              >
+                                <TableCell className="recommendation-cell">
+                                  {recommendation.name}
+                                </TableCell>
+                                <TableCell className="recommendation-cell">
+                                  {recommendation.winery}
+                                </TableCell>
+                                <TableCell className="recommendation-cell">
+                                  {recommendation.region}
+                                </TableCell>
+                                <TableCell className="recommendation-cell">
+                                  {recommendation.country}
+                                </TableCell>
+                                <TableCell className="recommendation-cell">
+                                  {recommendation.rating}
+                                </TableCell>
+                                <TableCell className="recommendation-cell">
+                                  {recommendation.price}
+                                </TableCell>
+                                <TableCell className="recommendation-cell">
+                                  {recommendation.type}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
                     </CardBody>
                   </Card>
                 </div>

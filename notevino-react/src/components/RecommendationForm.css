@@ -1,0 +1,62 @@
+/* 外層容器的樣式 */
+.outer-container {
+  padding: 20px;
+}
+
+/* 卡片樣式 */
+.recommendation-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+/* 使用原生 checkbox 的容器樣式 */
+.checkbox-container {
+  display: flex;
+  align-items: center; /* 保持垂直居中 */
+  margin-bottom: 15px;
+}
+
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  position: relative;
+  top: -3px; /* 微調 checkbox 的垂直位置，讓它和文字對齊 */
+}
+
+.checkbox-container label {
+  font-size: 1rem; /* 確保字體大小一致 */
+  line-height: 1.2; /* 調整文字的行高，讓文字和 checkbox 更好對齊 */
+}
+
+/* 按鈕樣式 */
+.button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+/* 正常輸入框樣式 */
+.enabled-input {
+  background-color: #fff;
+}
+
+/* 禁用狀態下的輸入框樣式 */
+.disabled-input {
+  background-color: #e9ecef;
+}
+
+/* 標題樣式 */
+.title {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
