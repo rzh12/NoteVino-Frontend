@@ -6,6 +6,7 @@ import WineUploadForm from "../components/WineUploadForm";
 import { FaBars, FaTrashAlt, FaEdit } from "react-icons/fa";
 import { Button } from "shards-react";
 import axios from "axios";
+import RecommendationForm from "../components/RecommendationForm";
 
 function HomePage() {
   const [selectedWineId, setSelectedWineId] = useState(null);
@@ -13,17 +14,21 @@ function HomePage() {
   const [reload, setReload] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // 控制側邊欄狀態
   const [isEditing, setIsEditing] = useState(false); // 控制是否進入編輯模式
+  const [showRecommendationForm, setShowRecommendationForm] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
 
   const handleWineSelect = (wineId) => {
     setSelectedWineId(wineId);
     setIsUploading(false);
     setIsEditing(false);
+    setShowRecommendationForm(false);
   };
 
   const handleUploadSelect = () => {
     setIsUploading(true);
     setSelectedWineId(null);
     setIsEditing(false);
+    setShowRecommendationForm(false);
   };
 
   const reloadWines = () => {
@@ -37,6 +42,21 @@ function HomePage() {
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed); // 切換側邊欄收合狀態
+  };
+
+  // 處理推薦按鈕點擊，切換表單顯示/隱藏
+  const handleRecommendClick = () => {
+    setShowRecommendationForm(!showRecommendationForm); // 切換推薦表單顯示狀態
+    setIsUploading(false); // 隱藏上傳葡萄酒表單
+    setSelectedWineId(null); // 隱藏葡萄酒詳細信息
+    if (!showRecommendationForm) {
+      setRecommendations([]); // 隱藏推薦結果
+    }
+  };
+
+  const handleRecommendationsFetch = (data) => {
+    // 處理推薦結果
+    setRecommendations(data);
   };
 
   // 刪除葡萄酒記錄
@@ -112,10 +132,17 @@ function HomePage() {
         }}
       >
         <div style={styles.header}>
-          {/* 漢堡選單按鈕，放在 header 左上角 */}
-          <Button style={styles.toggleButton} onClick={toggleSidebar}>
-            <FaBars />
-          </Button>
+          <div style={styles.leftHeaderButtons}>
+            <Button style={styles.toggleButton} onClick={toggleSidebar}>
+              <FaBars />
+            </Button>
+            <Button
+              style={styles.recommendationButton}
+              onClick={handleRecommendClick}
+            >
+              推薦
+            </Button>
+          </div>
 
           {/* 當選中酒品時顯示修改和刪除按鈕 */}
           {selectedWineId && (
@@ -139,7 +166,28 @@ function HomePage() {
         </div>
 
         <div style={styles.contentBody}>
-          {isUploading ? (
+          {/* 如果顯示推薦表單 */}
+          {showRecommendationForm ? (
+            <>
+              <RecommendationForm
+                onRecommendationsFetch={handleRecommendationsFetch}
+              />
+              {recommendations.length > 0 && (
+                <div style={styles.outerContainer}>
+                  <Card style={styles.recommendationsCard}>
+                    <CardBody>
+                      <h3 style={styles.title}>推薦結果</h3>
+                      <ul>
+                        {recommendations.map((recommendation, index) => (
+                          <li key={index}>{JSON.stringify(recommendation)}</li>
+                        ))}
+                      </ul>
+                    </CardBody>
+                  </Card>
+                </div>
+              )}
+            </>
+          ) : isUploading ? (
             <WineUploadForm onUploadSuccess={reloadWines} />
           ) : selectedWineId ? (
             <WineDetails
@@ -187,9 +235,18 @@ const styles = {
     height: "60px", // 設置 header 高度為 60px
     boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", // 增加 header 的陰影效果
   },
+  leftHeaderButtons: {
+    display: "flex",
+    alignItems: "center",
+  },
   toggleButton: {
     fontSize: "1rem",
     padding: "5px 10px",
+  },
+  recommendationButton: {
+    fontSize: "1rem",
+    padding: "5px 10px",
+    marginLeft: "10px",
   },
   actionButtons: {
     display: "flex",
@@ -209,6 +266,14 @@ const styles = {
   },
   contentBody: {
     padding: "20px", // 這裡設置內容部分的 padding，而不是 header
+  },
+  outerContainer: {
+    padding: "20px",
+  },
+  recommendationsCard: {
+    backgroundColor: "#fff",
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+    borderRadius: "8px",
   },
 };
 
