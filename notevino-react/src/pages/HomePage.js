@@ -3,11 +3,18 @@ import { Card, CardBody, CardTitle } from "shards-react";
 import Sidebar from "../components/Sidebar";
 import WineDetails from "../components/WineDetails";
 import WineUploadForm from "../components/WineUploadForm";
-import { FaBars, FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { Button } from "shards-react";
 import axios from "axios";
 import RecommendationForm from "../components/RecommendationForm";
 import "./HomePage.css";
+import ReactMarkdown from "react-markdown";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import {
+  faPenToSquare,
+  faWandMagicSparkles,
+} from "@fortawesome/free-solid-svg-icons";
 
 // Material-UI 表格組件
 import Table from "@mui/material/Table";
@@ -26,12 +33,14 @@ function HomePage() {
   const [isEditing, setIsEditing] = useState(false); // 控制是否進入編輯模式
   const [showRecommendationForm, setShowRecommendationForm] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
+  const [tastingNote, setTastingNote] = useState("");
 
   const handleWineSelect = (wineId) => {
     setSelectedWineId(wineId);
     setIsUploading(false);
     setIsEditing(false);
     setShowRecommendationForm(false);
+    setTastingNote("");
   };
 
   const handleUploadSelect = () => {
@@ -127,6 +136,29 @@ function HomePage() {
       });
   };
 
+  // 生成 Tasting Note
+  const generateTastingNote = async () => {
+    try {
+      const response = await axios.get("/api/wines/generate-tasting-note", {
+        headers: {
+          wineId: selectedWineId,
+        },
+      });
+
+      if (response.status === 200) {
+        const responseData = response.data;
+        // 提取 Tasting Note 內容
+        const tastingNote = responseData.choices[0].message.content;
+        setTastingNote(tastingNote); // 設置 Tasting Note 內容
+      } else {
+        setTastingNote("No Tasting Note available.");
+      }
+    } catch (error) {
+      console.error("Error generating tasting note:", error);
+      setTastingNote("Failed to generate Tasting Note.");
+    }
+  };
+
   return (
     <div style={styles.container}>
       <Sidebar
@@ -158,18 +190,26 @@ function HomePage() {
           {selectedWineId && (
             <div style={styles.actionButtons}>
               <Button
-                theme="primary"
                 onClick={() => setIsEditing(!isEditing)}
-                style={styles.editButton}
+                className="wine-edit-Button"
               >
-                <FaEdit />
+                <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  style={{ fontSize: "24px" }}
+                />
               </Button>
-              <Button
-                theme="danger"
-                onClick={handleDelete}
-                style={styles.deleteButton}
-              >
-                <FaTrashAlt />
+              <Button onClick={handleDelete} className="wine-delete-Button">
+                <FontAwesomeIcon
+                  icon={faTrashCan}
+                  style={{ fontSize: "24px" }}
+                />
+              </Button>
+              {/* 生成 Tasting Note 按鈕 */}
+              <Button onClick={generateTastingNote} className="note-gen-Button">
+                <FontAwesomeIcon
+                  icon={faWandMagicSparkles}
+                  style={{ fontSize: "24px" }}
+                />
               </Button>
             </div>
           )}
@@ -273,13 +313,26 @@ function HomePage() {
           ) : isUploading ? (
             <WineUploadForm onUploadSuccess={reloadWines} />
           ) : selectedWineId ? (
-            <WineDetails
-              wineId={selectedWineId}
-              isEditing={isEditing} // 傳遞是否編輯模式
-              handleSave={handleSave} // 傳遞保存修改的方法
-              onDeleteSuccess={handleDeleteSuccess}
-              reloadWines={reloadWines}
-            />
+            <>
+              <WineDetails
+                wineId={selectedWineId}
+                isEditing={isEditing} // 傳遞是否編輯模式
+                handleSave={handleSave} // 傳遞保存修改的方法
+                onDeleteSuccess={handleDeleteSuccess}
+                reloadWines={reloadWines}
+              />
+              {/* 如果生成了 Tasting Note，顯示出來 */}
+              {tastingNote && (
+                <div style={styles.outerContainer}>
+                  <Card style={styles.tastingNoteCard}>
+                    <CardBody>
+                      <CardTitle>品飲筆記範例</CardTitle>
+                      <ReactMarkdown>{tastingNote}</ReactMarkdown>
+                    </CardBody>
+                  </Card>
+                </div>
+              )}
+            </>
           ) : (
             <Card style={styles.welcomeCard}>
               <CardBody>
@@ -333,15 +386,7 @@ const styles = {
   },
   actionButtons: {
     display: "flex",
-    gap: "10px", // 讓按鈕之間有間距
-  },
-  editButton: {
-    fontSize: "1rem",
-    padding: "5px 10px",
-  },
-  deleteButton: {
-    fontSize: "1rem",
-    padding: "5px 10px",
+    gap: "5px", // 讓按鈕之間有間距
   },
   welcomeCard: {
     borderRadius: "8px", // 添加卡片的圓角
@@ -357,6 +402,11 @@ const styles = {
     backgroundColor: "#fff",
     boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
     borderRadius: "8px",
+  },
+  tastingNoteCard: {
+    padding: "20px",
+    borderRadius: "8px", // 添加卡片的圓角
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)", // 增加卡片的陰影
   },
 };
 

@@ -71,3 +71,44 @@
   font-weight: bold; /* 如果需要字體加粗，可以加這個屬性 */
   color: #333; /* 可選：調整字體顏色 */
 }
+
+/* 葡萄酒編輯按鈕 */
+.wine-edit-Button {
+  background-color: transparent !important; /* 透明背景 */
+  border: none !important; /* 移除邊框 */
+  cursor: pointer; /* 鼠標樣式 */
+  padding: 5px; /* 給按鈕一點內邊距 */
+  color: #007bff !important; /* 設置藍色圖標 */
+  box-shadow: none !important; /* 移除陰影 */
+}
+
+.wine-edit-Button:hover {
+  color: #0056b3 !important; /* 懸停時顏色變深 */
+}
+
+/* 葡萄酒刪除按鈕 */
+.wine-delete-Button {
+  background-color: transparent !important; /* 透明背景 */
+  border: none !important; /* 移除邊框 */
+  cursor: pointer; /* 鼠標樣式 */
+  padding: 5px; /* 給按鈕一點內邊距 */
+  color: #f44336 !important; /* 設置紅色圖標 */
+  box-shadow: none !important; /* 移除陰影 */
+}
+
+.wine-delete-Button:hover {
+  color: #d32f2f !important; /* 懸停時紅色變深 */
+}
+/* 筆記生成按鈕 */
+.note-gen-Button {
+  background-color: transparent !important; /* 透明背景 */
+  border: none !important; /* 移除邊框 */
+  cursor: pointer; /* 鼠標樣式 */
+  padding: 5px; /* 給按鈕一點內邊距 */
+  color: #4caf50 !important; /* 設置綠色圖標 */
+  box-shadow: none !important; /* 移除陰影 */
+}
+
+.note-gen-Button:hover {
+  color: #388e3c !important; /* 懸停時綠色變深 */
+}
