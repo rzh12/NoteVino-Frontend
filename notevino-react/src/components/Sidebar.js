@@ -3,14 +3,23 @@ import axios from "axios";
 import { Button } from "shards-react";
 import { useNavigate } from "react-router-dom";
 import WinesList from "./WinesList";
+import SearchWines from "./SearchWines";
 import "./Sidebar.css";
 
-function Sidebar({ onWineSelect, onUploadSelect, reload, isCollapsed }) {
+function Sidebar({
+  onWineSelect,
+  onUploadSelect,
+  onSearch,
+  reload,
+  isCollapsed,
+}) {
   const navigate = useNavigate(); // 使用 useNavigate 來進行路由導航
   const [userName, setUserName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [searchResults, setSearchResults] = useState([]); // 用來保存搜索結果
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -61,8 +70,19 @@ function Sidebar({ onWineSelect, onUploadSelect, reload, isCollapsed }) {
     // 清除 localStorage 中的 JWT token
     localStorage.removeItem("token");
 
-    // 刷新页面，确保登出后所有状态被清除
+    // 更新頁面
     window.location.reload();
+  };
+
+  const handleSearchResults = (results) => {
+    setSearchResults(results); // 保存搜索結果
+    setIsSearching(true); // 設置為搜索狀態
+  };
+
+  // 重置搜尋狀態
+  const resetSearch = () => {
+    setIsSearching(false); // 關閉搜尋模式
+    setSearchResults([]); // 清空搜尋結果
   };
 
   return (
@@ -129,15 +149,35 @@ function Sidebar({ onWineSelect, onUploadSelect, reload, isCollapsed }) {
             </>
           )}
 
-          <div
-            style={{
-              ...styles.wineList,
-              opacity: isSidebarVisible ? 1 : 0,
-              transition: "opacity 0.3s ease",
-            }}
-          >
-            <WinesList onWineSelect={onWineSelect} reload={reload} />
+          <div style={styles.searchContainer}>
+            <SearchWines
+              onSearchResults={handleSearchResults}
+              resetSearch={resetSearch}
+            />
           </div>
+
+          {/* 根據搜尋狀態顯示內容 */}
+          {isSearching ? (
+            <div style={styles.wineList}>
+              {searchResults.length > 0 ? (
+                searchResults.map((wine) => (
+                  <div
+                    key={wine.wineId}
+                    onClick={() => onWineSelect(wine.wineId)}
+                    className="wine-item"
+                  >
+                    {wine.name}
+                  </div>
+                ))
+              ) : (
+                <p>没有找到相關的酒款。</p>
+              )}
+            </div>
+          ) : (
+            <div style={styles.wineList}>
+              <WinesList onWineSelect={onWineSelect} reload={reload} />
+            </div>
+          )}
 
           <div style={styles.uploadButton}>
             <Button theme="primary" onClick={onUploadSelect}>
@@ -204,6 +244,9 @@ const styles = {
   authItemHover: {
     backgroundColor: "#f0f0f0", // 當鼠標懸停時的背景色
   },
+  searchContainer: {
+    padding: "20px", // 搜尋區塊的 padding
+  },
   wineList: {
     padding: "20px",
     backgroundColor: "#fff",
@@ -216,6 +259,9 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     flexShrink: 0,
+  },
+  resetButton: {
+    marginTop: "10px", // 在搜尋結果下方添加一個重置按鈕
   },
 };
 

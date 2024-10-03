@@ -39,7 +39,7 @@ function WinesList({ onWineSelect, reload }) {
           console.error("Error setting up request:", error.message);
         }
       });
-  }, [reload]); // 不需要 isFirstLoad 作為依賴
+  }, [reload]);
 
   return (
     <div>
