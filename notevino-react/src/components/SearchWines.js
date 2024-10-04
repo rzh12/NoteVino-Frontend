@@ -65,7 +65,6 @@ function SearchWines({ onSearchResults, resetSearch }) {
             icon={faMagnifyingGlass}
             className="search-icon"
             style={{ fontSize: "20px" }}
-            onClick={handleSearch}
           />
           <input
             type="text"

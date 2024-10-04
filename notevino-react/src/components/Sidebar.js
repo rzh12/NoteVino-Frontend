@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Button } from "shards-react";
-import { useNavigate } from "react-router-dom";
 import WinesList from "./WinesList";
 import SearchWines from "./SearchWines";
 import "./Sidebar.css";
@@ -13,40 +11,9 @@ function Sidebar({
   reload,
   isCollapsed,
 }) {
-  const navigate = useNavigate(); // 使用 useNavigate 來進行路由導航
-  const [userName, setUserName] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [searchResults, setSearchResults] = useState([]); // 用來保存搜索結果
   const [isSearching, setIsSearching] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true); // 如果有 token，表示已登入
-
-      // 如果用戶已登入，獲取用戶信息
-      axios
-        .get("/api/users/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`, // 使用當前的 JWT token
-          },
-        })
-        .then((response) => {
-          const { name, picture } = response.data; // 從 response 中獲取用戶名和頭像
-          setUserName(name);
-          setAvatarUrl(
-            picture || "https://via.placeholder.com/50?text=No+Image"
-          ); // 如果 picture 為 null，則使用預設的占位符
-        })
-        .catch((error) => {
-          console.error("Failed to fetch user profile:", error);
-        });
-    } else {
-      setIsLoggedIn(false); // 沒有 token 表示未登入
-    }
-  }, []);
 
   // 在 sidebar 展開或收起的瞬間，延遲顯示內容
   useEffect(() => {
@@ -57,22 +24,6 @@ function Sidebar({
       setIsSidebarVisible(true); // 在展開時顯示文字
     }
   }, [isCollapsed]);
-
-  const handleLogin = () => {
-    navigate("/login"); // 點擊時導航到 /login
-  };
-
-  const handleRegister = () => {
-    navigate("/register"); // 點擊時導航到 /register
-  };
-
-  const handleLogout = () => {
-    // 清除 localStorage 中的 JWT token
-    localStorage.removeItem("token");
-
-    // 更新頁面
-    window.location.reload();
-  };
 
   const handleSearchResults = (results) => {
     setSearchResults(results); // 保存搜索結果
@@ -86,10 +37,10 @@ function Sidebar({
   };
 
   return (
-    <div style={{ ...styles.sidebar, width: isCollapsed ? "0" : "300px" }}>
+    <div style={{ ...styles.sidebar, width: isCollapsed ? "0" : "250px" }}>
       {!isCollapsed && (
         <>
-          <div style={styles.noteVinoHeader}>
+          {/* <div style={styles.noteVinoHeader}>
             <h2
               style={{
                 opacity: isSidebarVisible ? 1 : 0,
@@ -98,58 +49,15 @@ function Sidebar({
             >
               NoteVino
             </h2>
-          </div>
+          </div> */}
 
-          {/* 如果登入，顯示用戶資料和登出按鈕；否則顯示登入和註冊 */}
-          {isLoggedIn ? (
-            <>
-              <div
-                style={{
-                  ...styles.userProfile,
-                  opacity: isSidebarVisible ? 1 : 0, // 控制淡入淡出
-                  transition: "opacity 0.3s ease",
-                }}
-              >
-                <img src={avatarUrl} alt="User Avatar" style={styles.avatar} />
-                <span>Welcome, {userName}!</span>
-              </div>
-              <div
-                style={{
-                  ...styles.authItem,
-                  opacity: isSidebarVisible ? 1 : 0,
-                  transition: "opacity 0.3s ease",
-                }}
-                onClick={handleLogout}
-              >
-                Logout
-              </div>
-            </>
-          ) : (
-            <>
-              <div
-                style={{
-                  ...styles.authItem,
-                  opacity: isSidebarVisible ? 1 : 0,
-                  transition: "opacity 0.3s ease",
-                }}
-                onClick={handleLogin}
-              >
-                Login
-              </div>
-              <div
-                style={{
-                  ...styles.authItem,
-                  opacity: isSidebarVisible ? 1 : 0,
-                  transition: "opacity 0.3s ease",
-                }}
-                onClick={handleRegister}
-              >
-                Register
-              </div>
-            </>
-          )}
-
-          <div style={styles.searchContainer}>
+          <div
+            style={{
+              ...styles.searchContainer,
+              opacity: isSidebarVisible ? 1 : 0,
+              transition: "opacity 0.3s ease", // 過渡效果
+            }}
+          >
             <SearchWines
               onSearchResults={handleSearchResults}
               resetSearch={resetSearch}
@@ -157,29 +65,45 @@ function Sidebar({
           </div>
 
           {/* 根據搜尋狀態顯示內容 */}
-          {isSearching ? (
-            <div style={styles.wineList}>
-              {searchResults.length > 0 ? (
-                searchResults.map((wine) => (
-                  <div
-                    key={wine.wineId}
-                    onClick={() => onWineSelect(wine.wineId)}
-                    className="wine-item"
-                  >
-                    {wine.name}
+          <div
+            style={{
+              ...styles.wineList,
+              opacity: isSidebarVisible ? 1 : 0,
+              transition: "opacity 0.3s ease", // 過渡效果
+            }}
+          >
+            {isSearching ? (
+              searchResults.length > 0 ? (
+                <>
+                  <h5 className="search-results-header">搜尋結果</h5>{" "}
+                  {/* 新增搜尋結果標題 */}
+                  <div className="search-results-list">
+                    {searchResults.map((wine) => (
+                      <div
+                        key={wine.wineId}
+                        onClick={() => onWineSelect(wine.wineId)}
+                        className="wine-item"
+                      >
+                        {wine.name}
+                      </div>
+                    ))}
                   </div>
-                ))
+                </>
               ) : (
-                <p>没有找到相關的酒款。</p>
-              )}
-            </div>
-          ) : (
-            <div style={styles.wineList}>
+                <h5 className="no-results">没有找到相關的酒款</h5>
+              )
+            ) : (
               <WinesList onWineSelect={onWineSelect} reload={reload} />
-            </div>
-          )}
+            )}
+          </div>
 
-          <div style={styles.uploadButton}>
+          <div
+            style={{
+              ...styles.uploadButton,
+              opacity: isSidebarVisible ? 1 : 0,
+              transition: "opacity 0.3s ease", // 過渡效果
+            }}
+          >
             <Button theme="primary" onClick={onUploadSelect}>
               + Upload Wine
             </Button>
@@ -213,39 +137,10 @@ const styles = {
     borderBottom: "1px solid #ccc", // 添加底部邊框
     flexShrink: 0,
   },
-  userProfile: {
-    display: "flex",
-    alignItems: "center",
-    padding: "10px 20px",
-    backgroundColor: "#f5f5f5", // 淡灰色背景讓 userProfile 看起來更突出
-    borderBottom: "1px solid #e5e5e5", // 底部邊框與其他部分一致
-  },
-  avatar: {
-    width: "40px",
-    height: "40px",
-    borderRadius: "50%",
-    marginRight: "10px",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)", // 添加陰影讓頭像看起來更立體
-  },
-  welcomeText: {
-    fontSize: "16px",
-    fontWeight: "500",
-    color: "#333",
-  },
-  authItem: {
-    padding: "15px 20px", // 增加 padding 讓區塊更舒適
-    fontSize: "16px",
-    fontWeight: "500",
-    color: "#333",
-    cursor: "pointer", // 鼠標懸停時顯示為可點擊
-    borderBottom: "1px solid #e5e5e5", // 添加分隔線
-    transition: "background-color 0.2s ease", // 增加過渡效果
-  },
-  authItemHover: {
-    backgroundColor: "#f0f0f0", // 當鼠標懸停時的背景色
-  },
   searchContainer: {
+    height: "59px",
     padding: "20px", // 搜尋區塊的 padding
+    flexShrink: 0,
   },
   wineList: {
     padding: "20px",

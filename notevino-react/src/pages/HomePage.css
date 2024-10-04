@@ -112,3 +112,200 @@
 .note-gen-Button:hover {
   color: #388e3c !important; /* 懸停時綠色變深 */
 }
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  height: 60px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 左側按鈕樣式 */
+.left-header-buttons {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.recommendation-button {
+  font-size: 1rem;
+  padding: 5px 10px;
+  margin-left: 10px;
+}
+
+/* 右側區域 */
+.right-header {
+  display: flex;
+  align-items: center;
+  /* margin-right: 20px; */
+}
+
+/* 功能按鈕的樣式 */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 按鈕之間的間距 */
+}
+
+/* 分隔線 */
+.separator {
+  border-left: 1px solid #ccc;
+  height: 60px;
+  margin: 0 15px;
+}
+
+/* user-info 區域 */
+.user-info {
+  position: relative; /* 作为定位参考 */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 60px;
+  width: 150px;
+  flex-shrink: 0;
+}
+
+/* user-dropdown */
+.user-dropdown {
+  position: relative;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px; /* 增加頭像和用戶名之間的距離 */
+}
+
+.user-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  font-size: 16px;
+}
+
+/* 移除 DropdownToggle 的預設箭頭 */
+.dropdown-toggle::after {
+  display: none;
+}
+
+/* 調整 DropdownToggle */
+.dropdown-toggle {
+  display: flex !important;
+  align-items: center;
+  width: 100% !important;
+}
+
+/* 下拉選單樣式 */
+.dropdown-menu-custom {
+  border-radius: 0 0 4px 4px !important; /* 圓角可能被其他樣式覆蓋，添加 !important */
+  position: absolute !important; /* 位置可能被其他選擇器覆蓋，添加 !important */
+  top: 7.5px !important; /* 確保下拉菜單緊貼觸發元素 */
+  right: -80px !important;
+  width: 185px !important;
+  opacity: 0;
+  visibility: hidden;
+  transform: scaleY(0);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 1000 !important; /* 確保下拉選單在最上層顯示 */
+}
+
+/* 顯示下拉選單 */
+.dropdown-menu-custom.show {
+  opacity: 1 !important; /* 確保顯示時完全不透明 */
+  visibility: visible !important; /* 顯示時可見 */
+  transform: scaleY(1);
+}
+
+/* 下拉選單項目 */
+.dropdown-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+/* 下拉選單中的圖標 */
+.dropdown-icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.text-danger .dropdown-icon {
+  color: #dc3545;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  background-color: transparent; /* 背景色 */
+  padding: 15px 40px; /* 內邊距 */
+  color: #111; /* 文字顏色 */
+  cursor: pointer; /* 顯示手型，表明可點擊 */
+  white-space: nowrap;
+  transform: translateX(-15px);
+}
+
+.user-icon {
+  font-size: 24px; /* 調整圖標大小 */
+  margin-right: 15px; /* 圖標與文字保持間距 */
+}
+
+.login-text {
+  font-size: 18px; /* 調整文字大小，使其更顯眼 */
+}
+
+.login-container:hover {
+  background-color: rgba(0, 123, 255, 0.2); /* 懸停時的背景色 */
+}
+
+/* 漢堡 */
+.toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.toggle-button > div {
+  margin: 0;
+  padding: 0;
+}
+
+/* 中間區域：標題和 logo */
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1; /* 使其居中 */
+}
+
+.header-logo {
+  display: inline-block;
+  height: 45px; /* 確保 logo 不會過大，根據需要調整 */
+  margin-right: 10px;
+}
+
+.header-title {
+  display: inline-block;
+  font-size: 36px; /* 調整字體大小 */
+  font-weight: bold;
+  color: #333;
+  margin-top: 5px;
+}

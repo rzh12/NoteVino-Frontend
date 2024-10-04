@@ -43,13 +43,13 @@ function WinesList({ onWineSelect, reload }) {
 
   return (
     <div>
-      <h3>Wines List</h3>
+      <h5 className="wine-list-title">您的葡萄酒清單</h5>
       <div className="wine-list">
         {/* 顯示載入中的狀態，只在第一次加載時顯示 */}
         {loading && isFirstLoad.current ? (
           <p className="loading">載入中...</p>
         ) : wines.length === 0 ? (
-          <p className="no-wines">目前沒有任何酒款。</p> // 當沒有酒款時顯示
+          <h5 className="no-wines">目前沒有任何酒款。</h5> // 當沒有酒款時顯示
         ) : (
           wines.map((wine) => (
             <div

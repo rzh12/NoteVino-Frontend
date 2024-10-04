@@ -11,3 +11,23 @@
 .auth-item:hover {
   background-color: #f5f5f5; /* 懸停時的背景色 */
 }
+
+.search-results-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.search-results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 每款搜尋結果之間的間距 */
+  margin-top: 20px;
+}
+
+.no-results {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}

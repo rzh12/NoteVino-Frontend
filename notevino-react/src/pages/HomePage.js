@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardBody, CardTitle } from "shards-react";
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 import Sidebar from "../components/Sidebar";
 import WineDetails from "../components/WineDetails";
 import WineUploadForm from "../components/WineUploadForm";
-import { FaBars } from "react-icons/fa";
 import { Button } from "shards-react";
 import axios from "axios";
 import RecommendationForm from "../components/RecommendationForm";
@@ -14,7 +20,11 @@ import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import {
   faPenToSquare,
   faWandMagicSparkles,
+  faUser,
+  faSignOutAlt,
+  faUserLarge,
 } from "@fortawesome/free-solid-svg-icons";
+import { Squash as Hamburger } from "hamburger-react";
 
 // Material-UI 表格組件
 import Table from "@mui/material/Table";
@@ -24,16 +34,18 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import nvLogo from "../nv-logo-2.svg";
 
 function HomePage() {
   const [selectedWineId, setSelectedWineId] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [reload, setReload] = useState(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // 控制側邊欄狀態
-  const [isEditing, setIsEditing] = useState(false); // 控制是否進入編輯模式
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const [showRecommendationForm, setShowRecommendationForm] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
   const [tastingNote, setTastingNote] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleWineSelect = (wineId) => {
     setSelectedWineId(wineId);
@@ -159,6 +171,64 @@ function HomePage() {
     }
   };
 
+  const [userName, setUserName] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+
+      // 獲取用戶資料
+      axios
+        .get("/api/users/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          const { name, picture } = response.data;
+          setUserName(name);
+          setAvatarUrl(
+            picture || "https://via.placeholder.com/50?text=No+Image"
+          );
+        })
+        .catch((error) => {
+          console.error("Failed to fetch user profile:", error);
+        });
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setUserName("");
+    setAvatarUrl("");
+    window.location.reload();
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleHome = () => {
+    setSelectedWineId(null);
+    setIsUploading(false);
+    setIsEditing(false);
+    setShowRecommendationForm(false);
+    setRecommendations([]);
+    setTastingNote("");
+    setIsSidebarCollapsed(true);
+  };
+
   return (
     <div style={styles.container}>
       <Sidebar
@@ -170,49 +240,127 @@ function HomePage() {
       <div
         style={{
           ...styles.content,
-          marginLeft: isSidebarCollapsed ? "0" : "300px", // 根據側邊欄狀態調整右側區域左邊界
+          marginLeft: isSidebarCollapsed ? "0" : "250px", // 根據側邊欄狀態調整右側區域左邊界
         }}
       >
-        <div style={styles.header}>
-          <div style={styles.leftHeaderButtons}>
-            <Button style={styles.toggleButton} onClick={toggleSidebar}>
-              <FaBars />
+        <div className="header">
+          {/* 左側按鈕 */}
+          <div className="left-header-buttons">
+            <div className="toggle-button">
+              <Hamburger
+                toggled={!isSidebarCollapsed}
+                toggle={toggleSidebar}
+                size={24}
+                direction="right"
+              />
+            </div>
+            <Button className="recommendation-button" onClick={handleHome}>
+              Home
             </Button>
             <Button
-              style={styles.recommendationButton}
+              className="recommendation-button"
               onClick={handleRecommendClick}
             >
               推薦
             </Button>
           </div>
 
-          {/* 當選中酒品時顯示修改和刪除按鈕 */}
-          {selectedWineId && (
-            <div style={styles.actionButtons}>
-              <Button
-                onClick={() => setIsEditing(!isEditing)}
-                className="wine-edit-Button"
-              >
-                <FontAwesomeIcon
-                  icon={faPenToSquare}
-                  style={{ fontSize: "24px" }}
-                />
-              </Button>
-              <Button onClick={handleDelete} className="wine-delete-Button">
-                <FontAwesomeIcon
-                  icon={faTrashCan}
-                  style={{ fontSize: "24px" }}
-                />
-              </Button>
-              {/* 生成 Tasting Note 按鈕 */}
-              <Button onClick={generateTastingNote} className="note-gen-Button">
-                <FontAwesomeIcon
-                  icon={faWandMagicSparkles}
-                  style={{ fontSize: "24px" }}
-                />
-              </Button>
+          {/* 中間區域：網站標題和 logo */}
+          <div className="header-content">
+            <img src={nvLogo} alt="logo" className="header-logo" />
+            <h1 className="header-title">NoteVino</h1>
+          </div>
+
+          {/* 右側按鈕和 userInfo */}
+          <div className="right-header">
+            {selectedWineId && (
+              <div className="action-buttons">
+                <Button
+                  onClick={() => setIsEditing(!isEditing)}
+                  className="wine-edit-Button"
+                >
+                  <FontAwesomeIcon
+                    icon={faPenToSquare}
+                    style={{ fontSize: "24px" }}
+                  />
+                </Button>
+                <Button onClick={handleDelete} className="wine-delete-Button">
+                  <FontAwesomeIcon
+                    icon={faTrashCan}
+                    style={{ fontSize: "24px" }}
+                  />
+                </Button>
+                <Button
+                  onClick={generateTastingNote}
+                  className="note-gen-Button"
+                >
+                  <FontAwesomeIcon
+                    icon={faWandMagicSparkles}
+                    style={{ fontSize: "24px" }}
+                  />
+                </Button>
+              </div>
+            )}
+
+            {/* 分隔線 */}
+            <div className="separator"></div>
+
+            {/* user-info 區域 */}
+            <div className="user-info">
+              {isLoggedIn ? (
+                <Dropdown
+                  isOpen={dropdownOpen}
+                  toggle={toggleDropdown}
+                  className="user-dropdown"
+                >
+                  <DropdownToggle
+                    tag="div"
+                    data-toggle="dropdown"
+                    aria-expanded={dropdownOpen}
+                    className="dropdown-toggle"
+                  >
+                    <div className="user-profile">
+                      <img
+                        src={avatarUrl}
+                        alt="User Avatar"
+                        className="avatar"
+                      />
+                      <span className="user-name">{userName}</span>
+                    </div>
+                  </DropdownToggle>
+                  <DropdownMenu
+                    right
+                    className={`dropdown-menu-custom ${
+                      dropdownOpen ? "show" : ""
+                    }`}
+                  >
+                    <DropdownItem>
+                      <FontAwesomeIcon
+                        icon={faUser}
+                        className="dropdown-icon"
+                      />{" "}
+                      Profile
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={handleLogout}
+                      className="text-danger"
+                    >
+                      <FontAwesomeIcon
+                        icon={faSignOutAlt}
+                        className="dropdown-icon"
+                      />{" "}
+                      Logout
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              ) : (
+                <div className="login-container" onClick={handleLogin}>
+                  <FontAwesomeIcon icon={faUserLarge} className="user-icon" />
+                  <span className="login-text">Login</span>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
 
         <div style={styles.contentBody}>
@@ -358,35 +506,9 @@ const styles = {
     flexGrow: 1,
     transition: "margin-left 0.3s ease",
     overflowY: "auto", // 啟用整個右側內容滾動
+    overflowX: "hidden",
     height: "100vh", // 確保右側區域可以滾動
     backgroundColor: "#f8f9fa", // 統一背景色
-  },
-  header: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "10px 20px", // 只保留 header 的內邊距
-    backgroundColor: "#fff", // 確保 header 是白色背景
-    borderBottom: "1px solid #ccc",
-    height: "60px", // 設置 header 高度為 60px
-    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", // 增加 header 的陰影效果
-  },
-  leftHeaderButtons: {
-    display: "flex",
-    alignItems: "center",
-  },
-  toggleButton: {
-    fontSize: "1rem",
-    padding: "5px 10px",
-  },
-  recommendationButton: {
-    fontSize: "1rem",
-    padding: "5px 10px",
-    marginLeft: "10px",
-  },
-  actionButtons: {
-    display: "flex",
-    gap: "5px", // 讓按鈕之間有間距
   },
   welcomeCard: {
     borderRadius: "8px", // 添加卡片的圓角

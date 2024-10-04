@@ -1,6 +1,7 @@
 /* SearchWines.css */
 .search-wines-container {
   position: relative;
+  top: -10px;
 }
 
 .search-form {
@@ -18,8 +19,9 @@
   width: 100%;
   padding: 10px 10px 10px 40px; /* 左側為放大鏡圖標留出空間 */
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 20px;
   font-size: 16px;
+  height: 40px;
 }
 
 .search-input:focus {
@@ -32,7 +34,6 @@
   left: 10px; /* 圖標距離輸入框左側的距離 */
   top: 50%;
   transform: translateY(-50%);
-  cursor: pointer;
 }
 
 .reset-button {

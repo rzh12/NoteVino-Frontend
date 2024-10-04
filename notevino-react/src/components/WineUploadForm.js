@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {
-  Button,
-  Form,
-  FormGroup,
-  FormInput,
-  FormSelect,
-  FormTextarea,
-} from "shards-react";
+import { Button, Form, FormGroup, FormInput, FormSelect } from "shards-react";
 import "./WineUploadForm.css";
 
 function WineUploadForm({ onUploadSuccess }) {

@@ -1,7 +1,12 @@
+.wine-list-title {
+  text-align: center;
+}
+
 .wine-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 20px;
 }
 
 .wine-item {
@@ -22,5 +27,4 @@
 .no-wines {
   text-align: center;
   color: #888;
-  font-style: italic;
 }
