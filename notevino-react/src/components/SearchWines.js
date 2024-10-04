@@ -12,10 +12,11 @@ function SearchWines({ onSearchResults, resetSearch }) {
   const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
-    setQuery(e.target.value);
+    const value = e.target.value;
+    setQuery(value);
 
-    if (e.target.value.trim()) {
-      handleSearch(e.target.value); // 當輸入有內容時，自動觸發搜尋
+    if (value.trim()) {
+      handleSearch(value); // 當輸入有內容時，自動觸發搜尋
     } else {
       resetSearch(); // 當輸入框被清空時重置搜尋
     }
@@ -58,22 +59,20 @@ function SearchWines({ onSearchResults, resetSearch }) {
 
   return (
     <div className="search-wines-container">
-      <form onSubmit={handleSearch} className="search-form">
-        <div className="input-wrapper">
-          {/* 放大鏡圖標 */}
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            className="search-icon"
-            style={{ fontSize: "20px" }}
-          />
-          <input
-            type="text"
-            value={query}
-            onChange={handleInputChange}
-            className="search-input"
-          />
-        </div>
-        {/* 重置搜索按钮 */}
+      <div className="input-wrapper">
+        {/* 放大鏡圖標 */}
+        <FontAwesomeIcon
+          icon={faMagnifyingGlass}
+          className="search-icon"
+          style={{ fontSize: "20px" }}
+        />
+        <input
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          className="search-input"
+        />
+        {/* 重置按鈕 */}
         {query && (
           <button
             type="button"
@@ -86,7 +85,7 @@ function SearchWines({ onSearchResults, resetSearch }) {
             <FontAwesomeIcon icon={faRotateLeft} style={{ fontSize: "20px" }} />
           </button>
         )}
-      </form>
+      </div>
       {loading && (
         <div className="loading">
           <div className="spinner"></div>

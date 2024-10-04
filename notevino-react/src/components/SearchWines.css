@@ -1,27 +1,30 @@
 /* SearchWines.css */
 .search-wines-container {
   position: relative;
-  top: -10px;
-}
-
-.search-form {
+  width: 100%;
+  top: -10px; /* 調整 top，讓搜尋欄位置更合適 */
   display: flex;
+  flex-direction: column;
   align-items: center;
-  position: relative;
 }
 
 .input-wrapper {
   position: relative;
   width: 100%;
+  display: flex; /* 確保搜尋欄和重置按鈕在同一行 */
+  align-items: center;
+  gap: 10px;
 }
 
 .search-input {
-  width: 100%;
+  flex: 1 1 auto; /* 允許搜尋欄縮小 */
+  min-width: 0; /* 防止內容撐開 */
   padding: 10px 10px 10px 40px; /* 左側為放大鏡圖標留出空間 */
   border: 1px solid #ccc;
   border-radius: 20px;
   font-size: 16px;
   height: 40px;
+  box-sizing: border-box;
 }
 
 .search-input:focus {
@@ -37,14 +40,18 @@
 }
 
 .reset-button {
+  flex: 0 0 auto; /* 保持按鈕自然大小 */
   background: none;
   border: none;
   cursor: pointer;
-  margin-left: 10px;
+  font-size: 18px;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 .loading {
-  margin-top: 10px;
+  margin-top: 20px;
   text-align: center;
 }
 

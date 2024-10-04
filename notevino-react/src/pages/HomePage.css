@@ -1,146 +1,202 @@
-/* 表格的通用樣式 */
-.recommendations-table {
-  width: 100%;
-  border-collapse: collapse; /* 移除表格的間隙，讓邊框合併 */
-  font-family: "Roboto", sans-serif; /* 使用更現代的字體 */
-  background-color: #fff; /* 背景色為白色 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
-  border-radius: 2px; /* 添加圓角 */
-  overflow: hidden; /* 隱藏圓角外部的內容 */
+:root {
+  --primary-color: #880e25; /* 主色 */
+  --secondary-color: #4b2e2a; /* 次色 */
+  --accent-color: #4b2e2a; /* 強調色 */
+  --blank-color: #fff;
+  --light-color: #f3ebe6;
+  --primary-hover-color: #cf1538;
+  --normal-hover-color: #f1f1f1;
+
+  --background-color: var(--light-color); /* 背景底色 */
+  --text-color: var(--accent-color); /* 文字顏色 */
+  --button-background-color: var(--primary-color); /* 按鈕背景色 */
+  --button-text-color: var(--light-color); /* 按鈕文字顏色 */
+  --header-background: var(--blank-color); /* 頁首背景色 */
+  --header-text-color: var(--accent-color); /* 頁首文字顏色 */
+  --card-background-color: var(--blank-color); /* 卡片背景色 */
+  --card-shadow-color: rgba(0, 0, 0, 0.3); /* 卡片陰影顏色 */
+  --dropdown-item-hover-color: var(--normal-hover-color);
+
+  --table-header-background: var(--light-color); /* 表頭背景色 */
+  --table-header-text-color: var(--accent-color); /* 表頭文字顏色 */
+  --table-row-hover-background: var(--normal-hover-color); /* 表格行懸停背景 */
+
+  --element-shadow-color: rgba(128, 128, 128, 0.3); /* 其他元素的陰影顏色 */
 }
 
-/* 表頭樣式 */
-.recommendations-table-header {
-  background-color: #f1f1f1; /* 表頭背景色 */
+/* 黑暗模式 */
+.dark-mode {
+  --primary-color: #cf6679; /* 較亮的主色 */
+  --secondary-color: #3a3a3a; /* 次色 - 更深的灰色 */
+  --accent-color: #d7ccc8; /* 淺灰色作為強調色 */
+  --blank-color: #403939; /* 深色背景 */
+  --light-color: #657993; /* 較淺的深色背景 */
+  --primary-hover-color: #ff8a80; /* 主色懸停效果，較亮 */
+  --normal-hover-color: #333333; /* 普通懸停效果的深色 */
+
+  --background-color: var(--blank-color); /* 黑暗模式下的背景色 */
+  --text-color: var(--accent-color); /* 黑暗模式下的文字顏色 */
+  --button-background-color: var(--primary-color); /* 按鈕背景色 */
+  --button-text-color: var(--blank-color); /* 按鈕文字顏色 */
+  --header-background: var(--light-color); /* 頁首背景色 */
+  --header-text-color: var(--accent-color); /* 頁首文字顏色 */
+  --card-background-color: var(--light-color); /* 卡片背景色 */
+  --card-shadow-color: rgba(0, 0, 0, 0.7); /* 黑暗模式下的卡片陰影 */
+  --dropdown-item-hover-color: var(--normal-hover-color); /* 懸停時的深色 */
+
+  --table-header-background: var(--light-color); /* 黑暗模式下表頭背景色 */
+  --table-header-text-color: var(--accent-color); /* 黑暗模式下表頭文字顏色 */
+  --table-row-hover-background: var(--normal-hover-color); /* 表格行懸停背景 */
+
+  --element-shadow-color: rgba(0, 0, 0, 0.7); /* 黑暗模式下的陰影顏色 */
 }
 
-.recommendation-table-header-cell {
-  padding: 15px; /* 增加單元格的填充 */
-  font-weight: bold;
-  font-size: 16px;
-  color: #333;
-  text-align: left;
-  border-bottom: 2px solid #ddd; /* 表頭與表體之間的邊框 */
+.dark-mode-toggle {
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-/* 表格每行的樣式 */
-.recommendation-row {
-  border-bottom: 1px solid #ddd !important; /* 每行之間的分隔線 */
-  transition: background-color 0.3s ease; /* 平滑的背景色變化 */
+.dark-mode-toggle:hover {
+  background-color: var(--primary-hover-color);
 }
 
-/* 最後一行的特殊樣式 */
-.last-row {
-  border-bottom: none !important; /* 移除最後一行的邊框 */
-}
-
-/* 單元格的樣式 */
-.recommendation-cell {
-  padding: 12px;
-  text-align: left; /* 將單元格內容靠左對齊 */
-  font-size: 14px;
-  color: #555; /* 改變字體顏色 */
-}
-
-/* 懸停效果 */
-.recommendation-row:hover {
-  background-color: #f9f9f9; /* 當鼠標懸停時，改變背景色 */
-}
-
-/* 鼠標懸停在表格行時的行高亮效果 */
-.recommendation-table-body-row:hover {
-  background-color: #f2f7ff; /* 輕微藍色背景 */
-}
-
-/* 表格底部的樣式 */
-.table-footer {
-  text-align: right;
-  padding: 10px;
-  background-color: #fafafa;
-  border-top: 2px solid #ddd; /* 底部邊框 */
-}
-
-.table-container {
-  box-shadow: none !important;
-  border: none !important;
-}
-
-.title {
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-  font-weight: bold; /* 如果需要字體加粗，可以加這個屬性 */
-  color: #333; /* 可選：調整字體顏色 */
-}
-
-/* 葡萄酒編輯按鈕 */
-.wine-edit-Button {
-  background-color: transparent !important; /* 透明背景 */
-  border: none !important; /* 移除邊框 */
-  cursor: pointer; /* 鼠標樣式 */
-  padding: 5px; /* 給按鈕一點內邊距 */
-  color: #007bff !important; /* 設置藍色圖標 */
-  box-shadow: none !important; /* 移除陰影 */
-}
-
-.wine-edit-Button:hover {
-  color: #0056b3 !important; /* 懸停時顏色變深 */
-}
-
-/* 葡萄酒刪除按鈕 */
-.wine-delete-Button {
-  background-color: transparent !important; /* 透明背景 */
-  border: none !important; /* 移除邊框 */
-  cursor: pointer; /* 鼠標樣式 */
-  padding: 5px; /* 給按鈕一點內邊距 */
-  color: #f44336 !important; /* 設置紅色圖標 */
-  box-shadow: none !important; /* 移除陰影 */
-}
-
-.wine-delete-Button:hover {
-  color: #d32f2f !important; /* 懸停時紅色變深 */
-}
-/* 筆記生成按鈕 */
-.note-gen-Button {
-  background-color: transparent !important; /* 透明背景 */
-  border: none !important; /* 移除邊框 */
-  cursor: pointer; /* 鼠標樣式 */
-  padding: 5px; /* 給按鈕一點內邊距 */
-  color: #4caf50 !important; /* 設置綠色圖標 */
-  box-shadow: none !important; /* 移除陰影 */
-}
-
-.note-gen-Button:hover {
-  color: #388e3c !important; /* 懸停時綠色變深 */
-}
-
-/* Header */
 .header {
+  background-color: var(--header-background) !important;
+  color: var(--header-text-color) !important;
+  height: 60px !important;
+  box-shadow: 0 2px 5px var(--element-shadow-color) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+/* 中間區域：標題和 logo */
+.header-content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: #fff;
-  border-bottom: 1px solid #ccc;
-  height: 60px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  flex-grow: 1;
+  flex-shrink: 0;
+  text-align: center;
 }
 
-/* 左側按鈕樣式 */
+.header-logo {
+  display: inline-block;
+  height: 45px; /* 確保 logo 不會過大，根據需要調整 */
+  margin-right: 10px;
+}
+
+.header-title {
+  display: inline-block;
+  font-size: 36px; /* 調整字體大小 */
+  font-weight: bold;
+  color: var(--header-text-color);
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+/* 按鈕樣式 */
+button {
+  background-color: var(--button-background-color) !important;
+  color: var(--button-text-color) !important;
+  border: none !important;
+  padding: 8px 15px !important;
+  border-radius: 14px !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 4px var(--element-shadow-color) !important;
+}
+
+button:hover {
+  background-color: var(--primary-hover-color) !important;
+}
+
+/* Original styles */
+.homepage-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.homepage-content {
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100vh;
+  background-color: var(--background-color);
+}
+
+.homepage-content-expanded {
+  margin-left: 250px; /* 側邊欄展開時的樣式 */
+}
+
+.homepage-content-collapsed {
+  margin-left: 0; /* 側邊欄收起時的樣式 */
+}
+
+.content-body {
+  padding: 20px;
+}
+
+.outer-container {
+  padding: 20px;
+}
+
+.welcome-card,
+.recommendations-card {
+  /* padding: 20px; */
+  border-radius: 8px; /* 添加卡片的圓角 */
+  background-color: var(--card-background-color) !important;
+  box-shadow: 0 2px 10px var(--card-shadow-color);
+}
+
+.tasting-note-card {
+  padding: 20px;
+  border-radius: 8px; /* 添加卡片的圓角 */
+  background-color: var(--card-background-color); /* 使用全局卡片背景色 */
+  box-shadow: 0 2px 10px var(--card-shadow-color); /* 使用全局陰影顏色 */
+}
+
+/* Header 左側區域 */
+/* 漢堡 */
+.toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.toggle-button > div {
+  margin: 0;
+  padding: 0;
+}
+
 .left-header-buttons {
   display: flex;
   align-items: center;
   margin-left: 10px;
+  flex-shrink: 0;
 }
 
+.home-button,
 .recommendation-button {
   font-size: 1rem;
   padding: 5px 10px;
   margin-left: 10px;
+  flex-shrink: 0;
 }
 
-/* 右側區域 */
+/* Header 右側區域 */
 .right-header {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   /* margin-right: 20px; */
 }
 
@@ -149,6 +205,48 @@
   display: flex;
   align-items: center;
   gap: 10px; /* 按鈕之間的間距 */
+  flex-shrink: 0;
+}
+
+/* 通用按鈕樣式（不繼承全局樣式） */
+.wine-edit-Button,
+.wine-delete-Button,
+.note-gen-Button {
+  background-color: transparent !important; /* 透明背景 */
+  border: none !important; /* 移除邊框 */
+  cursor: pointer; /* 鼠標樣式 */
+  padding: 10px !important; /* 給按鈕一點內邊距 */
+  box-shadow: none !important; /* 移除陰影 */
+}
+
+/* 編輯按鈕樣式 */
+.wine-edit-Button {
+  color: #007bff !important; /* 設置藍色圖標 */
+}
+
+.wine-edit-Button:hover {
+  color: #0056b3 !important; /* 懸停時顏色變深 */
+  background-color: transparent !important; /* 確保背景色為透明 */
+}
+
+/* 刪除按鈕樣式 */
+.wine-delete-Button {
+  color: #f44336 !important; /* 設置紅色圖標 */
+}
+
+.wine-delete-Button:hover {
+  color: #d32f2f !important; /* 懸停時紅色變深 */
+  background-color: transparent !important; /* 確保背景色為透明 */
+}
+
+/* 筆記生成按鈕樣式 */
+.note-gen-Button {
+  color: #4caf50 !important; /* 設置綠色圖標 */
+}
+
+.note-gen-Button:hover {
+  color: #388e3c !important; /* 懸停時綠色變深 */
+  background-color: transparent !important; /* 確保背景色為透明 */
 }
 
 /* 分隔線 */
@@ -160,7 +258,7 @@
 
 /* user-info 區域 */
 .user-info {
-  position: relative; /* 作为定位参考 */
+  position: relative; /* 定位 */
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -169,7 +267,6 @@
   flex-shrink: 0;
 }
 
-/* user-dropdown */
 .user-dropdown {
   position: relative;
 }
@@ -209,8 +306,8 @@
 
 /* 下拉選單樣式 */
 .dropdown-menu-custom {
-  border-radius: 0 0 4px 4px !important; /* 圓角可能被其他樣式覆蓋，添加 !important */
-  position: absolute !important; /* 位置可能被其他選擇器覆蓋，添加 !important */
+  border-radius: 0 0 4px 4px !important;
+  position: absolute !important;
   top: 7.5px !important; /* 確保下拉菜單緊貼觸發元素 */
   right: -80px !important;
   width: 185px !important;
@@ -230,14 +327,19 @@
 
 /* 下拉選單項目 */
 .dropdown-item {
-  padding: 10px 20px;
-  cursor: pointer;
-  display: flex;
+  background-color: transparent !important; /* 移除背景色 */
+  color: var(--text-color) !important; /* 使用默認字體顏色 */
+  border: none !important; /* 移除按鈕邊框 */
+  padding: 10px 20px; /* 調整內邊距 */
+  border-radius: 0px !important;
+  cursor: pointer; /* 仍然顯示可點擊的手型 */
+  display: flex; /* 將圖標和文字對齊 */
   align-items: center;
+  box-shadow: none !important;
 }
 
 .dropdown-item:hover {
-  background-color: #f1f1f1;
+  background-color: var(--dropdown-item-hover-color) !important;
 }
 
 /* 下拉選單中的圖標 */
@@ -274,38 +376,75 @@
   background-color: rgba(0, 123, 255, 0.2); /* 懸停時的背景色 */
 }
 
-/* 漢堡 */
-.toggle-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0px;
-  cursor: pointer;
+/* 表格的通用樣式 */
+.recommendations-table {
+  width: 100%;
+  border-collapse: collapse; /* 移除表格的間隙，讓邊框合併 */
+  font-family: "Roboto", sans-serif; /* 使用更現代的字體 */
+  background-color: #fff; /* 背景色為白色 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+  border-radius: 2px; /* 添加圓角 */
+  overflow: hidden; /* 隱藏圓角外部的內容 */
 }
 
-.toggle-button > div {
-  margin: 0;
-  padding: 0;
+/* 表頭樣式 */
+.recommendations-table-header {
+  background-color: var(--table-header-background);
+  color: var(--table-header-text-color);
 }
 
-/* 中間區域：標題和 logo */
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-grow: 1; /* 使其居中 */
-}
-
-.header-logo {
-  display: inline-block;
-  height: 45px; /* 確保 logo 不會過大，根據需要調整 */
-  margin-right: 10px;
-}
-
-.header-title {
-  display: inline-block;
-  font-size: 36px; /* 調整字體大小 */
+.recommendation-table-header-cell {
+  padding: 15px;
   font-weight: bold;
-  color: #333;
-  margin-top: 5px;
+  font-size: 16px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+
+/* 表格每行的樣式 */
+.recommendation-row {
+  border-bottom: 1px solid #ddd !important;
+  transition: background-color 0.3s ease;
+}
+
+/* 最後一行的特殊樣式 */
+.last-row {
+  border-bottom: none !important;
+}
+
+/* 單元格的樣式 */
+.recommendation-cell {
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+/* 懸停效果 */
+.recommendation-row:hover {
+  background-color: var(--table-row-hover-background);
+}
+
+.recommendation-table-body-row:hover {
+  background-color: #f2f7ff; /* 輕微藍色背景 */
+}
+
+/* 表格底部的樣式 */
+.table-footer {
+  text-align: right;
+  padding: 10px;
+  background-color: #fafafa;
+  border-top: 2px solid #ddd; /* 底部邊框 */
+}
+
+.table-container {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.title {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: bold; /* 如果需要字體加粗，可以加這個屬性 */
+  color: #333; /* 可選：調整字體顏色 */
 }

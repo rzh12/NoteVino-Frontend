@@ -46,6 +46,7 @@ function HomePage() {
   const [recommendations, setRecommendations] = useState([]);
   const [tastingNote, setTastingNote] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleWineSelect = (wineId) => {
     setSelectedWineId(wineId);
@@ -229,8 +230,17 @@ function HomePage() {
     setIsSidebarCollapsed(true);
   };
 
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  };
+
   return (
-    <div style={styles.container}>
+    <div className="homepage-container">
       <Sidebar
         onWineSelect={handleWineSelect}
         onUploadSelect={handleUploadSelect}
@@ -238,10 +248,11 @@ function HomePage() {
         isCollapsed={isSidebarCollapsed}
       />
       <div
-        style={{
-          ...styles.content,
-          marginLeft: isSidebarCollapsed ? "0" : "250px", // 根據側邊欄狀態調整右側區域左邊界
-        }}
+        className={`homepage-content ${
+          isSidebarCollapsed
+            ? "homepage-content-collapsed"
+            : "homepage-content-expanded"
+        }`}
       >
         <div className="header">
           {/* 左側按鈕 */}
@@ -254,7 +265,7 @@ function HomePage() {
                 direction="right"
               />
             </div>
-            <Button className="recommendation-button" onClick={handleHome}>
+            <Button className="home-button" onClick={handleHome}>
               Home
             </Button>
             <Button
@@ -273,6 +284,9 @@ function HomePage() {
 
           {/* 右側按鈕和 userInfo */}
           <div className="right-header">
+            {/* <Button className="dark-mode-toggle" onClick={toggleDarkMode}>
+              Dark Mode
+            </Button> */}
             {selectedWineId && (
               <div className="action-buttons">
                 <Button
@@ -363,15 +377,15 @@ function HomePage() {
           </div>
         </div>
 
-        <div style={styles.contentBody}>
+        <div className="content-body">
           {showRecommendationForm ? (
             <>
               <RecommendationForm
                 onRecommendationsFetch={handleRecommendationsFetch}
               />
               {recommendations.length > 0 && (
-                <div style={styles.outerContainer}>
-                  <Card style={styles.recommendationsCard}>
+                <div className="outer-container">
+                  <Card className="recommendations-card">
                     <CardBody>
                       <h3 className="title">推薦結果</h3>
                       {/* 使用 Material-UI 表格組件 */}
@@ -471,8 +485,8 @@ function HomePage() {
               />
               {/* 如果生成了 Tasting Note，顯示出來 */}
               {tastingNote && (
-                <div style={styles.outerContainer}>
-                  <Card style={styles.tastingNoteCard}>
+                <div className="outer-container">
+                  <Card className="tasting-note-card">
                     <CardBody>
                       <CardTitle>品飲筆記範例</CardTitle>
                       <ReactMarkdown>{tastingNote}</ReactMarkdown>
@@ -482,7 +496,7 @@ function HomePage() {
               )}
             </>
           ) : (
-            <Card style={styles.welcomeCard}>
+            <Card className="welcome-card">
               <CardBody>
                 <CardTitle>Welcome!</CardTitle>
                 <p>選擇一支酒以查看詳細資訊</p>
@@ -494,42 +508,5 @@ function HomePage() {
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: "flex",
-    height: "100vh",
-    width: "100%",
-    overflow: "hidden",
-  },
-  content: {
-    flexGrow: 1,
-    transition: "margin-left 0.3s ease",
-    overflowY: "auto", // 啟用整個右側內容滾動
-    overflowX: "hidden",
-    height: "100vh", // 確保右側區域可以滾動
-    backgroundColor: "#f8f9fa", // 統一背景色
-  },
-  welcomeCard: {
-    borderRadius: "8px", // 添加卡片的圓角
-    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)", // 增加卡片的陰影
-  },
-  contentBody: {
-    padding: "20px", // 這裡設置內容部分的 padding，而不是 header
-  },
-  outerContainer: {
-    padding: "20px",
-  },
-  recommendationsCard: {
-    backgroundColor: "#fff",
-    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-    borderRadius: "8px",
-  },
-  tastingNoteCard: {
-    padding: "20px",
-    borderRadius: "8px", // 添加卡片的圓角
-    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)", // 增加卡片的陰影
-  },
-};
 
 export default HomePage;

@@ -43,19 +43,28 @@ function WinesList({ onWineSelect, reload }) {
 
   return (
     <div>
-      <h5 className="wine-list-title">您的葡萄酒清單</h5>
-      <div className="wine-list">
-        {/* 顯示載入中的狀態，只在第一次加載時顯示 */}
+      <h5
+        className={`wines-list-title ${
+          !loading ? "wines-list-title-visible" : ""
+        }`}
+      >
+        您的葡萄酒清單
+      </h5>
+      <div
+        className={`wines-list-container ${
+          !loading ? "wines-list-container-visible" : ""
+        }`}
+      >
         {loading && isFirstLoad.current ? (
           <p className="loading">載入中...</p>
         ) : wines.length === 0 ? (
-          <h5 className="no-wines">目前沒有任何酒款。</h5> // 當沒有酒款時顯示
+          <h5 className="no-wines">目前沒有任何酒款。</h5>
         ) : (
           wines.map((wine) => (
             <div
               key={wine.wineId}
               onClick={() => onWineSelect(wine.wineId)}
-              className="wine-item"
+              className="wine-list-item"
             >
               {wine.name}
             </div>

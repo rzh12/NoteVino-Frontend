@@ -1,15 +1,53 @@
-.auth-item {
-  padding: 15px 20px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #333;
-  cursor: pointer;
-  border-bottom: 1px solid #e5e5e5;
-  transition: background-color 0.2s ease;
+:root {
+  --sidebar-background-color: #fff; /* 側邊欄背景色 */
+  --element-shadow-color: rgba(0, 0, 0, 0.1); /* 陰影顏色 */
+  --header-background-color: #fff; /* 頭部背景色 */
+  --text-color: #333333; /* 深灰色文字 */
+  --hover-background-color: #f5f5f5; /* 懸停時的淺灰色背景 */
 }
 
-.auth-item:hover {
-  background-color: #f5f5f5; /* 懸停時的背景色 */
+.sidebar {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: var(--sidebar-background-color); /* 使用變數設定背景色 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: width 0.3s ease; /* 增加寬度動畫 */
+  box-shadow: 2px 0 5px var(--element-shadow-color); /* 增加陰影效果讓側邊欄更立體 */
+}
+
+.sidebar-collapsed {
+  width: 0;
+}
+
+.sidebar-expanded {
+  width: 250px;
+}
+
+.wine-list {
+  padding: 20px;
+  margin-top: 20px;
+  background-color: var(--sidebar-background-color);
+  border-top: 1px solid #ccc;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* 搜尋區塊樣式 */
+.search-container {
+  height: 40px;
+  padding: 20px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease; /* 過渡效果 */
+}
+
+.search-container-visible {
+  opacity: 1;
 }
 
 .search-results-header {
@@ -25,9 +63,35 @@
   gap: 10px; /* 每款搜尋結果之間的間距 */
   margin-top: 20px;
 }
+.search-list-item {
+  padding: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 
+.search-list-item:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.02);
+}
 .no-results {
   font-size: 18px;
   font-weight: bold;
   text-align: center;
+}
+
+/* 上傳按鈕樣式 */
+.upload-button {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease; /* 過渡效果 */
+}
+
+.upload-button-visible {
+  opacity: 1;
 }

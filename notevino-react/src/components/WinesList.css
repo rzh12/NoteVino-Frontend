@@ -1,26 +1,39 @@
-.wine-list-title {
+.wines-list-title {
   text-align: center;
+  opacity: 0; /* 初始為透明 */
+  transition: opacity 0.3s ease-in-out; /* 添加淡入淡出效果 */
+  margin-bottom: 20px;
 }
 
-.wine-list {
+.wines-list-title-visible {
+  opacity: 1; /* 顯示時設為完全不透明 */
+}
+
+.wines-list-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-top: 20px;
+  opacity: 0; /* 初始為透明 */
+  transition: opacity 0.3s ease-in-out; /* 添加淡入淡出的過渡效果 */
 }
 
-.wine-item {
+.wines-list-container-visible {
+  opacity: 1; /* 顯示時設為完全不透明 */
+}
+
+.wine-list-item {
   padding: 15px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* 添加過渡動畫 */
-  border: 1px solid #ddd; /* 增加邊框，讓項目更具可點擊性 */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.wine-item:hover {
+.wine-list-item:hover {
   background-color: #f0f0f0;
-  transform: scale(1.02); /* 懸浮時輕微放大效果 */
+  transform: scale(1.02);
 }
 
 .loading,
