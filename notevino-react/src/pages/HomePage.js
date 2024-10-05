@@ -34,7 +34,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import nvLogo from "../nv-logo-2.svg";
+import nvLogo from "../nv-logo.svg";
 
 function HomePage() {
   const [selectedWineId, setSelectedWineId] = useState(null);
@@ -272,7 +272,7 @@ function HomePage() {
               className="recommendation-button"
               onClick={handleRecommendClick}
             >
-              推薦
+              個人化推薦
             </Button>
           </div>
 

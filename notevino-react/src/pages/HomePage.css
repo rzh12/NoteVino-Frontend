@@ -5,7 +5,7 @@
   --blank-color: #fff;
   --light-color: #f3ebe6;
   --primary-hover-color: #cf1538;
-  --normal-hover-color: #f1f1f1;
+  --normal-hover-color: #f0f0f0;
 
   --background-color: var(--light-color); /* 背景底色 */
   --text-color: var(--accent-color); /* 文字顏色 */
@@ -152,14 +152,16 @@ button:hover {
   /* padding: 20px; */
   border-radius: 8px; /* 添加卡片的圓角 */
   background-color: var(--card-background-color) !important;
-  box-shadow: 0 2px 10px var(--card-shadow-color);
+  box-shadow: 0 2px 10px var(--card-shadow-color) !important;
 }
 
 .tasting-note-card {
   padding: 20px;
   border-radius: 8px; /* 添加卡片的圓角 */
-  background-color: var(--card-background-color); /* 使用全局卡片背景色 */
-  box-shadow: 0 2px 10px var(--card-shadow-color); /* 使用全局陰影顏色 */
+  background-color: var(
+    --card-background-color
+  ) !important; /* 使用全局卡片背景色 */
+  box-shadow: 0 2px 10px var(--card-shadow-color) !important; /* 使用全局陰影顏色 */
 }
 
 /* Header 左側區域 */
@@ -186,10 +188,20 @@ button:hover {
 
 .home-button,
 .recommendation-button {
-  font-size: 1rem;
-  padding: 5px 10px;
+  background-color: transparent !important; /* 透明背景 */
+  border: none !important; /* 移除邊框 */
+  padding: 5px 10px !important; /* 給按鈕一點內邊距 */
+  box-shadow: none !important; /* 移除陰影 */
+  color: var(--header-text-color) !important;
+  font-size: 1.25rem !important;
+  font-weight: bold !important;
   margin-left: 10px;
   flex-shrink: 0;
+}
+
+.home-button:hover,
+.recommendation-button:hover {
+  background-color: transparent !important; /* 確保背景色為透明 */
 }
 
 /* Header 右側區域 */

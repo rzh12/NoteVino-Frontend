@@ -1,9 +1,12 @@
 :root {
-  --sidebar-background-color: #fff; /* 側邊欄背景色 */
+  --complementary-color: #b5bbc5;
+
+  --sidebar-background-color: #272c31; /* 側邊欄背景色 */
+  --sidebar-text-color: var(--complementary-color); /* 深灰色文字 */
+  --item-border-color: #ddd;
+  --separator--line--color: #3b424a;
+  --item-hover-color: #393d41;
   --element-shadow-color: rgba(0, 0, 0, 0.1); /* 陰影顏色 */
-  --header-background-color: #fff; /* 頭部背景色 */
-  --text-color: #333333; /* 深灰色文字 */
-  --hover-background-color: #f5f5f5; /* 懸停時的淺灰色背景 */
 }
 
 .sidebar {
@@ -29,19 +32,71 @@
 }
 
 .wine-list {
-  padding: 20px;
-  margin-top: 20px;
+  padding: 10px;
   background-color: var(--sidebar-background-color);
-  border-top: 1px solid #ccc;
+  color: var(--sidebar-text-color);
   flex-grow: 1;
-  overflow-y: auto;
+  overflow-y: auto; /* 允許垂直滾動 */
+  overflow-x: hidden; /* 禁止水平滾動 */
+}
+
+/* wine list 區塊樣式 */
+.wines-list-header {
+  margin-top: 10px;
+  color: var(--sidebar-text-color);
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.wines-list-header-visible {
+  opacity: 1;
+}
+
+/* 上傳按鈕樣式 */
+.upload-button {
+  padding: 10px 0px 10px 0px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.upload-button-visible {
+  opacity: 1;
+}
+
+.upload-icon-button {
+  background-color: transparent !important; /* 透明背景 */
+  cursor: pointer; /* 鼠標樣式 */
+  padding: 0px !important; /* 給按鈕一點內邊距 */
+  box-shadow: none !important; /* 移除陰影 */
+  border: 3px dashed var(--separator--line--color) !important;
+  border-radius: 10px !important;
+  color: var(--sidebar-text-color) !important;
+  font-size: 24px;
+  width: 250px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-icon-button:hover {
+  background-color: var(--item-hover-color) !important;
+  border-color: var(--item-hover-color) !important;
+  transform: scale(1.03);
 }
 
 /* 搜尋區塊樣式 */
 .search-container {
-  height: 40px;
+  height: 61px;
   padding: 20px;
   flex-shrink: 0;
+  border-bottom: 2px solid var(--separator--line--color);
   opacity: 0;
   transition: opacity 0.3s ease; /* 過渡效果 */
 }
@@ -51,47 +106,55 @@
 }
 
 .search-results-header {
+  margin-top: 10px;
+  color: var(--sidebar-text-color);
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 10px;
   text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.search-results-header-visible {
+  opacity: 1;
 }
 
 .search-results-list {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* 每款搜尋結果之間的間距 */
-  margin-top: 20px;
+  gap: 3px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
 }
+
+.search-results-list-visible {
+  opacity: 1;
+}
+
 .search-list-item {
-  padding: 15px;
+  padding: 10px 10px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .search-list-item:hover {
-  background-color: #f0f0f0;
-  transform: scale(1.02);
+  background-color: var(--item-hover-color);
+  transform: scale(1.03);
+  border-radius: 10px;
 }
+
 .no-results {
+  margin-top: 10px;
+  color: var(--sidebar-text-color);
   font-size: 18px;
   font-weight: bold;
   text-align: center;
+  opacity: 0; /* 初始狀態不可見 */
+  transition: opacity 0.3s ease-in-out;
 }
 
-/* 上傳按鈕樣式 */
-.upload-button {
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  flex-shrink: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease; /* 過渡效果 */
-}
-
-.upload-button-visible {
-  opacity: 1;
+.no-results-visible {
+  opacity: 1; /* 當可見時設置為 1 */
 }

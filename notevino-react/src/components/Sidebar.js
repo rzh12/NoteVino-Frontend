@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "shards-react";
 import WinesList from "./WinesList";
 import SearchWines from "./SearchWines";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 
-function Sidebar({
-  onWineSelect,
-  onUploadSelect,
-  onSearch,
-  reload,
-  isCollapsed,
-}) {
+function Sidebar({ onWineSelect, onUploadSelect, reload, isCollapsed }) {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [searchResults, setSearchResults] = useState([]); // 用來保存搜索結果
   const [isSearching, setIsSearching] = useState(false);
@@ -64,9 +59,19 @@ function Sidebar({
             {isSearching ? (
               searchResults.length > 0 ? (
                 <>
-                  <h5 className="search-results-header">搜尋結果</h5>{" "}
+                  <h5
+                    className={`search-results-header ${
+                      isSidebarVisible ? "search-results-header-visible" : ""
+                    }`}
+                  >
+                    搜尋結果
+                  </h5>
                   {/* 新增搜尋結果標題 */}
-                  <div className="search-results-list">
+                  <div
+                    className={`search-results-list ${
+                      isSidebarVisible ? "search-results-list-visible" : ""
+                    }`}
+                  >
                     {searchResults.map((wine) => (
                       <div
                         key={wine.wineId}
@@ -79,21 +84,41 @@ function Sidebar({
                   </div>
                 </>
               ) : (
-                <h5 className="no-results">没有找到相關的酒款</h5> // 當沒有搜尋結果時顯示
+                <h5
+                  className={`no-results ${
+                    isSidebarVisible ? "no-results-visible" : ""
+                  }`}
+                >
+                  没有找到相關的酒款
+                </h5>
               )
             ) : (
-              <WinesList onWineSelect={onWineSelect} reload={reload} /> // 非搜尋狀態下顯示酒款列表
+              <>
+                <h5
+                  className={`wines-list-header ${
+                    isSidebarVisible ? "wines-list-header-visible" : ""
+                  }`}
+                >
+                  您的葡萄酒清單
+                </h5>
+                <div
+                  className={`upload-button ${
+                    isSidebarVisible ? "upload-button-visible" : ""
+                  }`}
+                >
+                  <button
+                    className="upload-icon-button"
+                    onClick={onUploadSelect}
+                  >
+                    <FontAwesomeIcon
+                      icon={faFileCirclePlus}
+                      style={{ fontSize: "20px" }}
+                    />
+                  </button>
+                </div>
+                <WinesList onWineSelect={onWineSelect} reload={reload} />
+              </>
             )}
-          </div>
-
-          <div
-            className={`upload-button ${
-              isSidebarVisible ? "upload-button-visible" : ""
-            }`}
-          >
-            <Button theme="primary" onClick={onUploadSelect}>
-              + Upload Wine
-            </Button>
           </div>
         </>
       )}

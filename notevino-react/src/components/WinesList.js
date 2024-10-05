@@ -43,13 +43,6 @@ function WinesList({ onWineSelect, reload }) {
 
   return (
     <div>
-      <h5
-        className={`wines-list-title ${
-          !loading ? "wines-list-title-visible" : ""
-        }`}
-      >
-        您的葡萄酒清單
-      </h5>
       <div
         className={`wines-list-container ${
           !loading ? "wines-list-container-visible" : ""
