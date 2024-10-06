@@ -6,7 +6,7 @@ import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import {
   faPenToSquare,
   faWandMagicSparkles,
-  faPencil,
+  faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import "./WineDetails.css";
 import ReactQuill from "react-quill";
@@ -481,18 +481,21 @@ function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
                         <>
                           {/* Display note content */}
                           <div className="note-content">
+                            <p
+                              dangerouslySetInnerHTML={{ __html: note.content }}
+                            ></p>
                             <Button
                               theme="none"
-                              className="editIcon"
+                              className="note-edit-icon"
                               onClick={() =>
                                 handleEditNote(note.noteId, note.content)
                               }
                             >
-                              <FontAwesomeIcon icon={faPencil} />
+                              <FontAwesomeIcon
+                                icon={faEllipsis}
+                                style={{ fontSize: "24px" }}
+                              />
                             </Button>
-                            <p
-                              dangerouslySetInnerHTML={{ __html: note.content }}
-                            ></p>
                           </div>
                         </>
                       )}

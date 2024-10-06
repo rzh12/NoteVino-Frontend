@@ -158,3 +158,21 @@
 .no-results-visible {
   opacity: 1; /* 當可見時設置為 1 */
 }
+
+.wine-list::-webkit-scrollbar {
+  width: 12px;
+}
+
+.wine-list::-webkit-scrollbar-track {
+  background-color: var(--sidebar-background-color);
+}
+
+.wine-list::-webkit-scrollbar-thumb {
+  background-color: #555; /* 滾動條顏色（淺色模式） */
+  border-radius: 10px;
+  border: 3px solid var(--item-hover-color); /* 邊框 */
+}
+
+.wine-list::-webkit-scrollbar-thumb:hover {
+  background-color: var(--sidebar-text-color); /* 滾動條懸停顏色 */
+}
