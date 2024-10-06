@@ -2,9 +2,14 @@
   --primary-color: #880e25; /* 主色 */
   --secondary-color: #4b2e2a; /* 次色 */
   --accent-color: #4b2e2a; /* 強調色 */
+  --gray-color: #888888;
+  --deep-gray-color: #6f6f6f;
   --blank-color: #fff;
   --light-color: #f3ebe6;
-  --primary-hover-color: #cf1538;
+  --deep-text-color: #191c1f;
+  --primary-light-hover-color: #cf1538;
+  --primary-deep-hover-color: #660a1b;
+  --primary-deep-hover-background-color: rgba(136, 14, 37, 0.1);
   --normal-hover-color: #f0f0f0;
 
   --background-color: var(--light-color); /* 背景底色 */
@@ -13,6 +18,10 @@
   --button-text-color: var(--light-color); /* 按鈕文字顏色 */
   --header-background: var(--blank-color); /* 頁首背景色 */
   --header-text-color: var(--accent-color); /* 頁首文字顏色 */
+  --header-botton-hover-color: var(--primary-deep-hover-color);
+  --header-botton-hover-background-color: var(
+    --primary-deep-hover-background-color
+  );
   --card-background-color: var(--blank-color); /* 卡片背景色 */
   --card-shadow-color: rgba(0, 0, 0, 0.3); /* 卡片陰影顏色 */
   --dropdown-item-hover-color: var(--normal-hover-color);
@@ -31,7 +40,7 @@
   --accent-color: #d7ccc8; /* 淺灰色作為強調色 */
   --blank-color: #403939; /* 深色背景 */
   --light-color: #657993; /* 較淺的深色背景 */
-  --primary-hover-color: #ff8a80; /* 主色懸停效果，較亮 */
+  --primary-light-hover-color: #ff8a80; /* 主色懸停效果，較亮 */
   --normal-hover-color: #333333; /* 普通懸停效果的深色 */
 
   --background-color: var(--blank-color); /* 黑暗模式下的背景色 */
@@ -61,7 +70,7 @@
 }
 
 .dark-mode-toggle:hover {
-  background-color: var(--primary-hover-color);
+  background-color: var(--primary-light-hover-color);
 }
 
 .header {
@@ -111,7 +120,7 @@ button {
 }
 
 button:hover {
-  background-color: var(--primary-hover-color) !important;
+  background-color: var(--primary-light-hover-color) !important;
 }
 
 /* Original styles */
@@ -155,15 +164,6 @@ button:hover {
   box-shadow: 0 2px 10px var(--card-shadow-color) !important;
 }
 
-.tasting-note-card {
-  padding: 20px;
-  border-radius: 8px; /* 添加卡片的圓角 */
-  background-color: var(
-    --card-background-color
-  ) !important; /* 使用全局卡片背景色 */
-  box-shadow: 0 2px 10px var(--card-shadow-color) !important; /* 使用全局陰影顏色 */
-}
-
 /* Header 左側區域 */
 /* 漢堡 */
 .toggle-button {
@@ -190,18 +190,22 @@ button:hover {
 .recommendation-button {
   background-color: transparent !important; /* 透明背景 */
   border: none !important; /* 移除邊框 */
-  padding: 5px 10px !important; /* 給按鈕一點內邊距 */
+  padding: 5px 15px !important; /* 給按鈕一點內邊距 */
   box-shadow: none !important; /* 移除陰影 */
   color: var(--header-text-color) !important;
   font-size: 1.25rem !important;
   font-weight: bold !important;
   margin-left: 10px;
   flex-shrink: 0;
+  border-radius: 20px !important;
 }
 
 .home-button:hover,
 .recommendation-button:hover {
-  background-color: transparent !important; /* 確保背景色為透明 */
+  color: var(--primary-deep-hover-color) !important;
+  background-color: var(
+    --primary-deep-hover-background-color
+  ) !important; /* 確保背景色為透明 */
 }
 
 /* Header 右側區域 */
@@ -210,55 +214,6 @@ button:hover {
   align-items: center;
   flex-shrink: 0;
   /* margin-right: 20px; */
-}
-
-/* 功能按鈕的樣式 */
-.action-buttons {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* 按鈕之間的間距 */
-  flex-shrink: 0;
-}
-
-/* 通用按鈕樣式（不繼承全局樣式） */
-.wine-edit-Button,
-.wine-delete-Button,
-.note-gen-Button {
-  background-color: transparent !important; /* 透明背景 */
-  border: none !important; /* 移除邊框 */
-  cursor: pointer; /* 鼠標樣式 */
-  padding: 10px !important; /* 給按鈕一點內邊距 */
-  box-shadow: none !important; /* 移除陰影 */
-}
-
-/* 編輯按鈕樣式 */
-.wine-edit-Button {
-  color: #007bff !important; /* 設置藍色圖標 */
-}
-
-.wine-edit-Button:hover {
-  color: #0056b3 !important; /* 懸停時顏色變深 */
-  background-color: transparent !important; /* 確保背景色為透明 */
-}
-
-/* 刪除按鈕樣式 */
-.wine-delete-Button {
-  color: #f44336 !important; /* 設置紅色圖標 */
-}
-
-.wine-delete-Button:hover {
-  color: #d32f2f !important; /* 懸停時紅色變深 */
-  background-color: transparent !important; /* 確保背景色為透明 */
-}
-
-/* 筆記生成按鈕樣式 */
-.note-gen-Button {
-  color: #4caf50 !important; /* 設置綠色圖標 */
-}
-
-.note-gen-Button:hover {
-  color: #388e3c !important; /* 懸停時綠色變深 */
-  background-color: transparent !important; /* 確保背景色為透明 */
 }
 
 /* 分隔線 */

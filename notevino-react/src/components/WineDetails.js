@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, CardBody, CardTitle } from "shards-react";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import {
+  faPenToSquare,
+  faWandMagicSparkles,
+  faPencil,
+} from "@fortawesome/free-solid-svg-icons";
 import "./WineDetails.css";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // 引入Quill的樣式
+import "react-quill/dist/quill.snow.css";
+import ReactMarkdown from "react-markdown";
 
-function WineDetails({
-  wineId,
-  onDeleteSuccess,
-  reloadWines,
-  isEditing,
-  handleSave,
-}) {
+function WineDetails({ wineId, onDeleteSuccess, reloadWines }) {
   const [wine, setWine] = useState(null);
   const placeholderImage = "https://via.placeholder.com/250?text=No+Image";
   const [newNote, setNewNote] = useState("");
@@ -21,6 +21,8 @@ function WineDetails({
   const [updatedWine, setUpdatedWine] = useState({});
   const [editNoteId, setEditNoteId] = useState(null);
   const [noteContent, setNoteContent] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [tastingNote, setTastingNote] = useState("");
 
   // 從 localStorage 中獲取 token
   const token = localStorage.getItem("token");
@@ -44,6 +46,81 @@ function WineDetails({
         });
     }
   }, [wineId, token]);
+
+  const handleDelete = () => {
+    if (window.confirm("確定要刪除此葡萄酒記錄？")) {
+      axios
+        .delete(`/api/wines/${wineId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 204) {
+            // 刪除成功，調用父組件的回調
+            onDeleteSuccess();
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting wine:", error);
+        });
+    }
+  };
+
+  const handleSave = () => {
+    const updatedInfo = {
+      name: updatedWine.name,
+      region: updatedWine.region,
+      type: updatedWine.type,
+      vintage: updatedWine.vintage,
+    };
+
+    const queryParams = new URLSearchParams({
+      info: JSON.stringify(updatedInfo),
+    }).toString();
+
+    axios
+      .put(
+        `/api/wines/${wineId}?${queryParams}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.success) {
+          alert("更新成功");
+          reloadWines();
+          setIsEditing(false);
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating wine:", error);
+      });
+  };
+
+  const generateTastingNote = async () => {
+    try {
+      const response = await axios.get("/api/wines/generate-tasting-note", {
+        headers: {
+          wineId: wineId,
+        },
+      });
+
+      if (response.status === 200) {
+        const responseData = response.data;
+        const generatedNote = responseData.choices[0].message.content;
+        setTastingNote(generatedNote);
+      } else {
+        setTastingNote("No Tasting Note available.");
+      }
+    } catch (error) {
+      console.error("Error generating tasting note:", error);
+      setTastingNote("Failed to generate Tasting Note.");
+    }
+  };
 
   // 提交新增筆記
   const handleSubmitNote = (e) => {
@@ -169,80 +246,105 @@ function WineDetails({
   return (
     <div className="wine-details-container">
       <Card className="wine-details-card">
-        <div className="wine-details-header">
-          <div className="wine-details-content">
-            {isEditing ? (
-              <>
-                <div className="detail-item">
-                  <label htmlFor="name">Name:</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={updatedWine.name}
-                    onChange={handleInputChange}
-                    className="input"
-                  />
-                </div>
-                <div className="detail-item">
-                  <label htmlFor="region">Region:</label>
-                  <input
-                    type="text"
-                    name="region"
-                    value={updatedWine.region}
-                    onChange={handleInputChange}
-                    className="input"
-                  />
-                </div>
-                <div className="detail-item">
-                  <label htmlFor="type">Type:</label>
-                  <select
-                    name="type"
-                    value={updatedWine.type}
-                    onChange={handleInputChange}
-                    className="input"
-                  >
-                    <option value="Red">Red</option>
-                    <option value="White">White</option>
-                    <option value="Sparkling">Sparkling</option>
-                    <option value="Rose">Rose</option>
-                    <option value="Dessert">Dessert</option>
-                    <option value="Fortified">Fortified</option>
-                  </select>
-                </div>
-                <div className="detail-item">
-                  <label htmlFor="vintage">Vintage:</label>
-                  <input
-                    type="number"
-                    name="vintage"
-                    value={updatedWine.vintage}
-                    onChange={handleInputChange}
-                    className="input"
-                  />
-                </div>
-                <Button onClick={saveUpdatedWine} className="save-button">
-                  儲存
-                </Button>
-              </>
-            ) : (
-              <>
-                <CardTitle>{wine.name}</CardTitle>
-                <p>Region: {wine.region}</p>
-                <p>Type: {wine.type}</p>
-                <p>Vintage: {wine.vintage}</p>
-              </>
-            )}
+        <CardBody>
+          <div className="wine-details-header">
+            <div className="wine-details-content">
+              {isEditing ? (
+                <>
+                  <div className="detail-item">
+                    <label htmlFor="name">Name:</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={updatedWine.name}
+                      onChange={handleInputChange}
+                      className="input"
+                    />
+                  </div>
+                  <div className="detail-item">
+                    <label htmlFor="region">Region:</label>
+                    <input
+                      type="text"
+                      name="region"
+                      value={updatedWine.region}
+                      onChange={handleInputChange}
+                      className="input"
+                    />
+                  </div>
+                  <div className="detail-item">
+                    <label htmlFor="type">Type:</label>
+                    <select
+                      name="type"
+                      value={updatedWine.type}
+                      onChange={handleInputChange}
+                      className="input"
+                    >
+                      <option value="Red">Red</option>
+                      <option value="White">White</option>
+                      <option value="Sparkling">Sparkling</option>
+                      <option value="Rose">Rose</option>
+                      <option value="Dessert">Dessert</option>
+                      <option value="Fortified">Fortified</option>
+                    </select>
+                  </div>
+                  <div className="detail-item">
+                    <label htmlFor="vintage">Vintage:</label>
+                    <input
+                      type="number"
+                      name="vintage"
+                      value={updatedWine.vintage}
+                      onChange={handleInputChange}
+                      className="input"
+                    />
+                  </div>
+                  <Button onClick={saveUpdatedWine} className="save-button">
+                    儲存
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <CardTitle className="wine-info-title">{wine.name}</CardTitle>
+                  <p className="wine-info">Region: {wine.region}</p>
+                  <p className="wine-info">Type: {wine.type}</p>
+                  <p className="wine-info">Vintage: {wine.vintage}</p>
+                </>
+              )}
+            </div>
+            <div className="wine-image-container">
+              <img
+                src={wine.imageUrl || placeholderImage}
+                alt={wine.name}
+                className="wine-image"
+                onError={(e) => {
+                  e.target.src = placeholderImage;
+                }}
+              />
+            </div>
+            <div className="image-action-buttons">
+              <Button
+                onClick={() => setIsEditing(!isEditing)}
+                className="wine-edit-Button"
+              >
+                <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  style={{ fontSize: "24px" }}
+                />
+              </Button>
+              <Button onClick={handleDelete} className="wine-delete-Button">
+                <FontAwesomeIcon
+                  icon={faTrashCan}
+                  style={{ fontSize: "24px" }}
+                />
+              </Button>
+              <Button onClick={generateTastingNote} className="note-gen-Button">
+                <FontAwesomeIcon
+                  icon={faWandMagicSparkles}
+                  style={{ fontSize: "24px" }}
+                />
+              </Button>
+            </div>
           </div>
-          <div className="wine-image-container">
-            <img
-              src={wine.imageUrl || placeholderImage}
-              alt={wine.name}
-              className="wine-image"
-              onError={(e) => {
-                e.target.src = placeholderImage;
-              }}
-            />
-          </div>
-        </div>
+        </CardBody>
       </Card>
 
       {/* Tasting Notes Section */}
@@ -262,13 +364,13 @@ function WineDetails({
                       />
                       <Button
                         onClick={() => handleSaveNote(note.noteId)}
-                        className="save-button"
+                        className="note-save-button"
                       >
                         保存
                       </Button>
                       <Button
                         onClick={() => handleDeleteNote(note.noteId)}
-                        className="delete-button"
+                        className="note-delete-button"
                       >
                         刪除
                       </Button>
@@ -324,6 +426,15 @@ function WineDetails({
           )}
         </CardBody>
       </Card>
+
+      {tastingNote && (
+        <Card className="tasting-note-card">
+          <CardBody>
+            <CardTitle>品飲筆記範例</CardTitle>
+            <ReactMarkdown>{tastingNote}</ReactMarkdown>
+          </CardBody>
+        </Card>
+      )}
     </div>
   );
 }

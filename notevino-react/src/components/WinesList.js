@@ -49,9 +49,15 @@ function WinesList({ onWineSelect, reload }) {
         }`}
       >
         {loading && isFirstLoad.current ? (
-          <p className="loading">載入中...</p>
+          <p
+            className={`loading-text ${!loading ? "loading-text-visible" : ""}`}
+          >
+            載入中...
+          </p>
         ) : wines.length === 0 ? (
-          <h5 className="no-wines">目前沒有任何酒款。</h5>
+          <h5 className={`no-wines ${!loading ? "no-wines-visible" : ""}`}>
+            目前沒有任何酒款
+          </h5>
         ) : (
           wines.map((wine) => (
             <div

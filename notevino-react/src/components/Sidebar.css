@@ -93,7 +93,7 @@
 
 /* 搜尋區塊樣式 */
 .search-container {
-  height: 61px;
+  height: 60px;
   padding: 20px;
   flex-shrink: 0;
   border-bottom: 2px solid var(--separator--line--color);

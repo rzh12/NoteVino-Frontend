@@ -1,34 +1,85 @@
+:root {
+  /* 基本顏色 */
+  --black-shadow: rgba(0, 0, 0, 0.1);
+  --light-gray-color: #f9f9f9;
+  --border-color: #cccccc;
+  --1: #88340e;
+
+  /* 按鈕顏色 */
+  --action-button-color: var(--deep-gray-color);
+  --info-text-color: var(--deep-text-color);
+  --blue-color: #007bff;
+  --blue-hover-color: #0056b3;
+  --red-color: #f44336;
+  --red-hover-color: #d32f2f;
+  --green-color: #4caf50;
+  --green-hover-color: #388e3c;
+  --save-button-hover-color: #45a049;
+  --delete-button-hover-color: #e53935;
+
+  /* 其他 */
+  --card-shadow-color: rgba(0, 0, 0, 0.05); /* 調整陰影顏色，使其更柔和 */
+}
+
 .wine-details-container {
   padding: 20px;
 }
 
-.wine-details-card {
-  padding: 20px;
+/* 卡片樣式 */
+.wine-details-card,
+.notes-card,
+.tasting-note-card {
+  padding: 10px;
   margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加陰影 */
-  border-radius: 10px; /* 圓角邊框 */
+  box-shadow: 0 4px 8px var(--card-shadow-color) !important;
+  border-radius: 10px !important;
 }
 
+.wine-details-card {
+  background-color: #fef9fa !important;
+}
 .wine-details-header {
   display: flex;
-  align-items: flex-start; /* 垂直方向圖片和文字頂部對齊 */
+  align-items: flex-start;
   justify-content: space-between;
-  min-height: 250px; /* 設置容器的最小高度，防止編輯模式中變動 */
+  min-height: 250px;
 }
 
 .wine-details-content {
   flex: 1;
-  padding-right: 20px; /* 文字與圖片之間的間距 */
+  padding-right: 20px;
 }
 
+/* Wine Info */
+/* 標題字體樣式 */
+.wine-info-title {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 700 !important; /* 粗體 */
+  font-size: 36px; /* 調整字體大小 */
+  color: var(--accent-color); /* 使用全局設置的主題顏色 */
+}
+
+/* 段落樣式 */
+.wine-info {
+  font-family: "Libre Baskerville", serif;
+  font-size: 24px; /* 調整字體大小 */
+  font-weight: 400; /* 正常字重 */
+  line-height: 1.5; /* 行高，讓文字更易讀 */
+  color: var(--info-text-color);
+  margin-top: 15px; /* 段落間的距離 */
+}
+
+/* 圖片容器 */
 .wine-image-container {
   flex-shrink: 0;
   width: 250px;
   height: 250px;
   display: flex;
   justify-content: center;
-  align-items: center; /* 保持圖片在容器中居中 */
-  margin-left: 10px;
+  align-items: center;
+  position: relative;
+  margin-left: 55px;
+  transform: translateX(-45px);
 }
 
 .wine-image {
@@ -36,34 +87,76 @@
   height: 100%;
   object-fit: contain;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.image-action-buttons {
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 通用按鈕樣式（不繼承全局樣式） */
+.wine-edit-Button,
+.wine-delete-Button,
+.note-gen-Button {
+  background-color: transparent !important;
+  border: none !important;
+  cursor: pointer;
+  padding: 10px !important;
+  box-shadow: none !important;
+  border-radius: 50%; /* 讓按鈕呈圓形 */
+  transition: background-color 0.3s ease;
+  color: var(--action-button-color) !important;
+}
+
+/* 按鈕懸停效果 */
+.wine-edit-Button:hover {
+  background-color: rgba(0, 123, 255, 0.1) !important;
+  color: var(--blue-hover-color) !important;
+}
+
+.wine-delete-Button:hover {
+  background-color: rgba(244, 67, 54, 0.1) !important;
+  color: var(--red-hover-color) !important;
+}
+
+.note-gen-Button:hover {
+  background-color: rgba(76, 175, 80, 0.1) !important;
+  color: var(--green-hover-color) !important;
 }
 
 .detail-item {
   display: flex; /* 使用 flex 排版 */
   align-items: center;
+  font-size: 20px;
   margin-bottom: 10px;
+  flex-wrap: wrap; /* 允许在小屏幕下换行 */
+  color: var(--info-text-color);
 }
 
 .detail-item label {
   width: 100px; /* 固定標籤寬度 */
-  font-weight: bold;
+  font-weight: 700;
   margin-right: 10px;
+  flex-shrink: 0;
+  color: var(--info-text-color);
 }
 
 .input {
-  flex: 1;
+  flex: 1 1 auto;
   padding: 8px;
-  font-size: 14px;
-  width: 100%;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 內陰影 */
+  box-shadow: inset 0 1px 3px var(--black-shadow);
+  min-width: 0; /* 允许输入框缩小 */
 }
 
+/* 保存按鈕 */
 .save-button {
-  background-color: #4caf50 !important;
-  color: white !important;
+  background-color: var(--green-color) !important;
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -72,7 +165,7 @@
 }
 
 .save-button:hover {
-  background-color: #66c266 !important;
+  background-color: var(--save-button-hover-color) !important;
 }
 
 /* Notes Section */
@@ -86,24 +179,17 @@ ul {
   margin-bottom: 40px; /* 增加 Tasting Notes 標題與第一則筆記之間的距離 */
 }
 
-.notes-card {
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
 .notes-list {
   list-style-type: none;
   padding-left: 0;
 }
 
 .note-item {
-  background-color: #f9f9f9;
+  background-color: var(--light-gray-color);
   padding: 15px;
   border-radius: 8px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px var(--black-shadow);
 }
 
 .note-editor {
@@ -113,14 +199,14 @@ ul {
 
 .no-notes-tag {
   font-style: italic;
-  color: #888;
+  color: var(--medium-gray-color);
 }
 
 .note-input {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
 }
 
@@ -128,8 +214,7 @@ ul {
 .submitButton {
   margin-top: 15px;
   padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--blue-color);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -138,12 +223,11 @@ ul {
 
 .addNoteButton:hover,
 .submitButton:hover {
-  background-color: #0056b3;
+  background-color: var(--blue-hover-color);
 }
 
-.save-button {
-  background-color: #4caf50;
-  color: white;
+.note-save-button {
+  background-color: var(--green-color);
   margin-right: 10px;
   padding: 10px 15px;
   border: none;
@@ -152,13 +236,12 @@ ul {
   transition: background-color 0.3s ease;
 }
 
-.save-button:hover {
-  background-color: #45a049;
+.note-save-button:hover {
+  background-color: var(--save-button-hover-color);
 }
 
-.delete-button {
-  background-color: #f44336;
-  color: white;
+.note-delete-button {
+  background-color: var(--red-color);
   padding: 10px 15px;
   border: none;
   border-radius: 4px;
@@ -166,8 +249,8 @@ ul {
   transition: background-color 0.3s ease;
 }
 
-.delete-button:hover {
-  background-color: #e53935;
+.note-delete-button:hover {
+  background-color: var(--delete-button-hover-color);
 }
 
 .note-content {
@@ -186,10 +269,6 @@ ul {
   margin-right: 10px;
 }
 
-.editIcon:hover {
-  color: #0056b3 !important; /* hover 状态下颜色变化 */
-}
-
 .note-content p {
   margin: 0; /* 去掉 p 標籤的默認 margin */
   font-size: 1rem; /* 調整字體大小 */
@@ -197,4 +276,13 @@ ul {
 
 .ql-editor {
   min-height: 100px;
+}
+
+.ql-toolbar .ql-formats button {
+  background-color: unset !important;
+  border: unset !important;
+  padding: unset !important;
+  box-shadow: unset !important;
+  color: unset !important;
+  font-size: unset !important;
 }

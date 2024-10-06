@@ -14,12 +14,8 @@ import { Button } from "shards-react";
 import axios from "axios";
 import RecommendationForm from "../components/RecommendationForm";
 import "./HomePage.css";
-import ReactMarkdown from "react-markdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import {
-  faPenToSquare,
-  faWandMagicSparkles,
   faUser,
   faSignOutAlt,
   faUserLarge,
@@ -41,25 +37,20 @@ function HomePage() {
   const [isUploading, setIsUploading] = useState(false);
   const [reload, setReload] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
   const [showRecommendationForm, setShowRecommendationForm] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
-  const [tastingNote, setTastingNote] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleWineSelect = (wineId) => {
     setSelectedWineId(wineId);
     setIsUploading(false);
-    setIsEditing(false);
     setShowRecommendationForm(false);
-    setTastingNote("");
   };
 
   const handleUploadSelect = () => {
     setIsUploading(true);
     setSelectedWineId(null);
-    setIsEditing(false);
     setShowRecommendationForm(false);
   };
 
@@ -89,87 +80,6 @@ function HomePage() {
   const handleRecommendationsFetch = (data) => {
     // 處理推薦結果
     setRecommendations(data);
-  };
-
-  // 刪除葡萄酒記錄
-  const handleDelete = () => {
-    const token = localStorage.getItem("token");
-    if (window.confirm("確定要刪除此葡萄酒記錄？")) {
-      axios
-        .delete(`/api/wines/${selectedWineId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          if (response.status === 204) {
-            // 確認成功回應是 204
-            handleDeleteSuccess(); // 刪除成功後回調，清空詳細頁
-          }
-        })
-        .catch((error) => {
-          console.error("Error deleting wine:", error);
-        });
-    }
-  };
-
-  // 將編輯狀態傳遞給 WineDetails 並處理保存
-  const handleSave = (updatedWineData) => {
-    const token = localStorage.getItem("token");
-    const updatedInfo = {
-      name: updatedWineData.name, // 根據傳入的數據
-      region: updatedWineData.region,
-      type: updatedWineData.type,
-      vintage: updatedWineData.vintage,
-    };
-
-    const queryParams = new URLSearchParams({
-      info: JSON.stringify(updatedInfo),
-    }).toString();
-
-    axios
-      .put(
-        `/api/wines/${selectedWineId}?${queryParams}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        if (response.data.success) {
-          alert("更新成功");
-          reloadWines(); // 重新加載數據
-          setIsEditing(false); // 關閉編輯模式
-        }
-      })
-      .catch((error) => {
-        console.error("Error updating wine:", error);
-      });
-  };
-
-  // 生成 Tasting Note
-  const generateTastingNote = async () => {
-    try {
-      const response = await axios.get("/api/wines/generate-tasting-note", {
-        headers: {
-          wineId: selectedWineId,
-        },
-      });
-
-      if (response.status === 200) {
-        const responseData = response.data;
-        // 提取 Tasting Note 內容
-        const tastingNote = responseData.choices[0].message.content;
-        setTastingNote(tastingNote); // 設置 Tasting Note 內容
-      } else {
-        setTastingNote("No Tasting Note available.");
-      }
-    } catch (error) {
-      console.error("Error generating tasting note:", error);
-      setTastingNote("Failed to generate Tasting Note.");
-    }
   };
 
   const [userName, setUserName] = useState("");
@@ -223,10 +133,8 @@ function HomePage() {
   const handleHome = () => {
     setSelectedWineId(null);
     setIsUploading(false);
-    setIsEditing(false);
     setShowRecommendationForm(false);
     setRecommendations([]);
-    setTastingNote("");
     setIsSidebarCollapsed(true);
   };
 
@@ -287,34 +195,6 @@ function HomePage() {
             {/* <Button className="dark-mode-toggle" onClick={toggleDarkMode}>
               Dark Mode
             </Button> */}
-            {selectedWineId && (
-              <div className="action-buttons">
-                <Button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="wine-edit-Button"
-                >
-                  <FontAwesomeIcon
-                    icon={faPenToSquare}
-                    style={{ fontSize: "24px" }}
-                  />
-                </Button>
-                <Button onClick={handleDelete} className="wine-delete-Button">
-                  <FontAwesomeIcon
-                    icon={faTrashCan}
-                    style={{ fontSize: "24px" }}
-                  />
-                </Button>
-                <Button
-                  onClick={generateTastingNote}
-                  className="note-gen-Button"
-                >
-                  <FontAwesomeIcon
-                    icon={faWandMagicSparkles}
-                    style={{ fontSize: "24px" }}
-                  />
-                </Button>
-              </div>
-            )}
 
             {/* 分隔線 */}
             <div className="separator"></div>
@@ -478,22 +358,9 @@ function HomePage() {
             <>
               <WineDetails
                 wineId={selectedWineId}
-                isEditing={isEditing} // 傳遞是否編輯模式
-                handleSave={handleSave} // 傳遞保存修改的方法
                 onDeleteSuccess={handleDeleteSuccess}
                 reloadWines={reloadWines}
               />
-              {/* 如果生成了 Tasting Note，顯示出來 */}
-              {tastingNote && (
-                <div className="outer-container">
-                  <Card className="tasting-note-card">
-                    <CardBody>
-                      <CardTitle>品飲筆記範例</CardTitle>
-                      <ReactMarkdown>{tastingNote}</ReactMarkdown>
-                    </CardBody>
-                  </Card>
-                </div>
-              )}
             </>
           ) : (
             <Card className="welcome-card">
