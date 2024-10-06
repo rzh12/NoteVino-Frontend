@@ -28,7 +28,8 @@
 /* 卡片樣式 */
 .wine-details-card,
 .notes-card,
-.tasting-note-card {
+.tasting-note-card,
+.sat-note-card {
   padding: 10px;
   margin-bottom: 20px;
   box-shadow: 0 4px 8px var(--card-shadow-color) !important;
@@ -36,8 +37,9 @@
 }
 
 .wine-details-card {
-  background-color: #fef9fa !important;
+  background-color: var(--light-pink-color) !important;
 }
+
 .wine-details-header {
   display: flex;
   align-items: flex-start;
@@ -51,8 +53,16 @@
 }
 
 /* Wine Info */
+.wine-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 確保每一行置中 */
+  align-items: center; /* 整個容器的內容置中 */
+}
+
 /* 標題字體樣式 */
 .wine-info-title {
+  padding: 20px;
   font-family: "Libre Baskerville", serif;
   font-weight: 700 !important; /* 粗體 */
   font-size: 36px; /* 調整字體大小 */
@@ -61,12 +71,33 @@
 
 /* 段落樣式 */
 .wine-info {
+  display: flex;
+  align-items: center;
+  width: 100%; /* 讓行寬度覆蓋整個區域 */
+  max-width: 300px; /* 設定最大寬度，讓內容不超過範圍 */
+}
+
+.wine-info-label {
+  font-family: "Libre Baskerville", serif;
+  font-size: 24px; /* 調整字體大小 */
+  font-weight: 700; /* 正常字重 */
+  line-height: 1.5; /* 行高，讓文字更易讀 */
+  color: var(--info-text-color);
+  width: 150px; /* 左邊的項目標籤寬度 */
+  text-align: right; /* 右對齊 */
+  padding-right: 10px; /* 與分隔線的間距 */
+}
+
+.wine-info-text {
   font-family: "Libre Baskerville", serif;
   font-size: 24px; /* 調整字體大小 */
   font-weight: 400; /* 正常字重 */
   line-height: 1.5; /* 行高，讓文字更易讀 */
   color: var(--info-text-color);
-  margin-top: 15px; /* 段落間的距離 */
+  flex: 1;
+  padding-left: 10px; /* 與分隔線的間距 */
+  text-align: left; /* 左對齊 */
+  position: relative;
 }
 
 /* 圖片容器 */
@@ -169,6 +200,26 @@
 }
 
 /* Notes Section */
+.tasting-note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-gen-Button {
+  background-color: transparent !important;
+  border: none !important;
+  cursor: pointer;
+  padding: 10px !important;
+  box-shadow: none !important;
+  border-radius: 50%; /* 讓按鈕呈圓形 */
+  transition: background-color 0.3s ease;
+  color: var(--action-button-color) !important;
+  position: absolute;
+  top: 25px;
+  right: 15px;
+}
+
 ul {
   margin-top: 0; /* 增加 Tasting Notes 與第一則筆記的距離 */
   padding-left: 0; /* 去掉 ul 的左邊距 */
@@ -285,4 +336,117 @@ ul {
   box-shadow: unset !important;
   color: unset !important;
   font-size: unset !important;
+}
+
+/* SAT Note Section */
+
+.sat-note-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sat-note-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sat-note-item label {
+  width: 150px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.sat-note-display p {
+  margin-bottom: 8px;
+}
+
+/* 编辑、添加按钮 */
+.sat-edit-button,
+.sat-add-button {
+  background-color: var(--blue-color);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.sat-edit-button:hover,
+.sat-add-button:hover {
+  background-color: var(--blue-hover-color);
+}
+
+.notes-container {
+  display: flex; /* Enables flexbox layout */
+  justify-content: space-between; /* Adds space between the two sections */
+  align-items: flex-start; /* Aligns items at the top */
+  margin-bottom: 20px; /* Adds spacing below the container */
+}
+
+/* Style for individual note sections */
+.note-section.tasting-notes {
+  flex: 2; /* Tasting Notes takes up 2/3 of the space */
+  margin-right: 20px; /* Adds space between the two sections */
+}
+
+.note-section.sat-notes {
+  flex: 1; /* SAT Note takes up 1/3 of the space */
+}
+
+/* Remove margin for the last section */
+.note-section:last-child {
+  margin-right: 0;
+}
+
+.sat-note-table {
+  width: 100%; /* 讓表格寬度自適應 */
+  border-collapse: collapse; /* 讓邊框之間不重疊 */
+}
+
+.sat-note-table td {
+  padding: 10px; /* 單元格內部填充 */
+  border-bottom: 1px solid #ddd; /* 每行之間的分隔線 */
+}
+
+.sat-note-table td:first-child {
+  font-weight: bold; /* 第一欄的文字加粗 */
+}
+
+.sat-note-table td:last-child {
+  text-align: left; /* 內容左對齊 */
+}
+
+.sat-note-buttons {
+  display: flex;
+  justify-content: flex-start; /* 按鈕靠左對齊 */
+  gap: 10px; /* 按鈕之間的間距 */
+  margin-top: 20px; /* 上方的間距 */
+}
+
+.sat-save-button,
+.sat-cancel-button {
+  padding: 10px 20px; /* 設置按鈕內邊距 */
+  font-size: 16px; /* 調整字體大小 */
+  border-radius: 5px; /* 調整圓角 */
+  border: none; /* 移除邊框 */
+  cursor: pointer; /* 鼠標樣式 */
+}
+
+.sat-save-button {
+  background-color: var(--save-button-background); /* 保存按鈕背景色 */
+  color: white;
+}
+
+.sat-cancel-button {
+  background-color: var(--cancel-button-background); /* 取消按鈕背景色 */
+  color: white;
+}
+
+.sat-save-button:hover,
+.sat-cancel-button:hover {
+  opacity: 0.8; /* 懸停效果 */
 }

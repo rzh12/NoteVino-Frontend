@@ -4,6 +4,7 @@
   --accent-color: #4b2e2a; /* 強調色 */
   --gray-color: #888888;
   --deep-gray-color: #6f6f6f;
+  --light-pink-color: #fef9fa;
   --blank-color: #fff;
   --light-color: #f3ebe6;
   --deep-text-color: #191c1f;
@@ -91,6 +92,7 @@
   flex-grow: 1;
   flex-shrink: 0;
   text-align: center;
+  transform: translateX(-50px);
 }
 
 .header-logo {
