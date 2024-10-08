@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, Form, FormGroup, FormInput, FormSelect } from "shards-react";
+import Swal from "sweetalert2";
 import "./WineUploadForm.css";
 
 function WineUploadForm({ onUploadSuccess }) {
@@ -47,12 +48,30 @@ function WineUploadForm({ onUploadSuccess }) {
       })
       .then((response) => {
         if (response.data.success) {
-          alert("葡萄酒上傳成功！");
+          Swal.fire({
+            icon: "success",
+            title: "葡萄酒上傳成功 ！",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1500, // 1.5 秒後自動關閉
+            timerProgressBar: true,
+          });
+
           onUploadSuccess();
         }
       })
       .catch((error) => {
         console.error("Error uploading wine:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Failed to Upload Wine",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000, // 2 秒後自動關閉
+          timerProgressBar: true,
+        });
       });
   };
 

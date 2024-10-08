@@ -1,15 +1,9 @@
 import React, { useState } from "react";
-import {
-  Avatar,
-  Button,
-  TextField,
-  Box,
-  Typography,
-  Link,
-} from "@mui/material";
+import { Button, TextField, Box, Typography, Link } from "@mui/material";
 import axios from "axios";
 import nvLogo from "../nv-logo.svg";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function LoginPage({ onLoginSuccess }) {
   const navigate = useNavigate();
@@ -51,14 +45,65 @@ export default function LoginPage({ onLoginSuccess }) {
         background: "linear-gradient(135deg, #DCD6F7, #b4869f)",
         minHeight: "100vh",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
+        padding: "0 10%",
       }}
     >
-      <Box
-        sx={{
-          backgroundColor: "white",
+      <motion.div
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1.5 }}
+        style={{
           padding: "40px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "60%",
+          color: "#fff",
+        }}
+      >
+        <motion.img
+          src={nvLogo}
+          alt="Logo"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+          style={{
+            width: 200,
+            height: 200,
+            marginBottom: 20,
+          }}
+        />
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: "bold",
+            marginBottom: "20px",
+          }}
+        >
+          Welcome to NoteVino!
+        </Typography>
+        <Typography
+          sx={{
+            color: "#4b2e2a",
+            fontSize: "22px",
+            marginBottom: "10px",
+            fontWeight: "bold",
+            lineHeight: "2",
+          }}
+        >
+          Let each sip become a memory.<br></br>Preserve the essence of each
+          wine in your notes.
+        </Typography>
+      </motion.div>
+
+      <motion.div
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1.5 }}
+        style={{
+          backgroundColor: "white",
+          padding: "60px 40px",
           borderRadius: "10px",
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
           maxWidth: "400px",
@@ -66,19 +111,11 @@ export default function LoginPage({ onLoginSuccess }) {
           textAlign: "center",
         }}
       >
-        <Avatar
-          sx={{
-            width: 80,
-            height: 80,
-            marginBottom: 2,
-          }}
-          src={nvLogo} // 使用自定義圖片
-        />
         <Typography
           component="h1"
           variant="h5"
           sx={{
-            fontSize: "28px", // 確保字體大小正確
+            fontSize: "28px",
             fontWeight: "bold",
             marginBottom: "20px",
             color: "#333",
@@ -98,26 +135,17 @@ export default function LoginPage({ onLoginSuccess }) {
             autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            slotProps={{
-              inputLabel: {
-                sx: {
-                  "&.Mui-focused": {
-                    color: "#880e25", // 當標籤浮動到框框上時的顏色
-                  },
-                },
-              },
-            }}
             sx={{
               marginBottom: "20px",
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
-                  borderColor: "#ccc", // 默認邊框顏色
+                  borderColor: "#ccc",
                 },
                 "&:hover fieldset": {
-                  borderColor: "#888", // 滑鼠懸停時的顏色
+                  borderColor: "#888",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#880e25", // 選中時的顏色
+                  borderColor: "#880e25",
                 },
               },
             }}
@@ -133,26 +161,17 @@ export default function LoginPage({ onLoginSuccess }) {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            slotProps={{
-              inputLabel: {
-                sx: {
-                  "&.Mui-focused": {
-                    color: "#880e25", // 當標籤浮動到框框上時的顏色
-                  },
-                },
-              },
-            }}
             sx={{
               marginBottom: "20px",
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
-                  borderColor: "#ccc", // 默認邊框顏色
+                  borderColor: "#ccc",
                 },
                 "&:hover fieldset": {
-                  borderColor: "#888", // 滑鼠懸停時的顏色
+                  borderColor: "#888",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#880e25", // 選中時的顏色
+                  borderColor: "#880e25",
                 },
               },
             }}
@@ -162,10 +181,10 @@ export default function LoginPage({ onLoginSuccess }) {
               color="error"
               variant="body2"
               sx={{
-                fontSize: "16px", // 字體大小
-                fontWeight: "bold", // 字體粗細
-                marginBottom: "20px", // 與其他元素的間距
-                color: "#cf1538", // 自定義顏色 (可以保持 `color="error"` 或自定義)
+                fontSize: "16px",
+                fontWeight: "bold",
+                marginBottom: "20px",
+                color: "#cf1538",
               }}
             >
               {errorMessage}
@@ -208,7 +227,7 @@ export default function LoginPage({ onLoginSuccess }) {
             Don't have an account? Sign Up!
           </Link>
         </Box>
-      </Box>
+      </motion.div>
     </Box>
   );
 }

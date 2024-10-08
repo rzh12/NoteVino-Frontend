@@ -102,23 +102,54 @@ function WineDetails({
   }, [wineId, token, fetchSatNote]);
 
   const handleDelete = () => {
-    if (window.confirm("確定要刪除此葡萄酒記錄？")) {
-      axios
-        .delete(`/api/wines/${wineId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          if (response.status === 204) {
-            // 刪除成功，調用父組件的回調
-            onDeleteSuccess();
-          }
-        })
-        .catch((error) => {
-          console.error("Error deleting wine:", error);
-        });
-    }
+    // 使用 SweetAlert2 顯示確認提示
+    Swal.fire({
+      title: "確定要刪除此葡萄酒？",
+      text: "葡萄酒資訊和品飲筆記將一併被刪除且無法復原 ！",
+      icon: "warning",
+      showCancelButton: true, // 顯示取消按鈕
+      confirmButtonText: "確定刪除",
+      cancelButtonText: "取消",
+      reverseButtons: false, // 反轉按鈕順序
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 如果使用者確認刪除
+        axios
+          .delete(`/api/wines/${wineId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            if (response.status === 204) {
+              // 刪除成功，調用父組件的回調
+              Swal.fire({
+                icon: "success",
+                title: "已刪除 ！",
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+              });
+              onDeleteSuccess();
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting wine:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Failed to delete",
+              text: "There was an error deleting the wine record. Please try again.",
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+            });
+          });
+      }
+    });
   };
 
   const handleSave = () => {
@@ -145,13 +176,30 @@ function WineDetails({
       )
       .then((response) => {
         if (response.data.success) {
-          alert("更新成功");
+          Swal.fire({
+            icon: "success",
+            title: "更新成功 ！",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1500, // 1.5 秒後自動關閉
+            timerProgressBar: true,
+          });
           reloadWines();
           setIsEditing(false);
         }
       })
       .catch((error) => {
         console.error("Error updating wine:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Failed to Update Wine",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000, // 2 秒後自動關閉
+          timerProgressBar: true,
+        });
       });
   };
 
@@ -216,7 +264,12 @@ function WineDetails({
     // 移除 HTML 標籤並檢查內容是否為空
     const strippedContent = newNote.replace(/<[^>]+>/g, "").trim();
     if (!strippedContent) {
-      alert("筆記內容不能為空白");
+      Swal.fire({
+        icon: "warning",
+        title: "Error",
+        text: "筆記內容不能為空白",
+        confirmButtonText: "OK",
+      });
       return;
     }
 
@@ -294,27 +347,62 @@ function WineDetails({
 
   // 刪除筆記
   const handleDeleteNote = (noteId) => {
-    if (window.confirm("確定要刪除此筆記？")) {
-      axios
-        .delete(`/api/wines/${wineId}/notes/${noteId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          if (response.status === 204) {
-            // 刪除成功，從筆記列表中移除該筆記
-            setWine((prevWine) => ({
-              ...prevWine,
-              notes: prevWine.notes.filter((note) => note.noteId !== noteId),
-            }));
-            setEditNoteId(null); // 退出編輯模式
-          }
-        })
-        .catch((error) => {
-          console.error("Error deleting note:", error);
-        });
-    }
+    // 使用 SweetAlert2 顯示確認提示
+    Swal.fire({
+      title: "確定要刪除此筆記？",
+      text: "此品飲筆記將被刪除且無法復原 ！",
+      icon: "warning",
+      showCancelButton: true, // 顯示取消按鈕
+      confirmButtonText: "確定刪除",
+      cancelButtonText: "取消",
+      reverseButtons: false, // 反轉按鈕順序
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 如果使用者確認刪除
+        axios
+          .delete(`/api/wines/${wineId}/notes/${noteId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            if (response.status === 204) {
+              // 刪除成功，從筆記列表中移除該筆記
+              setWine((prevWine) => ({
+                ...prevWine,
+                notes: prevWine.notes.filter((note) => note.noteId !== noteId),
+              }));
+              setEditNoteId(null); // 退出編輯模式
+
+              // 顯示成功提示
+              Swal.fire({
+                icon: "success",
+                title: "已刪除 ！",
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting note:", error);
+
+            // 顯示錯誤提示
+            Swal.fire({
+              icon: "error",
+              title: "Failed to delete",
+              text: "There was an error deleting the note. Please try again.",
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+            });
+          });
+      }
+    });
   };
 
   // 提交修改葡萄酒資訊
@@ -372,7 +460,12 @@ function WineDetails({
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      alert("請填寫所有必填欄位");
+      Swal.fire({
+        icon: "warning",
+        title: "資訊不完整 ！",
+        text: "請選取所有欄位",
+        confirmButtonText: "OK",
+      });
       return;
     } else {
       setErrors({});
@@ -393,7 +486,16 @@ function WineDetails({
       .then((response) => {
         if (response.data.success) {
           setIsEditingSatNote(false);
-          alert("SAT Note saved successfully!");
+
+          Swal.fire({
+            icon: "success",
+            title: "SAT 筆記更新成功 ！",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1500, // 1.5 秒後自動關閉
+            timerProgressBar: true,
+          });
           // 重新獲取最新的 SAT 筆記
           fetchSatNote();
           setIsCreatingSatNote(false);
@@ -402,7 +504,15 @@ function WineDetails({
       })
       .catch((error) => {
         console.error("Error saving SAT note:", error);
-        alert("Failed to save SAT Note.");
+        Swal.fire({
+          icon: "error",
+          title: "Failed to save SAT Note.",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000, // 2 秒後自動關閉
+          timerProgressBar: true,
+        });
       });
   };
 
@@ -435,7 +545,7 @@ function WineDetails({
               {isEditing ? (
                 <>
                   <div className="detail-item">
-                    <label htmlFor="name">Name:</label>
+                    <label htmlFor="name">Name</label>
                     <input
                       type="text"
                       name="name"
@@ -445,7 +555,7 @@ function WineDetails({
                     />
                   </div>
                   <div className="detail-item">
-                    <label htmlFor="region">Region:</label>
+                    <label htmlFor="region">Region</label>
                     <input
                       type="text"
                       name="region"
@@ -455,7 +565,7 @@ function WineDetails({
                     />
                   </div>
                   <div className="detail-item">
-                    <label htmlFor="type">Type:</label>
+                    <label htmlFor="type">Type</label>
                     <select
                       name="type"
                       value={updatedWine.type}
@@ -471,7 +581,7 @@ function WineDetails({
                     </select>
                   </div>
                   <div className="detail-item">
-                    <label htmlFor="vintage">Vintage:</label>
+                    <label htmlFor="vintage">Vintage</label>
                     <input
                       type="number"
                       name="vintage"
@@ -480,12 +590,14 @@ function WineDetails({
                       className="input"
                     />
                   </div>
-                  <Button
-                    onClick={saveUpdatedWine}
-                    className="wine-save-button"
-                  >
-                    儲存
-                  </Button>
+                  <div className="right-button-container">
+                    <Button
+                      onClick={saveUpdatedWine}
+                      className="wine-save-button"
+                    >
+                      保存
+                    </Button>
+                  </div>
                 </>
               ) : (
                 <>
@@ -576,7 +688,7 @@ function WineDetails({
                 <Button onClick={toggleSortOrder} className="sort-order-button">
                   <FontAwesomeIcon
                     icon={
-                      isAscending ? faArrowDownWideShort : faArrowUpWideShort
+                      isAscending ? faArrowUpWideShort : faArrowDownWideShort
                     }
                     style={{ fontSize: "24px" }}
                   />
@@ -598,7 +710,7 @@ function WineDetails({
                   <ReactQuill
                     value={newNote}
                     onChange={setNewNote}
-                    placeholder="輸入您的品酒筆記"
+                    placeholder="輸入您的品飲筆記"
                     required
                     className="note-editor"
                   />
@@ -638,18 +750,20 @@ function WineDetails({
                               onChange={setNoteContent}
                               className="note-input"
                             />
-                            <Button
-                              onClick={() => handleSaveNote(note.noteId)}
-                              className="note-save-button"
-                            >
-                              保存
-                            </Button>
-                            <Button
-                              onClick={() => handleDeleteNote(note.noteId)}
-                              className="note-delete-button"
-                            >
-                              刪除
-                            </Button>
+                            <div className="note-edit-buttons">
+                              <Button
+                                onClick={() => handleSaveNote(note.noteId)}
+                                className="note-save-button"
+                              >
+                                保存
+                              </Button>
+                              <Button
+                                onClick={() => handleDeleteNote(note.noteId)}
+                                className="note-delete-button"
+                              >
+                                刪除
+                              </Button>
+                            </div>
                           </>
                         ) : (
                           <>
@@ -694,7 +808,7 @@ function WineDetails({
                       </li>
                     ))
                 ) : (
-                  <span className="no-notes-tag">無品酒記錄</span>
+                  <span className="no-notes-tag">無品飲記錄</span>
                 )}
               </ul>
             </CardBody>
@@ -711,7 +825,7 @@ function WineDetails({
               {isEditingSatNote ? (
                 <div className="sat-note-form">
                   <div className="sat-note-item">
-                    <label htmlFor="sweetness">Sweetness:</label>
+                    <label htmlFor="sweetness">Sweetness</label>
                     <select
                       name="sweetness"
                       value={editedSatNote?.sweetness || ""}
@@ -730,7 +844,7 @@ function WineDetails({
                     </select>
                   </div>
                   <div className="sat-note-item">
-                    <label htmlFor="acidity">Acidity:</label>
+                    <label htmlFor="acidity">Acidity</label>
                     <select
                       name="acidity"
                       value={editedSatNote?.acidity || ""}
@@ -746,7 +860,7 @@ function WineDetails({
                     </select>
                   </div>
                   <div className="sat-note-item">
-                    <label htmlFor="tannin">Tannin:</label>
+                    <label htmlFor="tannin">Tannin</label>
                     <select
                       name="tannin"
                       value={editedSatNote?.tannin || ""}
@@ -763,7 +877,7 @@ function WineDetails({
                     </select>
                   </div>
                   <div className="sat-note-item">
-                    <label htmlFor="alcohol">Alcohol:</label>
+                    <label htmlFor="alcohol">Alcohol</label>
                     <select
                       name="alcohol"
                       value={editedSatNote?.alcohol || ""}
@@ -777,7 +891,7 @@ function WineDetails({
                     </select>
                   </div>
                   <div className="sat-note-item">
-                    <label htmlFor="body">Body:</label>
+                    <label htmlFor="body">Body</label>
                     <select
                       name="body"
                       value={editedSatNote?.body || ""}
@@ -793,7 +907,7 @@ function WineDetails({
                     </select>
                   </div>
                   <div className="sat-note-item">
-                    <label htmlFor="flavourIntensity">Flavour Intensity:</label>
+                    <label htmlFor="flavourIntensity">Flavour Intensity</label>
                     <select
                       name="flavourIntensity"
                       value={editedSatNote?.flavourIntensity || ""}
@@ -811,7 +925,7 @@ function WineDetails({
                     </select>
                   </div>
                   <div className="sat-note-item">
-                    <label htmlFor="finish">Finish:</label>
+                    <label htmlFor="finish">Finish</label>
                     <select
                       name="finish"
                       value={editedSatNote?.finish || ""}
@@ -827,7 +941,7 @@ function WineDetails({
                     </select>
                   </div>
                   <div className="sat-note-item">
-                    <label htmlFor="quality">Quality:</label>
+                    <label htmlFor="quality">Quality</label>
                     <select
                       name="quality"
                       value={editedSatNote?.quality || ""}
@@ -845,7 +959,7 @@ function WineDetails({
                   </div>
                   <div className="sat-note-item">
                     <label htmlFor="potentialForAgeing">
-                      Potential for Ageing:
+                      Potential for Ageing
                     </label>
                     <select
                       name="potentialForAgeing"
@@ -866,7 +980,7 @@ function WineDetails({
                       <option value="too old">too old</option>
                     </select>
                   </div>
-                  <div className="sat-note-edit-buttons">
+                  <div className="sat-edit-buttons">
                     <Button
                       onClick={handleSaveSatNote}
                       className="sat-save-button"
@@ -961,7 +1075,7 @@ function WineDetails({
                 </div>
               ) : (
                 <div>
-                  <p className="no-sat-tag">尚未新增 SAT 筆記。</p>
+                  <p className="no-sat-tag">尚未新增 SAT 筆記</p>
                   <Button
                     onClick={() => {
                       setEditedSatNote({});
@@ -970,7 +1084,11 @@ function WineDetails({
                     }}
                     className="sat-add-button"
                   >
-                    新增 SAT 筆記
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      style={{ marginRight: "5px" }}
+                    />
+                    Add SAT
                   </Button>
                 </div>
               )}

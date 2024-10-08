@@ -210,13 +210,50 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  color: var(--blank-color) !important;
 }
 .wine-save-button:hover,
 .note-save-button:hover,
 .sat-save-button:hover {
   background-color: var(--green-hover-color) !important;
 }
-/* note, sat取消按鈕 */
+
+/* note, sat 其他按鈕 */
+.right-button-container {
+  text-align: right;
+}
+
+.note-edit-buttons,
+.sat-edit-buttons {
+  text-align: right;
+}
+
+.note-delete-button,
+.sat-cancel-button {
+  margin-left: 10px;
+  color: var(--blank-color) !important;
+}
+
+.sat-edit-button {
+  color: var(--blank-color) !important;
+  position: absolute;
+  top: 32px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  color: var(--blank-color) !important;
+}
+.sat-add-button {
+  color: var(--blank-color) !important;
+  position: absolute;
+  top: 32px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  color: var(--blank-color) !important;
+  padding: 8px 15px !important;
+  font-size: 18px;
+}
 
 /* Notes Section */
 .tasting-note-header {
@@ -233,11 +270,9 @@
 }
 
 .add-note-button {
-  cursor: pointer;
   padding: 8px 15px !important;
   box-shadow: none !important;
   border-radius: 50px !important; /* 讓按鈕呈圓形 */
-  transition: background-color 0.3s ease;
   color: var(--blank-color) !important;
   position: absolute;
   top: 32px;
@@ -254,6 +289,11 @@
   right: 65px;
 }
 
+.sort-order-button:hover {
+  background-color: var(--blue-hover-background-color) !important;
+  color: var(--blue-hover-color) !important;
+}
+
 .note-gen-Button {
   padding: 10px !important;
   position: absolute;
@@ -262,7 +302,7 @@
 }
 
 ul {
-  margin-top: 40px !important; /* 增加 Tasting Notes 與第一則筆記的距離 */
+  margin-top: 0px !important; /* 增加 Tasting Notes 與第一則筆記的距離 */
   padding-left: 0; /* 去掉 ul 的左邊距 */
   list-style-type: none; /* 隱藏小黑點 */
 }
@@ -286,6 +326,8 @@ ul {
 }
 
 .no-notes-tag {
+  display: block;
+  margin-top: 20px;
   font-style: italic;
   font-size: 18px;
 }
@@ -390,25 +432,6 @@ ul {
   margin-bottom: 8px;
 }
 
-/* 编辑、添加按钮 */
-.sat-edit-button,
-.sat-add-button {
-  background-color: var(--blue-color);
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-  margin-right: 10px;
-}
-
-.sat-edit-button:hover,
-.sat-add-button:hover {
-  background-color: var(--blue-hover-color);
-}
-
 .notes-container {
   display: flex; /* Enables flexbox layout */
   justify-content: space-between; /* Adds space between the two sections */
@@ -429,6 +452,8 @@ ul {
 }
 
 .no-sat-tag {
+  display: block;
+  margin-top: 20px;
   font-style: italic;
   font-size: 18px;
 }

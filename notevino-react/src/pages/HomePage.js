@@ -93,30 +93,35 @@ function HomePage() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
 
-      // 獲取用戶資料
-      axios
-        .get("/api/users/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          const { name, picture } = response.data;
-          setUserName(name);
-          setAvatarUrl(
-            picture || "https://via.placeholder.com/50?text=No+Image"
-          );
-        })
-        .catch((error) => {
-          console.error("Failed to fetch user profile:", error);
-        });
-    } else {
-      setIsLoggedIn(false);
+    // 如果沒有 token，跳轉到登入頁
+    if (!token) {
+      navigate("/login");
+      return;
     }
-  }, []);
+
+    // 驗證 token 是否有效，獲取用戶資料
+    axios
+      .get("/api/users/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const { name, picture } = response.data;
+        setUserName(name);
+        setAvatarUrl(picture || "https://via.placeholder.com/50?text=No+Image");
+        setIsLoggedIn(true);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch user profile:", error);
+
+        // 如果 token 失效或請求出錯，清除 token 並跳轉到登入頁
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+        navigate("/login");
+      });
+  }, [navigate]);
 
   const handleLogin = () => {
     navigate("/login");
@@ -196,9 +201,9 @@ function HomePage() {
 
           {/* 右側按鈕和 userInfo */}
           <div className="right-header">
-            <Button className="dark-mode-toggle" onClick={toggleDarkMode}>
+            {/* <Button className="dark-mode-toggle" onClick={toggleDarkMode}>
               Dark Mode
-            </Button>
+            </Button> */}
 
             {/* 分隔線 */}
             <div className="separator"></div>
@@ -372,9 +377,9 @@ function HomePage() {
             </>
           ) : (
             <Card className="welcome-card">
-              <CardBody>
-                <CardTitle>Welcome!</CardTitle>
-                <p>選擇一支酒以查看詳細資訊</p>
+              <CardBody className="welcome-card-body">
+                <CardTitle className="welcome-card-title">Welcome!</CardTitle>
+                <p className="welcome-card-text">選擇一支酒以查看詳細資訊</p>
               </CardBody>
             </Card>
           )}
