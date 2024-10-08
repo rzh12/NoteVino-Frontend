@@ -1,8 +1,5 @@
 :root {
-  --complementary-color: #b5bbc5;
-
-  --sidebar-text-color: var(--complementary-color); /* 深灰色文字 */
-  --item-hover-color: #393d41;
+  --sidebar-text-color: var(--sidebar-complementary-color);
 }
 
 .wines-list-container {

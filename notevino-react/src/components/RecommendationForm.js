@@ -9,6 +9,7 @@ import {
 } from "shards-react";
 import axios from "axios";
 import "./RecommendationForm.css";
+import Swal from "sweetalert2";
 
 function RecommendationForm({ onRecommendationsFetch }) {
   const [rating, setRating] = useState("");
@@ -18,6 +19,17 @@ function RecommendationForm({ onRecommendationsFetch }) {
 
   const handleSubmitRecommendations = () => {
     const token = localStorage.getItem("token");
+
+    // 立即顯示提交成功的 toast 提示
+    Swal.fire({
+      icon: "success",
+      title: "Recommendation Submitted!",
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 1500, // 1.5 秒後自動關閉
+      timerProgressBar: true,
+    });
 
     // 發送 GET 請求，將 rating 和 price 作為請求頭發送
     axios
@@ -35,10 +47,24 @@ function RecommendationForm({ onRecommendationsFetch }) {
           onRecommendationsFetch(response.data); // 傳遞推薦結果給父組件
         } else {
           alert("No recommendations available.");
+          Swal.fire({
+            icon: "warning",
+            title: "No Recommendations",
+            text: "No recommendations available at the moment.",
+            timer: 1500, // 1.5秒後自動關閉
+            showConfirmButton: true,
+          });
         }
       })
       .catch((error) => {
         console.error("Error fetching recommendations:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to load recommendations. Please try again.",
+          timer: 2000, // 2秒後自動關閉
+          showConfirmButton: true,
+        });
       });
   };
 

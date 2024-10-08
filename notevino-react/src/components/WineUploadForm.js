@@ -11,6 +11,7 @@ function WineUploadForm({ onUploadSuccess }) {
     vintage: "",
   });
   const [image, setImage] = useState(null);
+  const [fileName, setFileName] = useState("未選擇任何檔案"); // 預設顯示文字
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -18,7 +19,14 @@ function WineUploadForm({ onUploadSuccess }) {
   };
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    const file = e.target.files[0];
+    setImage(file);
+
+    if (file) {
+      setFileName(file.name); // 當選擇檔案後顯示檔案名稱
+    } else {
+      setFileName("未選擇任何檔案"); // 沒有選擇檔案時顯示預設文字
+    }
   };
 
   const handleSubmit = (e) => {
@@ -104,11 +112,31 @@ function WineUploadForm({ onUploadSuccess }) {
         </FormGroup>
 
         <FormGroup>
-          <label htmlFor="image">Upload Image:</label>
-          <FormInput type="file" onChange={handleImageChange} />
+          <label>Upload Image:</label>{" "}
+          <div className="image-upload-container">
+            <button
+              type="button"
+              className="custom-file-upload"
+              onClick={() => document.getElementById("image").click()}
+            >
+              選擇檔案
+            </button>
+            <input
+              type="file"
+              id="image"
+              className="hidden-file-input"
+              onChange={handleImageChange}
+            />
+            <span className="file-name">{fileName}</span> {/* 顯示文件名稱 */}
+          </div>
         </FormGroup>
 
-        <Button type="submit" theme="success" block>
+        <Button
+          type="submit"
+          theme="success"
+          className="wine-upload-button"
+          block
+        >
           上傳葡萄酒
         </Button>
       </Form>

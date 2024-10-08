@@ -4,6 +4,9 @@
   --accent-color: #4b2e2a; /* 強調色 */
   --gray-color: #888888;
   --deep-gray-color: #6f6f6f;
+  --light-gray-color: #f9f9f9;
+  --light-medium-gray-color: #e4e7eb;
+  --medium-gray-color: #cccccc;
   --light-pink-color: #fef9fa;
   --blank-color: #fff;
   --light-color: #f3ebe6;
@@ -14,6 +17,27 @@
   --deep-gray-hover-color: #4f4f4f;
   --deep-gray-hover-background-color: rgba(111, 111, 111, 0.1);
   --normal-hover-color: #f0f0f0;
+  --logout-color: #dc3545;
+  --green-color: #0e8871;
+  --blue-hover-color: #0056b3;
+  --blue-hover-background-color: rgba(0, 123, 255, 0.1);
+  --red-hover-color: #d32f2f;
+  --red-hover-background-color: rgba(244, 67, 54, 0.1);
+  --green-hover-color: #45a049;
+  --green-hover-background-color: rgba(76, 175, 80, 0.1);
+
+  --sidebar-complementary-color: #b5bbc5;
+  --sidebar-background-color: #272c31; /* 側邊欄背景色 */
+  --separator--line--color: #3b424a;
+  --item-hover-color: #393d41;
+  --search-input-background-color: #30373d;
+
+  --spinner-border-color: #ffffff;
+  --spinner-border-left-color: #09f;
+
+  --card-shadow-color: rgba(0, 0, 0, 0.3); /* 卡片陰影顏色 */
+  --general-shadow-color: rgba(128, 128, 128, 0.3); /* 其他元素的陰影顏色 */
+  --normal-shadow-color: rgba(0, 0, 0, 0.1);
 
   --background-color: var(--light-color); /* 背景底色 */
   --text-color: var(--accent-color); /* 文字顏色 */
@@ -26,14 +50,10 @@
     --primary-deep-hover-background-color
   );
   --card-background-color: var(--blank-color); /* 卡片背景色 */
-  --card-shadow-color: rgba(0, 0, 0, 0.3); /* 卡片陰影顏色 */
   --dropdown-item-hover-color: var(--normal-hover-color);
-
   --table-header-background: var(--light-color); /* 表頭背景色 */
   --table-header-text-color: var(--accent-color); /* 表頭文字顏色 */
   --table-row-hover-background: var(--normal-hover-color); /* 表格行懸停背景 */
-
-  --element-shadow-color: rgba(128, 128, 128, 0.3); /* 其他元素的陰影顏色 */
 }
 
 /* 黑暗模式 */
@@ -60,7 +80,7 @@
   --table-header-text-color: var(--accent-color); /* 黑暗模式下表頭文字顏色 */
   --table-row-hover-background: var(--normal-hover-color); /* 表格行懸停背景 */
 
-  --element-shadow-color: rgba(0, 0, 0, 0.7); /* 黑暗模式下的陰影顏色 */
+  --general-shadow-color: rgba(0, 0, 0, 0.7); /* 黑暗模式下的陰影顏色 */
 }
 
 .dark-mode-toggle {
@@ -80,7 +100,7 @@
   background-color: var(--header-background) !important;
   color: var(--header-text-color) !important;
   height: 60px !important;
-  box-shadow: 0 2px 5px var(--element-shadow-color) !important;
+  box-shadow: 0 2px 5px var(--general-shadow-color) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -94,7 +114,8 @@
   flex-grow: 1;
   flex-shrink: 0;
   text-align: center;
-  transform: translateX(-50px);
+  max-width: 400px;
+  transform: translateX(5px);
 }
 
 .header-logo {
@@ -120,7 +141,8 @@ button {
   padding: 8px 20px !important;
   border-radius: 20px !important;
   cursor: pointer !important;
-  box-shadow: 0 2px 4px var(--element-shadow-color) !important;
+  box-shadow: 0 2px 4px var(--general-shadow-color) !important;
+  transition: background-color 0.3s ease !important;
 }
 
 button:hover {
@@ -320,7 +342,7 @@ button:hover {
 }
 
 .text-danger .dropdown-icon {
-  color: #dc3545;
+  color: var(--logout-color);
 }
 
 .login-container {
@@ -328,7 +350,7 @@ button:hover {
   align-items: center;
   background-color: transparent; /* 背景色 */
   padding: 15px 40px; /* 內邊距 */
-  color: #111; /* 文字顏色 */
+  color: var(--deep-text-color); /* 文字顏色 */
   cursor: pointer; /* 顯示手型，表明可點擊 */
   white-space: nowrap;
   transform: translateX(-15px);
@@ -351,9 +373,7 @@ button:hover {
 .recommendations-table {
   width: 100%;
   border-collapse: collapse; /* 移除表格的間隙，讓邊框合併 */
-  font-family: "Roboto", sans-serif; /* 使用更現代的字體 */
-  background-color: #fff; /* 背景色為白色 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+  background-color: var(--blank-color); /* 背景色為白色 */
   border-radius: 2px; /* 添加圓角 */
   overflow: hidden; /* 隱藏圓角外部的內容 */
 }
@@ -368,13 +388,13 @@ button:hover {
   padding: 15px;
   font-weight: bold;
   font-size: 16px;
-  text-align: left;
-  border-bottom: 2px solid #ddd;
+  text-align: left !important;
+  border-bottom: 2px solid var(--gray-color) !important;
 }
 
 /* 表格每行的樣式 */
 .recommendation-row {
-  border-bottom: 1px solid #ddd !important;
+  border-bottom: 1px solid var(--gray-color) !important;
   transition: background-color 0.3s ease;
 }
 
@@ -396,18 +416,6 @@ button:hover {
   background-color: var(--table-row-hover-background);
 }
 
-.recommendation-table-body-row:hover {
-  background-color: #f2f7ff; /* 輕微藍色背景 */
-}
-
-/* 表格底部的樣式 */
-.table-footer {
-  text-align: right;
-  padding: 10px;
-  background-color: #fafafa;
-  border-top: 2px solid #ddd; /* 底部邊框 */
-}
-
 .table-container {
   box-shadow: none !important;
   border: none !important;
@@ -417,5 +425,5 @@ button:hover {
   margin-bottom: 20px;
   font-size: 1.5rem;
   font-weight: bold; /* 如果需要字體加粗，可以加這個屬性 */
-  color: #333; /* 可選：調整字體顏色 */
+  color: var(--deep-text-color); /* 可選：調整字體顏色 */
 }

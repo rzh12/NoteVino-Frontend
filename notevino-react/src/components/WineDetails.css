@@ -1,26 +1,9 @@
 :root {
-  /* 基本顏色 */
-  --black-shadow: rgba(0, 0, 0, 0.1);
-  --light-gray-color: #f9f9f9;
-  --border-color: #cccccc;
-  --1: #88340e;
-
   /* 按鈕顏色 */
   --action-button-color: var(--deep-gray-color);
   --info-text-color: var(--deep-text-color);
   --note-edit-hover-color: var(--deep-gray-hover-color);
   --note-edit-hover-background-color: var(--deep-gray-hover-background-color);
-  --blue-color: #007bff;
-  --blue-hover-color: #0056b3;
-  --red-color: #f44336;
-  --red-hover-color: #d32f2f;
-  --green-color: #4caf50;
-  --green-hover-color: #388e3c;
-  --save-button-hover-color: #45a049;
-  --delete-button-hover-color: #e53935;
-
-  /* 其他 */
-  --card-shadow-color: rgba(0, 0, 0, 0.05); /* 調整陰影顏色，使其更柔和 */
 }
 
 .wine-details-container {
@@ -40,6 +23,7 @@
 
 .wine-details-card {
   background-color: var(--light-pink-color) !important;
+  padding-bottom: 30px;
 }
 
 .wine-details-header {
@@ -102,6 +86,34 @@
   position: relative;
 }
 
+/* 建立時間 */
+/* 调整 time 类的样式，使其显示在卡片的右下角 */
+.wine-info.time {
+  position: absolute;
+  bottom: -10px;
+  right: 20px;
+  font-size: 12px !important; /* 设置较小的字体尺寸 */
+  white-space: nowrap; /* 确保文本不换行 */
+  overflow: hidden; /* 确保文本不会溢出 */
+}
+
+/* 标签的样式：可以使 label 更小或使用斜体 */
+.wine-info-label.time {
+  font-weight: normal;
+  /* font-style: italic; */
+  font-size: 14px !important;
+  color: var(--deep-gray-color);
+  padding-right: 0px !important;
+}
+
+/* 文本的样式：使实际时间信息显示得更简洁 */
+.wine-info-text.time {
+  font-weight: normal;
+  /* font-style: italic; */
+  font-size: 14px !important;
+  color: var(--deep-gray-color);
+}
+
 /* 圖片容器 */
 .wine-image-container {
   flex-shrink: 0;
@@ -134,7 +146,8 @@
 /* 通用按鈕樣式（不繼承全局樣式） */
 .wine-edit-Button,
 .wine-delete-Button,
-.note-gen-Button {
+.note-gen-Button,
+.sort-order-button {
   background-color: transparent !important;
   border: none !important;
   cursor: pointer;
@@ -147,17 +160,17 @@
 
 /* 按鈕懸停效果 */
 .wine-edit-Button:hover {
-  background-color: rgba(0, 123, 255, 0.1) !important;
+  background-color: var(--blue-hover-background-color) !important;
   color: var(--blue-hover-color) !important;
 }
 
 .wine-delete-Button:hover {
-  background-color: rgba(244, 67, 54, 0.1) !important;
+  background-color: var(--red-hover-background-color) !important;
   color: var(--red-hover-color) !important;
 }
 
 .note-gen-Button:hover {
-  background-color: rgba(76, 175, 80, 0.1) !important;
+  background-color: var(--green-hover-background-color) !important;
   color: var(--green-hover-color) !important;
 }
 
@@ -181,14 +194,16 @@
 .input {
   flex: 1 1 auto;
   padding: 8px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--medium-gray-color);
   border-radius: 4px;
-  box-shadow: inset 0 1px 3px var(--black-shadow);
+  box-shadow: inset 0 1px 3px var(--normal-shadow-color);
   min-width: 0; /* 允许输入框缩小 */
 }
 
 /* 保存按鈕 */
-.save-button {
+.wine-save-button,
+.note-save-button,
+.sat-save-button {
   background-color: var(--green-color) !important;
   padding: 8px 16px;
   border: none;
@@ -196,10 +211,12 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
-.save-button:hover {
-  background-color: var(--save-button-hover-color) !important;
+.wine-save-button:hover,
+.note-save-button:hover,
+.sat-save-button:hover {
+  background-color: var(--green-hover-color) !important;
 }
+/* note, sat取消按鈕 */
 
 /* Notes Section */
 .tasting-note-header {
@@ -208,28 +225,46 @@
   align-items: center;
 }
 
-.note-gen-Button {
-  background-color: transparent !important;
-  border: none !important;
+.tasting-note-header h2 {
+  font-size: 36px; /* 調整字體大小 */
+  font-family: "Lato", sans-serif !important; /* 調整字體類型 */
+  font-weight: 700 !important; /* 調整字體粗細 */
+  margin-bottom: 40px;
+}
+
+.add-note-button {
   cursor: pointer;
-  padding: 10px !important;
+  padding: 8px 15px !important;
   box-shadow: none !important;
-  border-radius: 50%; /* 讓按鈕呈圓形 */
+  border-radius: 50px !important; /* 讓按鈕呈圓形 */
   transition: background-color 0.3s ease;
-  color: var(--action-button-color) !important;
+  color: var(--blank-color) !important;
   position: absolute;
-  top: 25px;
+  top: 32px;
+  right: 115px;
+  display: flex; /* 确保图标和文字在一行 */
+  align-items: center;
+  font-size: 18px;
+}
+
+.sort-order-button {
+  padding: 10px !important;
+  position: absolute;
+  top: 30px;
+  right: 65px;
+}
+
+.note-gen-Button {
+  padding: 10px !important;
+  position: absolute;
+  top: 30px;
   right: 15px;
 }
 
 ul {
-  margin-top: 0; /* 增加 Tasting Notes 與第一則筆記的距離 */
+  margin-top: 40px !important; /* 增加 Tasting Notes 與第一則筆記的距離 */
   padding-left: 0; /* 去掉 ul 的左邊距 */
   list-style-type: none; /* 隱藏小黑點 */
-}
-
-.notes-card h2 {
-  margin-bottom: 40px; /* 增加 Tasting Notes 標題與第一則筆記之間的距離 */
 }
 
 .notes-list {
@@ -242,7 +277,7 @@ ul {
   padding: 15px;
   border-radius: 8px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px var(--black-shadow);
+  box-shadow: 0 2px 4px var(--normal-shadow-color);
 }
 
 .note-editor {
@@ -252,63 +287,20 @@ ul {
 
 .no-notes-tag {
   font-style: italic;
-  color: var(--medium-gray-color);
+  font-size: 18px;
 }
 
 .note-input {
   width: 100%;
-  padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid var(--border-color);
   border-radius: 4px;
 }
 
-.addNoteButton,
-.submitButton {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: var(--blue-color);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.addNoteButton:hover,
-.submitButton:hover {
-  background-color: var(--blue-hover-color);
-}
-
-.note-save-button {
-  background-color: var(--green-color);
-  margin-right: 10px;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.note-save-button:hover {
-  background-color: var(--save-button-hover-color);
-}
-
-.note-delete-button {
-  background-color: var(--red-color);
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.note-delete-button:hover {
-  background-color: var(--delete-button-hover-color);
-}
+/* Tasting Note Buttons 5*/
 
 .note-content {
   position: relative;
-  display: flex; /* 使用 flex 佈局 */
+  padding-right: 30px;
   align-items: center; /* 垂直方向上居中 */
   justify-content: flex-start; /* 左對齊 */
 }
@@ -334,11 +326,23 @@ ul {
 }
 
 .note-content p {
+  position: relative;
   margin: 0; /* 去掉 p 標籤的默認 margin */
   font-size: 1rem; /* 調整字體大小 */
+  word-wrap: break-word; /* 強制長字串換行 */
+  overflow-x: hidden; /* 隱藏水平滾動條，避免內容溢出 */
+}
+
+.note-updatedAt {
+  text-align: right;
+  margin-right: -30px !important;
+  margin-top: 5px !important;
+  font-size: 14px !important;
+  color: var(--deep-gray-color);
 }
 
 .ql-editor {
+  font-size: 18px !important;
   min-height: 100px;
 }
 
@@ -352,6 +356,18 @@ ul {
 }
 
 /* SAT Note Section */
+.sat-note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sat-note-header h2 {
+  font-size: 36px; /* 調整字體大小 */
+  font-family: "Lato", sans-serif !important; /* 調整字體類型 */
+  font-weight: 700 !important; /* 調整字體粗細 */
+  margin-bottom: 40px;
+}
 
 .sat-note-form {
   display: flex;
@@ -402,12 +418,19 @@ ul {
 
 /* Style for individual note sections */
 .note-section.tasting-notes {
-  flex: 2; /* Tasting Notes takes up 2/3 of the space */
-  margin-right: 20px; /* Adds space between the two sections */
+  flex: 2;
+  margin-right: 20px;
+  word-wrap: break-word; /* 強制長字串換行 */
+  overflow-x: hidden; /* 隱藏橫向滾動條，避免區塊變寬 */
 }
 
 .note-section.sat-notes {
-  flex: 1; /* SAT Note takes up 1/3 of the space */
+  flex: 1;
+}
+
+.no-sat-tag {
+  font-style: italic;
+  font-size: 18px;
 }
 
 /* Remove margin for the last section */
@@ -421,6 +444,7 @@ ul {
 }
 
 .sat-note-table td {
+  font-size: 18px !important;
   padding: 10px; /* 單元格內部填充 */
   border-bottom: 1px solid #ddd; /* 每行之間的分隔線 */
 }
@@ -440,7 +464,6 @@ ul {
   margin-top: 20px; /* 上方的間距 */
 }
 
-.sat-save-button,
 .sat-cancel-button {
   padding: 10px 20px; /* 設置按鈕內邊距 */
   font-size: 16px; /* 調整字體大小 */
@@ -449,17 +472,6 @@ ul {
   cursor: pointer; /* 鼠標樣式 */
 }
 
-.sat-save-button {
-  background-color: var(--save-button-background); /* 保存按鈕背景色 */
-  color: white;
-}
-
-.sat-cancel-button {
-  background-color: var(--cancel-button-background); /* 取消按鈕背景色 */
-  color: white;
-}
-
-.sat-save-button:hover,
-.sat-cancel-button:hover {
-  opacity: 0.8; /* 懸停效果 */
+.input-error {
+  border: 1px solid red;
 }

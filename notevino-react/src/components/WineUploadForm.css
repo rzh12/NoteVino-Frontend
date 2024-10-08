@@ -1,25 +1,27 @@
 .form-container {
   padding: 30px; /* 加大表單內邊距 */
-  border: 1px solid #ccc;
+  border: 1px solid var(--medium-gray-color);
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: var(--light-gray-color);
   max-width: 500px;
   margin: 40px auto; /* 增加表單與外圍的距離 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+  box-shadow: 0 4px 8px var(--normal-shadow-color); /* 添加輕微陰影 */
 }
 
 .form-container h2 {
   text-align: center;
   margin-bottom: 30px; /* 增加標題與表單間的距離 */
   font-size: 24px; /* 加大標題字體 */
-  color: #333;
+  color: var(--deep-text-color);
 }
 
 .form-container label {
   font-weight: bold;
+  cursor: auto !important;
+  font-size: 18px;
   margin-bottom: 8px;
   display: block;
-  color: #333;
+  color: var(--deep-text-color);
 }
 
 .form-container .form-group {
@@ -30,53 +32,66 @@
 .form-container .form-select {
   width: 100%;
   padding: 12px; /* 調整輸入框的內邊距 */
-  font-size: 16px;
-  border: 1px solid #ccc;
+  font-size: 18px;
+  border: 1px solid var(--medium-gray-color);
   border-radius: 4px;
-  background-color: #fff;
+  background-color: var(--blank-color);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-container .form-input:focus,
-.form-container .form-select:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+.form-container input:focus,
+.form-container select:focus {
+  border-color: var(--green-color) !important;
+  outline: 3px solid var(--green-hover-background-color) !important;
 }
 
-.form-container input[type="file"].form-control {
-  padding: 12px !important; /* 調整內邊距 */
+/* 隱藏原生的文件上傳按鈕 */
+.hidden-file-input {
+  display: none;
+}
+
+.image-upload-container {
+  border: 1px solid var(--medium-gray-color);
+  background-color: var(--blank-color);
+  padding: 15px;
+  border-radius: 8px !important;
+}
+
+.image-upload-container:hover {
+  border-color: var(--green-color) !important;
+  outline: 3px solid var(--blue-hover-background-color) !important;
+}
+
+/* 自定義文件上傳按鈕樣式 */
+.custom-file-upload {
+  display: inline-block !important;
+  padding: 10px 20px !important;
+  cursor: pointer !important;
+  color: white !important;
+  border-radius: 8px !important;
+  text-align: center !important;
   font-size: 16px !important;
-  line-height: 2 !important; /* 調整行距 */
-  height: auto !important; /* 允許更動高度 */
-  display: block !important;
 }
 
-.form-container button {
-  padding: 12px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 18px; /* 增加按鈕字體 */
+/* 檔案名稱顯示在按鈕右邊 */
+.file-name {
+  display: inline-block; /* 讓檔案名稱與按鈕在同一行 */
+  margin-left: 20px; /* 調整與按鈕之間的距離 */
+  font-size: 18px;
+  color: var(--deep-text-color);
+}
+
+.wine-upload-button {
+  background-color: var(--green-color) !important;
+  padding: 10px 15px !important;
+  color: var(--blank-color) !important;
+  font-size: 18px !important;
+  border-radius: 40px !important;
   cursor: pointer;
   width: 100%;
   margin-top: 20px;
-  transition: background-color 0.3s ease; /* 添加動畫效果 */
 }
 
-.form-container button:hover {
-  background-color: #45a049;
-}
-
-.form-container .form-group .custom-file-label {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #666;
-}
-
-.form-container .form-group #file-name {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #666;
+.wine-upload-button:hover {
+  background-color: var(--green-hover-color) !important;
 }

@@ -1,12 +1,6 @@
 :root {
-  --complementary-color: #b5bbc5;
-
-  --sidebar-background-color: #272c31; /* 側邊欄背景色 */
-  --sidebar-text-color: var(--complementary-color); /* 深灰色文字 */
-  --item-border-color: #ddd;
-  --separator--line--color: #3b424a;
-  --item-hover-color: #393d41;
-  --element-shadow-color: rgba(0, 0, 0, 0.1); /* 陰影顏色 */
+  --sidebar-text-color: var(--sidebar-complementary-color); /* 深灰色文字 */
+  --sidebar-shadow-color: var(--normal-shadow-color);
 }
 
 .sidebar {
@@ -20,7 +14,7 @@
   left: 0;
   z-index: 1000;
   transition: width 0.3s ease; /* 增加寬度動畫 */
-  box-shadow: 2px 0 5px var(--element-shadow-color); /* 增加陰影效果讓側邊欄更立體 */
+  box-shadow: 2px 0 5px var(--sidebar-shadow-color); /* 增加陰影效果讓側邊欄更立體 */
 }
 
 .sidebar-collapsed {

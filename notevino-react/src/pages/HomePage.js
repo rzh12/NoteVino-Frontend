@@ -41,11 +41,15 @@ function HomePage() {
   const [recommendations, setRecommendations] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isAddingNote, setIsAddingNote] = useState(false);
+  const [newNote, setNewNote] = useState("");
 
   const handleWineSelect = (wineId) => {
     setSelectedWineId(wineId);
     setIsUploading(false);
     setShowRecommendationForm(false);
+    setIsAddingNote(false);
+    setNewNote("");
   };
 
   const handleUploadSelect = () => {
@@ -192,9 +196,9 @@ function HomePage() {
 
           {/* 右側按鈕和 userInfo */}
           <div className="right-header">
-            {/* <Button className="dark-mode-toggle" onClick={toggleDarkMode}>
+            <Button className="dark-mode-toggle" onClick={toggleDarkMode}>
               Dark Mode
-            </Button> */}
+            </Button>
 
             {/* 分隔線 */}
             <div className="separator"></div>
@@ -360,6 +364,10 @@ function HomePage() {
                 wineId={selectedWineId}
                 onDeleteSuccess={handleDeleteSuccess}
                 reloadWines={reloadWines}
+                isAddingNote={isAddingNote}
+                setIsAddingNote={setIsAddingNote}
+                newNote={newNote}
+                setNewNote={setNewNote}
               />
             </>
           ) : (

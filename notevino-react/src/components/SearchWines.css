@@ -1,12 +1,8 @@
 :root {
-  --complementary-color: #b5bbc5;
-
-  --search-input-background-color: #30373d;
-  --search-icon-color: var(--complementary-color);
-  --reset-button-color: var(--complementary-color);
-  --search-input-border: var(--complementary-color);
-  --spinner-border-color: #ffffff;
-  --spinner-border-left-color: #09f;
+  --search-icon-color: var(--sidebar-complementary-color);
+  --reset-button-color: var(--sidebar-complementary-color);
+  --search-input: var(--sidebar-complementary-color);
+  --search-input-border: var(--sidebar-complementary-color);
 }
 
 .search-wines-container {
@@ -28,7 +24,7 @@
 
 .search-input {
   background-color: var(--search-input-background-color);
-  color: #b5bbc5;
+  color: var(--search-input);
   flex: 1 1 auto; /* 允許搜尋欄縮小 */
   min-width: 0; /* 防止內容撐開 */
   padding: 10px 10px 10px 40px; /* 左側為放大鏡圖標留出空間 */
