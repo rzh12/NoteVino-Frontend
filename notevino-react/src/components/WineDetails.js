@@ -590,7 +590,7 @@ function WineDetails({
                       className="input"
                     />
                   </div>
-                  <div className="right-button-container">
+                  <div className="wine-save-container">
                     <Button
                       onClick={saveUpdatedWine}
                       className="wine-save-button"

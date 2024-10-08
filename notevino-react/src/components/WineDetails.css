@@ -219,10 +219,8 @@
 }
 
 /* note, sat 其他按鈕 */
-.right-button-container {
-  text-align: right;
-}
-
+.wine-save-container,
+.note-buttons,
 .note-edit-buttons,
 .sat-edit-buttons {
   text-align: right;
@@ -253,6 +251,10 @@
   color: var(--blank-color) !important;
   padding: 8px 15px !important;
   font-size: 18px;
+}
+
+.submit-note-button {
+  margin-bottom: 20px;
 }
 
 /* Notes Section */
