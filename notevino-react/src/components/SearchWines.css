@@ -60,6 +60,10 @@
   color: var(--search-icon-color) !important;
 }
 
+.reset-button:hover {
+  background-color: transparent !important;
+}
+
 .loading {
   margin-top: 50px;
   text-align: center;
