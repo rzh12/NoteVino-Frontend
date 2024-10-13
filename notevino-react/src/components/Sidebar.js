@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import WinesList from "./WinesList";
 import SearchWines from "./SearchWines";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 
 function Sidebar({ onWineSelect, onUploadSelect, reload, isCollapsed }) {
@@ -111,7 +111,7 @@ function Sidebar({ onWineSelect, onUploadSelect, reload, isCollapsed }) {
                     onClick={onUploadSelect}
                   >
                     <FontAwesomeIcon
-                      icon={faFileCirclePlus}
+                      icon={faPlus}
                       style={{ fontSize: "20px" }}
                     />
                   </button>

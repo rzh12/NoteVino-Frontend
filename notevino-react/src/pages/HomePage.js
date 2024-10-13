@@ -19,8 +19,10 @@ import {
   faUser,
   faSignOutAlt,
   faUserLarge,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
-import { Squash as Hamburger } from "hamburger-react";
+import WineCard from "../components/WineCard";
+// import { Squash as Hamburger } from "hamburger-react";
 
 // Material-UI 表格組件
 import Table from "@mui/material/Table";
@@ -36,12 +38,13 @@ function HomePage() {
   const [selectedWineId, setSelectedWineId] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [reload, setReload] = useState(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [showRecommendationForm, setShowRecommendationForm] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [newNote, setNewNote] = useState("");
+  const [wineDetailsList, setWineDetailsList] = useState([]);
 
   const handleWineSelect = (wineId) => {
     setSelectedWineId(wineId);
@@ -143,8 +146,35 @@ function HomePage() {
     setIsUploading(false);
     setShowRecommendationForm(false);
     setRecommendations([]);
-    setIsSidebarCollapsed(true);
+    setIsSidebarCollapsed(false);
   };
+
+  useEffect(() => {
+    // Fetch top 5 wine suggestions
+    axios
+      .get("/api/wines/autocomplete?query=") // 空字符串查询返回热门酒款
+      .then((response) => {
+        if (response.data.success) {
+          const suggestions = response.data.data.slice(0, 5); // 取前 5 笔数据
+
+          // 获取每个酒款的详细信息
+          const fetchWineDetails = suggestions.map((wine) =>
+            axios.get(`/api/wines/${wine.wineId}`).then((res) => res.data.data)
+          );
+
+          Promise.all(fetchWineDetails)
+            .then((details) => {
+              setWineDetailsList(details);
+            })
+            .catch((error) => {
+              console.error("Error fetching wine details:", error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching wine suggestions:", error);
+      });
+  }, []);
 
   return (
     <div className="homepage-container">
@@ -164,12 +194,11 @@ function HomePage() {
         <div className="header">
           {/* 左側按鈕 */}
           <div className="left-header-buttons">
-            <div className="toggle-button">
-              <Hamburger
-                toggled={!isSidebarCollapsed}
-                toggle={toggleSidebar}
-                size={24}
-                direction="right"
+            <div className="toggle-button" onClick={toggleSidebar}>
+              <FontAwesomeIcon
+                icon={faBars}
+                className="fa-bars-icon"
+                style={{ fontSize: "24px" }}
               />
             </div>
             <Button className="home-button" onClick={handleHome}>
@@ -369,12 +398,22 @@ function HomePage() {
               />
             </>
           ) : (
-            <Card className="welcome-card">
-              <CardBody className="welcome-card-body">
-                <CardTitle className="welcome-card-title">Welcome!</CardTitle>
-                <p className="welcome-card-text">選擇一支酒以查看詳細資訊</p>
-              </CardBody>
-            </Card>
+            <div className="welcome-card-container">
+              <Card className="welcome-card">
+                <CardBody className="welcome-card-body">
+                  <CardTitle className="welcome-card-title">Welcome!</CardTitle>
+                  <p className="welcome-card-text">近期熱門酒款如下：</p>
+                </CardBody>
+              </Card>
+
+              {wineDetailsList.length > 0 ? (
+                wineDetailsList.map((wine) => (
+                  <WineCard key={wine.wineId} wine={wine} />
+                ))
+              ) : (
+                <p className="welcome-card-text">正在載入熱門酒款...</p>
+              )}
+            </div>
           )}
         </div>
       </div>

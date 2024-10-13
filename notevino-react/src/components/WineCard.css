@@ -1,0 +1,94 @@
+:root {
+  /* 按鈕顏色 */
+  --action-button-color: var(--deep-gray-color);
+  --info-text-color: var(--deep-text-color);
+  --note-edit-hover-color: var(--deep-gray-hover-color);
+  --note-edit-hover-background-color: var(--deep-gray-hover-background-color);
+}
+
+/* WineCard 容器 */
+.wine-card {
+  margin-bottom: 20px;
+  padding: 10px;
+  box-shadow: 0 4px 8px var(--card-shadow-color) !important;
+  border-radius: 16px !important;
+  background-color: var(--light-pink-color) !important;
+}
+
+/* WineCard 標題和內容 */
+.wine-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 250px;
+}
+
+.wine-card-content {
+  display: flex;
+  flex-direction: column; /* 讓內部的元素按列排列 */
+  justify-content: center; /* 水平置中 */
+  align-items: center; /* 垂直置中 */
+  height: 100%; /* 讓容器高度覆蓋父元素 */
+}
+
+/* 標題字體樣式 */
+.wine-card-title {
+  padding: 20px;
+  font-family: "Libre Baskerville", serif;
+  font-weight: 700 !important; /* 粗體 */
+  font-size: 36px; /* 調整字體大小 */
+  color: var(--accent-color); /* 使用全局設置的主題顏色 */
+}
+
+/* 段落樣式 */
+.wine-card-info {
+  display: flex;
+  align-items: center;
+  width: 100%; /* 讓行寬度覆蓋整個區域 */
+  max-width: 300px; /* 設定最大寬度，讓內容不超過範圍 */
+}
+
+.wine-card-label {
+  font-family: "Libre Baskerville", serif;
+  font-size: 24px; /* 調整字體大小 */
+  font-weight: 700; /* 正常字重 */
+  line-height: 1.5; /* 行高，讓文字更易讀 */
+  color: var(--info-text-color);
+  width: 150px; /* 左邊的項目標籤寬度 */
+  text-align: right; /* 右對齊 */
+  padding-right: 10px; /* 與分隔線的間距 */
+}
+
+.wine-card-text {
+  font-family: "Libre Baskerville", serif;
+  font-size: 24px; /* 調整字體大小 */
+  font-weight: 400; /* 正常字重 */
+  line-height: 1.5; /* 行高，讓文字更易讀 */
+  color: var(--info-text-color);
+  flex: 1;
+  padding-left: 10px; /* 與分隔線的間距 */
+  text-align: left; /* 左對齊 */
+  position: relative;
+}
+
+/* 圖片容器 */
+.wine-card-image-container {
+  flex-shrink: 0;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-left: 55px;
+  transform: translateX(-45px);
+}
+
+.wine-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* 可根據需要添加更多樣式 */
