@@ -95,3 +95,22 @@
 .wine-upload-button:hover {
   background-color: var(--green-hover-color) !important;
 }
+
+.suggestions {
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute;
+  background-color: white;
+  width: 23%;
+  z-index: 1000;
+}
+
+.suggestions li {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+}

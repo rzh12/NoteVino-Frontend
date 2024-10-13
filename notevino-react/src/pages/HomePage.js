@@ -40,7 +40,6 @@ function HomePage() {
   const [showRecommendationForm, setShowRecommendationForm] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [newNote, setNewNote] = useState("");
 
@@ -145,15 +144,6 @@ function HomePage() {
     setShowRecommendationForm(false);
     setRecommendations([]);
     setIsSidebarCollapsed(true);
-  };
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
   };
 
   return (
@@ -362,7 +352,10 @@ function HomePage() {
               )}
             </>
           ) : isUploading ? (
-            <WineUploadForm onUploadSuccess={reloadWines} />
+            <WineUploadForm
+              onUploadSuccess={reloadWines}
+              onWineSelect={handleWineSelect}
+            />
           ) : selectedWineId ? (
             <>
               <WineDetails
