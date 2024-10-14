@@ -1,0 +1,92 @@
+/* 颜色变量 */
+:root {
+  --info-text-color: #333;
+  --card-shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Profile 容器 */
+.profile-container {
+  padding: 20px;
+}
+
+/* Profile Card 样式 */
+.profile-card {
+  margin-bottom: 20px;
+  padding: 10px;
+  box-shadow: 0 4px 8px var(--card-shadow-color) !important;
+  border-radius: 10px !important;
+  background-color: var(--light-pink-color) !important;
+}
+
+/* Profile Card Header */
+.profile-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 250px;
+}
+
+.profile-card-content {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.profile-card-title {
+  padding: 30px 10px 10px 10px;
+  font-family: "Libre Baskerville", serif;
+  font-weight: 700 !important;
+  font-size: 36px;
+  color: var(--accent-color);
+}
+
+.profile-card-info {
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+  justify-content: flex-start;
+  margin-top: 30px; /* 增加项与项之间的间距 */
+}
+
+.profile-card-label {
+  font-family: "Libre Baskerville", serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--info-text-color);
+  /* width: 180px; */
+  text-align: left;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+
+.profile-card-text {
+  font-family: "Libre Baskerville", serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--info-text-color);
+  flex: 1;
+  padding-left: 0; /* 去除左側 padding */
+  margin-left: 0; /* 確保文字和標籤無空隙 */
+  text-align: left; /* 保持文字靠左對齊 */
+}
+
+/* 图片容器 */
+.profile-card-image-container {
+  flex-shrink: 0;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-left: 55px;
+  transform: translateX(-45px);
+}
+
+.profile-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}

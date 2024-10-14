@@ -22,6 +22,7 @@ import {
   faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import WineCard from "../components/WineCard";
+import Profile from "../pages/Profile";
 // import { Squash as Hamburger } from "hamburger-react";
 
 // Material-UI 表格組件
@@ -45,6 +46,7 @@ function HomePage() {
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [newNote, setNewNote] = useState("");
   const [wineDetailsList, setWineDetailsList] = useState([]);
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleWineSelect = (wineId) => {
     setSelectedWineId(wineId);
@@ -52,12 +54,14 @@ function HomePage() {
     setShowRecommendationForm(false);
     setIsAddingNote(false);
     setNewNote("");
+    setShowProfile(false);
   };
 
   const handleUploadSelect = () => {
     setIsUploading(true);
     setSelectedWineId(null);
     setShowRecommendationForm(false);
+    setShowProfile(false);
   };
 
   const reloadWines = () => {
@@ -75,6 +79,7 @@ function HomePage() {
 
   // 處理推薦按鈕點擊，切換表單顯示/隱藏
   const handleRecommendClick = () => {
+    setShowProfile(false);
     setShowRecommendationForm(!showRecommendationForm); // 切換推薦表單顯示狀態
     setIsUploading(false); // 隱藏上傳葡萄酒表單
     setSelectedWineId(null); // 隱藏葡萄酒詳細信息
@@ -147,6 +152,7 @@ function HomePage() {
     setShowRecommendationForm(false);
     setRecommendations([]);
     setIsSidebarCollapsed(false);
+    setShowProfile(false);
   };
 
   useEffect(() => {
@@ -256,7 +262,14 @@ function HomePage() {
                       dropdownOpen ? "show" : ""
                     }`}
                   >
-                    <DropdownItem>
+                    <DropdownItem
+                      onClick={() => {
+                        setShowProfile(true); // 顯示 Profile 頁面
+                        setSelectedWineId(null); // 重置其他狀態
+                        setIsUploading(false);
+                        setShowRecommendationForm(false);
+                      }}
+                    >
                       <FontAwesomeIcon
                         icon={faUser}
                         className="dropdown-icon"
@@ -286,7 +299,9 @@ function HomePage() {
         </div>
 
         <div className="content-body">
-          {showRecommendationForm ? (
+          {showProfile ? (
+            <Profile /> // 顯示 Profile 組件
+          ) : showRecommendationForm ? (
             <>
               <RecommendationForm
                 onRecommendationsFetch={handleRecommendationsFetch}
