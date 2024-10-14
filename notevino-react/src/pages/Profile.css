@@ -74,19 +74,38 @@
 /* 图片容器 */
 .profile-card-image-container {
   flex-shrink: 0;
-  width: 250px;
-  height: 250px;
+  width: 250px; /* 恢復為 250px */
+  height: 250px; /* 恢復為 250px */
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  margin-left: 55px;
-  transform: translateX(-45px);
+  margin-right: 20px; /* 與內容之間的間距 */
+  position: relative; /* 為了定位上傳中遮罩 */
+  cursor: pointer; /* 當鼠標懸停時顯示可點擊狀態 */
+}
+
+.uploading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色遮罩 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 8px;
 }
 
 .profile-card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
   border-radius: 8px;
+}
+
+.profile-card-image:hover {
+  opacity: 0.8;
 }

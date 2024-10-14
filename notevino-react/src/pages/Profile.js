@@ -3,10 +3,11 @@ import axios from "axios";
 import { Card, CardBody, CardTitle } from "shards-react";
 import "./Profile.css"; // 用於添加自定義樣式
 
-function Profile() {
+function Profile({ onAvatarUpdate }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token"); // 從 localStorage 中獲取 token
@@ -57,6 +58,47 @@ function Profile() {
     hour12: false, // 24 小時制
   });
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      uploadAvatar(file);
+    }
+  };
+
+  const uploadAvatar = (file) => {
+    setIsUploading(true);
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("picture", file);
+
+    axios
+      .post("/api/users/upload-avatar", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        if (response.data.imageUrl) {
+          // 更新用戶的頭像 URL
+          setUser((prevUser) => ({
+            ...prevUser,
+            picture: response.data.imageUrl,
+          }));
+
+          // 呼叫回呼函數，將新的頭像 URL 傳遞給 HomePage
+          if (onAvatarUpdate) {
+            onAvatarUpdate(response.data.imageUrl);
+          }
+        }
+        setIsUploading(false);
+      })
+      .catch((error) => {
+        console.error("上傳頭像失敗:", error);
+        setIsUploading(false);
+      });
+  };
+
   // 顯示用戶資料
   return (
     <div className="profile-container">
@@ -65,15 +107,27 @@ function Profile() {
           <div className="profile-card-header">
             {/* 將圖片容器移到左側 */}
             <div className="profile-card-image-container">
-              <img
-                src={user.picture}
-                alt={`${user.name}'s avatar`}
-                className="profile-card-image"
-                onError={(e) => {
-                  e.target.src =
-                    "https://via.placeholder.com/150?text=No+Image";
-                }}
-              />
+              <label htmlFor="avatar-upload">
+                <img
+                  src={user.picture}
+                  alt={`${user.name}'s avatar`}
+                  className="profile-card-image"
+                  onError={(e) => {
+                    e.target.src =
+                      "https://via.placeholder.com/150?text=No+Image";
+                  }}
+                />
+                {isUploading && (
+                  <div className="uploading-overlay">上傳中...</div>
+                )}
+                <input
+                  type="file"
+                  id="avatar-upload"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  style={{ display: "none" }}
+                />
+              </label>
             </div>
             {/* 資訊容器移到右側 */}
             <div className="profile-card-content">

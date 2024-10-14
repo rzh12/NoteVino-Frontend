@@ -155,6 +155,10 @@ function HomePage() {
     setShowProfile(false);
   };
 
+  const handleAvatarUpdate = (newAvatarUrl) => {
+    setAvatarUrl(newAvatarUrl);
+  };
+
   useEffect(() => {
     // Fetch top 5 wine suggestions
     axios
@@ -300,7 +304,7 @@ function HomePage() {
 
         <div className="content-body">
           {showProfile ? (
-            <Profile /> // 顯示 Profile 組件
+            <Profile onAvatarUpdate={handleAvatarUpdate} />
           ) : showRecommendationForm ? (
             <>
               <RecommendationForm
