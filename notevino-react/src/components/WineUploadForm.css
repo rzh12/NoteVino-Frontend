@@ -114,3 +114,12 @@
 .suggestions li:hover {
   background-color: #f0f0f0;
 }
+
+.btn-confirm {
+  background-color: var(--green-color) !important; /* 綠色 */
+  color: white !important;
+}
+
+.btn-confirm:hover {
+  background-color: var(--green-hover-color) !important; /* 綠色 */
+}

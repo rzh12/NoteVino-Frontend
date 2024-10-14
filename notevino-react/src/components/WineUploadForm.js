@@ -30,20 +30,24 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
 
   // 延遲執行的函數，減少不必要的請求
   const fetchSuggestions = debounce((query) => {
-    axios
-      .get(`/api/wines/autocomplete?query=${query}`)
-      .then((response) => {
-        if (response.data.success) {
-          setSuggestions(response.data.data);
-          setShowSuggestions(true);
-        } else {
-          setShowSuggestions(false); // 如果無匹配結果，隱藏建議
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching suggestions:", error);
-        setShowSuggestions(false); // 查詢錯誤時隱藏建議
-      });
+    if (query.length > 0) {
+      axios
+        .get(`/api/wines/autocomplete?query=${query}`)
+        .then((response) => {
+          if (response.data.success) {
+            setSuggestions(response.data.data);
+            setShowSuggestions(true);
+          } else {
+            setShowSuggestions(false); // 如果無匹配結果，隱藏建議
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching suggestions:", error);
+          setShowSuggestions(false); // 查詢錯誤時隱藏建議
+        });
+    } else {
+      setShowSuggestions(false); // 如果沒有輸入字符，隱藏建議
+    }
   }, 300); // 使用 debounce，限制請求頻率
 
   const handleSuggestionClick = (suggestion) => {
@@ -55,9 +59,9 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
     setShowSuggestions(false); // 點擊後隱藏建議
   };
 
-  const handleInputClick = () => {
-    fetchSuggestions(wineInfo.name); // 當點擊輸入框時，查詢當前的內容（包括空字串）
-  };
+  // const handleInputClick = () => {
+  //   fetchSuggestions(wineInfo.name); // 當點擊輸入框時，查詢當前的內容（包括空字串）
+  // };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -95,16 +99,18 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
             title: "葡萄酒上傳成功！",
             text: "你可以選擇繼續上傳或跳轉到該葡萄酒的詳細頁面。",
             showCancelButton: true, // 顯示取消按鈕
-            confirmButtonText: "繼續上傳",
-            cancelButtonText: "轉跳到該葡萄酒頁面",
+            confirmButtonText: "轉跳到該葡萄酒頁面",
+            cancelButtonText: "繼續上傳",
+            customClass: {
+              confirmButton: "btn-confirm", // 自定義 confirm 按鈕的樣式
+              cancelButton: "btn-cancel", // 自定義 cancel 按鈕的樣式（可選）
+            },
           }).then((result) => {
             if (result.isConfirmed) {
-              // 如果使用者選擇繼續上傳，清空表單
+              onWineSelect(wineId);
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
               setWineInfo({ name: "", region: "", type: "", vintage: "" });
               setImage(null);
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-              // 如果使用者選擇查看該葡萄酒，觸發 onWineSelect 顯示詳細內容
-              onWineSelect(wineId); // 調用傳入的 onWineSelect 函數，顯示該葡萄酒的詳細資訊
             }
           });
 
@@ -180,7 +186,6 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
               name="name"
               value={wineInfo.name}
               onChange={handleInputChange}
-              onClick={handleInputClick}
               required
             />
           </div>
