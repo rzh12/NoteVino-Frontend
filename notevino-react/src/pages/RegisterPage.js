@@ -8,7 +8,7 @@ import {
   Link,
 } from "@mui/material";
 import axios from "axios";
-import nvLogo from "../nv-logo-2.svg";
+import nvLogo from "../nv-logo.svg";
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
@@ -17,27 +17,43 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [avatar, setAvatar] = useState(null); // 用於存儲用戶上傳的頭像
+  const [avatar, setAvatar] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // 處理頭像上傳
   const handleAvatarUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setAvatar(file); // 將頭像圖片存入 state
+      setAvatar(file);
     }
   };
 
-  // 發送註冊 API 請求
+  const validateForm = () => {
+    if (!email.includes("@")) {
+      setErrorMessage("請輸入有效的電子郵件地址");
+      return false;
+    }
+    if (password.length < 8) {
+      setErrorMessage("密碼至少應為 8 個字元");
+      return false;
+    }
+    if (password !== confirmPassword) {
+      setErrorMessage("密碼不一致");
+      return false;
+    }
+    if (!username) {
+      setErrorMessage("使用者名稱為必填項目");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match.");
+    if (!validateForm()) {
       return;
     }
 
     try {
-      // 創建 FormData 對象來存儲要發送的資料
       const formData = new FormData();
       formData.append(
         "user",
@@ -48,28 +64,25 @@ export default function RegisterPage() {
         })
       );
       if (avatar) {
-        formData.append("picture", avatar); // 如果用戶上傳了頭像，將圖片附加到表單中
+        formData.append("picture", avatar);
       }
 
-      // 發送 API 請求
       const response = await axios.post("/api/users/signup", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      // 存儲 JWT token
       const { token } = response.data;
-      localStorage.setItem("token", token); // 你可以選擇使用 sessionStorage 或 localStorage
+      localStorage.setItem("token", token);
 
-      // 跳轉到首頁
       navigate("/home");
     } catch (error) {
       console.error("Sign Up Error:", error);
       if (error.response && error.response.data) {
         setErrorMessage(error.response.data.error);
       } else {
-        setErrorMessage("An error occurred during sign up.");
+        setErrorMessage("註冊過程中發生錯誤");
       }
     }
   };
@@ -130,7 +143,7 @@ export default function RegisterPage() {
               inputLabel: {
                 sx: {
                   "&.Mui-focused": {
-                    color: "#901B4E",
+                    color: "#880e25",
                   },
                 },
               },
@@ -145,7 +158,7 @@ export default function RegisterPage() {
                   borderColor: "#888",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#901B4E",
+                  borderColor: "#880e25",
                 },
               },
             }}
@@ -164,7 +177,7 @@ export default function RegisterPage() {
               inputLabel: {
                 sx: {
                   "&.Mui-focused": {
-                    color: "#901B4E",
+                    color: "#880e25",
                   },
                 },
               },
@@ -179,7 +192,7 @@ export default function RegisterPage() {
                   borderColor: "#888",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#901B4E",
+                  borderColor: "#880e25",
                 },
               },
             }}
@@ -199,7 +212,7 @@ export default function RegisterPage() {
               inputLabel: {
                 sx: {
                   "&.Mui-focused": {
-                    color: "#901B4E",
+                    color: "#880e25",
                   },
                 },
               },
@@ -214,7 +227,7 @@ export default function RegisterPage() {
                   borderColor: "#888",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#901B4E",
+                  borderColor: "#880e25",
                 },
               },
             }}
@@ -234,7 +247,7 @@ export default function RegisterPage() {
               inputLabel: {
                 sx: {
                   "&.Mui-focused": {
-                    color: "#901B4E",
+                    color: "#880e25",
                   },
                 },
               },
@@ -249,7 +262,7 @@ export default function RegisterPage() {
                   borderColor: "#888",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#901B4E",
+                  borderColor: "#880e25",
                 },
               },
             }}
@@ -260,11 +273,11 @@ export default function RegisterPage() {
             variant="contained"
             component="label"
             sx={{
-              backgroundColor: "#901B4E",
+              backgroundColor: "#880e25",
               color: "white",
               padding: "6px 16px",
               "&:hover": {
-                backgroundColor: "#d22772",
+                backgroundColor: "#cf1538",
               },
             }}
           >
@@ -284,8 +297,9 @@ export default function RegisterPage() {
               sx={{
                 fontSize: "16px",
                 fontWeight: "bold",
-                marginBottom: "20px",
-                color: "#d22772",
+                marginTop: "20px",
+                marginBottom: "0px",
+                color: "#cf1538",
               }}
             >
               {errorMessage}
@@ -296,12 +310,12 @@ export default function RegisterPage() {
             fullWidth
             variant="contained"
             sx={{
-              backgroundColor: "#901B4E",
+              backgroundColor: "#880e25",
               color: "white",
               padding: "12px 20px",
               marginTop: "20px",
               "&:hover": {
-                backgroundColor: "#d22772",
+                backgroundColor: "#cf1538",
               },
             }}
           >
@@ -316,11 +330,11 @@ export default function RegisterPage() {
               borderRadius: "5px",
               fontSize: "14px",
               fontWeight: "bold",
-              color: "#901B4E",
-              border: "2px solid #901B4E",
+              color: "#880e25",
+              border: "2px solid #880e25",
               textDecoration: "none",
               "&:hover": {
-                backgroundColor: "#901B4E",
+                backgroundColor: "#880e25",
                 color: "white",
               },
             }}

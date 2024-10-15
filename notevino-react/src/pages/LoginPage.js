@@ -135,6 +135,15 @@ export default function LoginPage({ onLoginSuccess }) {
             autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            slotProps={{
+              inputLabel: {
+                sx: {
+                  "&.Mui-focused": {
+                    color: "#880e25",
+                  },
+                },
+              },
+            }}
             sx={{
               marginBottom: "20px",
               "& .MuiOutlinedInput-root": {
@@ -161,6 +170,15 @@ export default function LoginPage({ onLoginSuccess }) {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            slotProps={{
+              inputLabel: {
+                sx: {
+                  "&.Mui-focused": {
+                    color: "#880e25",
+                  },
+                },
+              },
+            }}
             sx={{
               marginBottom: "20px",
               "& .MuiOutlinedInput-root": {

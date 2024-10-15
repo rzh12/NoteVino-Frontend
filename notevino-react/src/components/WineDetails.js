@@ -61,10 +61,13 @@ function WineDetails({
         setIsEditingSatNote(false);
       })
       .catch((error) => {
-        console.error("Error fetching SAT note:", error);
-        setSatNote(null);
-        setIsCreatingSatNote(true);
-        setIsEditingSatNote(false);
+        if (error.response && error.response.status === 404) {
+          setSatNote(null);
+          setIsCreatingSatNote(true);
+          setIsEditingSatNote(false);
+        } else {
+          console.error("Error fetching SAT note:", error);
+        }
       });
   }, [wineId, token]);
 

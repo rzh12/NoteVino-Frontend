@@ -109,12 +109,15 @@ function Profile({ onAvatarUpdate }) {
             <div className="profile-card-image-container">
               <label htmlFor="avatar-upload">
                 <img
-                  src={user.picture}
+                  src={
+                    user.picture ||
+                    "https://via.placeholder.com/250?text=No+Image"
+                  }
                   alt={`${user.name}'s avatar`}
                   className="profile-card-image"
                   onError={(e) => {
                     e.target.src =
-                      "https://via.placeholder.com/150?text=No+Image";
+                      "https://via.placeholder.com/250?text=No+Image";
                   }}
                 />
                 {isUploading && (
