@@ -1,19 +1,16 @@
-/* 外層容器的樣式 */
 .outer-container {
   padding: 20px;
 }
 
-/* 卡片樣式 */
 .recommendation-card {
   box-shadow: 0 4px 8px var(--card-shadow-color);
   border-radius: 10px;
   background-color: var(--blank-color);
 }
 
-/* 使用原生 checkbox 的容器樣式 */
 .checkbox-container {
   display: flex;
-  align-items: center; /* 保持垂直居中 */
+  align-items: center;
   margin-bottom: 15px;
 }
 
@@ -22,26 +19,46 @@
   height: 20px;
   margin-right: 10px;
   position: relative;
-  top: -3px; /* 微調 checkbox 的垂直位置，讓它和文字對齊 */
+  top: -3px;
 }
 
 .checkbox-container label {
-  font-size: 1rem; /* 確保字體大小一致 */
-  line-height: 1.2; /* 調整文字的行高，讓文字和 checkbox 更好對齊 */
+  font-size: 1rem;
+  line-height: 1.2;
 }
 
-/* 正常輸入框樣式 */
 .enabled-input {
   background-color: var(--blank-color) !important;
 }
 
-/* 禁用狀態下的輸入框樣式 */
 .disabled-input {
   background-color: var(--light-medium-gray-color) !important;
 }
 
-/* 標題樣式 */
 .title {
   margin-bottom: 20px;
   font-size: 1.5rem;
+}
+
+input.form-control {
+  border-radius: 0 !important;
+}
+
+.input-group-text {
+  border-radius: 0 !important;
+}
+
+/* Slider */
+/* 滑動條容器 */
+.slider-container {
+  margin-bottom: 30px;
+  width: 600px; /* 調整滑動條的長度，使其更符合界面比例 */
+}
+
+/* 滑動條的標籤樣式 */
+.slider-label {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--primary-text-color);
 }

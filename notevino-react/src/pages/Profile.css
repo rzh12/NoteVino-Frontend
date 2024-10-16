@@ -109,3 +109,16 @@
 .profile-card-image:hover {
   opacity: 0.8;
 }
+
+/* Pie Chart */
+.pie-chart-container {
+  margin-top: 20px;
+}
+
+.recharts-sector {
+  transition: all 0.3s ease;
+}
+
+.recharts-legend-item {
+  cursor: pointer;
+}
