@@ -8,17 +8,31 @@ import {
   Legend,
   ResponsiveContainer,
   Sector,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
 } from "recharts";
 import "./Profile.css"; // 用於添加自定義樣式
 
-const COLORS = [
-  "#901B4E",
-  "#E0C16D",
-  "#0088FE",
-  "#00C49F",
-  "#AF19FF",
-  "#FF6666",
+const WINE_TYPES = [
+  "Red",
+  "White",
+  "Rose",
+  "Sparkling",
+  "Dessert",
+  "Fortified",
 ];
+const COLORS = {
+  Red: "#901B4E",
+  White: "#E0C16D",
+  Rosé: "#0088FE",
+  Sparkling: "#00C49F",
+  Dessert: "#AF19FF",
+  Fortified: "#FF6666",
+};
 
 const RADIAN = Math.PI / 180;
 
@@ -27,10 +41,11 @@ function Profile({ onAvatarUpdate }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [, setWineData] = useState([]);
   const [pieData, setPieData] = useState([]);
   const [animationPercent, setAnimationPercent] = useState(0);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [uploadHistory, setUploadHistory] = useState([]);
+  const [visibleRange, setVisibleRange] = useState({ start: 0, end: 7 });
 
   const onPieEnter = useCallback((_, index) => {
     setActiveIndex(index);
@@ -41,7 +56,7 @@ function Profile({ onAvatarUpdate }) {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // 從 localStorage 中獲取 token
+    const token = localStorage.getItem("token");
 
     if (!token) {
       setError("未登入，無法獲取使用者資料");
@@ -49,41 +64,38 @@ function Profile({ onAvatarUpdate }) {
       return;
     }
 
-    // 發送 GET 請求來獲取使用者的個人資料
-    axios
-      .get("/api/users/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`, // 將 token 添加到請求的 Authorization 標頭中
-        },
-      })
-      .then((response) => {
-        setUser(response.data); // 保存用戶資料到 state 中
-        setLoading(false); // 請求完成，取消加載狀態
-      })
-      .catch((error) => {
-        setError("無法獲取使用者資料");
-        setLoading(false); // 無論成功與否都取消加載狀態
-      });
+    const fetchData = async () => {
+      try {
+        const [profileResponse, wineResponse] = await Promise.all([
+          axios.get("/api/users/profile", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get("/api/wines/list", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
 
-    axios
-      .get("/api/wines/list", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        if (response.data.success) {
-          setWineData(response.data.data); // 保存用戶上傳的酒類數據
-          processPieData(response.data.data); // 處理並設置圓餅圖數據
+        setUser(profileResponse.data);
+
+        if (wineResponse.data.success) {
+          const wines = wineResponse.data.data;
+          processPieData(wines);
+          processUploadHistory(wines);
         }
-      })
-      .catch((error) => {
-        console.error("無法獲取酒類數據", error);
-      });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError("無法獲取資料");
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchData();
+
+    // 動畫邏輯
     const easeOutQuad = (t) => t * (2 - t);
-    const animationDuration = 1000; // 1秒
-    const stepTime = 20; // 每20毫秒更新一次
+    const animationDuration = 1000;
+    const stepTime = 20;
     const steps = animationDuration / stepTime;
     let step = 0;
 
@@ -99,19 +111,53 @@ function Profile({ onAvatarUpdate }) {
     return () => clearInterval(animationInterval);
   }, []);
 
-  // 處理酒類數據，生成圓餅圖需要的格式
   const processPieData = (data) => {
     const typeCounts = data.reduce((acc, wine) => {
       acc[wine.type] = (acc[wine.type] || 0) + 1;
       return acc;
     }, {});
 
-    const pieData = Object.keys(typeCounts).map((type) => ({
-      name: type,
-      value: typeCounts[type],
-    }));
+    // 只保留有數量的酒類數據
+    const pieData = WINE_TYPES.reduce((acc, type) => {
+      if (typeCounts[type] && typeCounts[type] > 0) {
+        acc.push({
+          name: type,
+          value: typeCounts[type],
+        });
+      }
+      return acc;
+    }, []);
 
     setPieData(pieData);
+  };
+
+  const processUploadHistory = (data) => {
+    const dailyUploads = data.reduce((acc, wine) => {
+      const date = new Date(wine.createdAt).toISOString().split("T")[0];
+      acc[date] = (acc[date] || 0) + 1;
+      return acc;
+    }, {});
+
+    const history = Object.keys(dailyUploads)
+      .sort()
+      .map((date) => ({
+        date,
+        count: dailyUploads[date],
+      }));
+
+    setUploadHistory(history);
+    setVisibleRange({ start: 0, end: Math.min(7, history.length) });
+  };
+
+  const handleScroll = (direction) => {
+    setVisibleRange((prev) => {
+      if (direction === "left" && prev.start > 0) {
+        return { start: prev.start - 1, end: prev.end - 1 };
+      } else if (direction === "right" && prev.end < uploadHistory.length) {
+        return { start: prev.start + 1, end: prev.end + 1 };
+      }
+      return prev;
+    });
   };
 
   // 顯示加載狀態
@@ -263,6 +309,11 @@ function Profile({ onAvatarUpdate }) {
     );
   };
 
+  const renderColorfulLegendText = (value, entry) => {
+    const { color } = entry;
+    return <span style={{ color }}>{value}</span>;
+  };
+
   // 顯示用戶資料
   return (
     <div className="profile-container">
@@ -311,35 +362,86 @@ function Profile({ onAvatarUpdate }) {
               </p>
             </div>
           </div>
-          {/* 圓餅圖 */}
-          <div className="pie-chart-container">
-            <ResponsiveContainer width="100%" height={400}>
-              <PieChart>
-                <Pie
-                  activeIndex={activeIndex}
-                  activeShape={renderActiveShape}
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={120}
-                  fill="#8884d8"
-                  dataKey="value"
-                  onMouseEnter={onPieEnter}
-                  onMouseLeave={onPieLeave}
-                  startAngle={90}
-                  endAngle={90 + 360 * (animationPercent / 100)}
-                >
-                  {pieData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
+          <div className="charts-container">
+            {/* 折線圖 (左側) */}
+            <div className="chart-item upload-history-container">
+              <h3 className="chart-title-line">每日新增酒款數量</h3>
+              {uploadHistory.length > 0 ? (
+                <div className="chart-wrapper">
+                  <div className="scroll-controls">
+                    <button
+                      onClick={() => handleScroll("left")}
+                      disabled={visibleRange.start === 0}
+                      aria-label="向左滾動"
+                    >
+                      &#8592;
+                    </button>
+                    <button
+                      onClick={() => handleScroll("right")}
+                      disabled={visibleRange.end >= uploadHistory.length}
+                      aria-label="向右滾動"
+                    >
+                      &#8594;
+                    </button>
+                  </div>
+                  <ResponsiveContainer width="100%" height={400}>
+                    <LineChart
+                      data={uploadHistory.slice(
+                        visibleRange.start,
+                        visibleRange.end
+                      )}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Line
+                        type="monotone"
+                        dataKey="count"
+                        stroke="#8884d8"
+                        activeDot={{ r: 8 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
+                <div>No upload history available</div>
+              )}
+            </div>
+
+            {/* 圓餅圖 (右側) */}
+            <div className="chart-item pie-chart-container">
+              <h3 className="chart-title">葡萄酒類別比例</h3>
+              {pieData.length > 0 ? (
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart>
+                    <Pie
+                      activeIndex={activeIndex}
+                      activeShape={renderActiveShape}
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={120}
+                      fill="#8884d8"
+                      dataKey="value"
+                      onMouseEnter={onPieEnter}
+                      onMouseLeave={onPieLeave}
+                      startAngle={90}
+                      endAngle={90 + 360 * (animationPercent / 100)}
+                    >
+                      {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[entry.name]} />
+                      ))}
+                    </Pie>
+                    <Legend formatter={renderColorfulLegendText} />
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <div>No pie chart data available</div>
+              )}
+            </div>
           </div>
         </CardBody>
       </Card>

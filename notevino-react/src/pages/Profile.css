@@ -122,3 +122,76 @@
 .recharts-legend-item {
   cursor: pointer;
 }
+
+.upload-history-container {
+  margin-top: 30px;
+}
+
+.upload-history-container h3 {
+  margin-bottom: 20px;
+}
+
+.charts-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.chart-title-line,
+.chart-title {
+  font-size: 24px; /* 調整這個值來改變字體大小 */
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333; /* 調整顏色以符合您的設計 */
+}
+
+.chart-title-line {
+  margin-left: 50px;
+}
+
+.chart-item {
+  width: 48%; /* 留一些間隙 */
+}
+
+.chart-item h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 確保圖表容器有足夠的高度 */
+.upload-history-container,
+.pie-chart-container {
+  height: 450px; /* 包括標題的總高度 */
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 400px;
+}
+
+.scroll-controls {
+  position: absolute;
+  top: -20px;
+  right: 30px;
+  z-index: 10;
+}
+
+.scroll-controls button {
+  background: none !important;
+  border: none !important;
+  font-size: 20px !important;
+  cursor: pointer;
+  padding: 0 5px !important;
+  color: #333 !important;
+  box-shadow: none !important;
+}
+
+.scroll-controls button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.scroll-controls button:first-child {
+  margin-right: 5px;
+}
