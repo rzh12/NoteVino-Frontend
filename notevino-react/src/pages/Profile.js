@@ -133,10 +133,17 @@ function Profile({ onAvatarUpdate }) {
 
   const processUploadHistory = (data) => {
     const dailyUploads = data.reduce((acc, wine) => {
-      const date = new Date(wine.createdAt).toISOString().split("T")[0];
+      // 使用 toLocaleDateString 來確保日期格式一致
+      const date = new Date(wine.createdAt).toLocaleDateString("en-CA"); // 使用 'en-CA' 來獲得 YYYY-MM-DD 格式
       acc[date] = (acc[date] || 0) + 1;
       return acc;
     }, {});
+
+    // 確保包含今天的日期，即使沒有上傳
+    const today = new Date().toLocaleDateString("en-CA");
+    if (!dailyUploads[today]) {
+      dailyUploads[today] = 0;
+    }
 
     const history = Object.keys(dailyUploads)
       .sort()
@@ -146,7 +153,11 @@ function Profile({ onAvatarUpdate }) {
       }));
 
     setUploadHistory(history);
-    setVisibleRange({ start: 0, end: Math.min(7, history.length) });
+    // 更新可見範圍以顯示最新的數據
+    setVisibleRange({
+      start: Math.max(0, history.length - 7),
+      end: history.length,
+    });
   };
 
   const handleScroll = (direction) => {
@@ -400,6 +411,7 @@ function Profile({ onAvatarUpdate }) {
                         type="monotone"
                         dataKey="count"
                         stroke="#8884d8"
+                        strokeWidth={3}
                         activeDot={{ r: 8 }}
                       />
                     </LineChart>
@@ -412,7 +424,7 @@ function Profile({ onAvatarUpdate }) {
 
             {/* 圓餅圖 (右側) */}
             <div className="chart-item pie-chart-container">
-              <h3 className="chart-title">葡萄酒類別比例</h3>
+              <h3 className="chart-title">葡萄酒類別統計</h3>
               {pieData.length > 0 ? (
                 <ResponsiveContainer width="100%" height={400}>
                   <PieChart>

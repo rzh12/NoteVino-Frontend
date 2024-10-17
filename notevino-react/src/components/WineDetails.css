@@ -86,18 +86,15 @@
   position: relative;
 }
 
-/* 建立時間 */
-/* 调整 time 类的样式，使其显示在卡片的右下角 */
 .wine-info.time {
   position: absolute;
   bottom: -10px;
   right: 20px;
-  font-size: 12px !important; /* 设置较小的字体尺寸 */
-  white-space: nowrap; /* 确保文本不换行 */
-  overflow: hidden; /* 确保文本不会溢出 */
+  font-size: 12px !important;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-/* 标签的样式：可以使 label 更小或使用斜体 */
 .wine-info-label.time {
   font-weight: normal;
   /* font-style: italic; */
@@ -106,7 +103,6 @@
   padding-right: 0px !important;
 }
 
-/* 文本的样式：使实际时间信息显示得更简洁 */
 .wine-info-text.time {
   font-weight: normal;
   /* font-style: italic; */
@@ -197,7 +193,7 @@
   border: 1px solid var(--medium-gray-color);
   border-radius: 4px;
   box-shadow: inset 0 1px 3px var(--normal-shadow-color);
-  min-width: 0; /* 允许输入框缩小 */
+  min-width: 0;
 }
 
 /* 保存按鈕 */
@@ -279,7 +275,7 @@
   position: absolute;
   top: 32px;
   right: 115px;
-  display: flex; /* 确保图标和文字在一行 */
+  display: flex;
   align-items: center;
   font-size: 18px;
 }

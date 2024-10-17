@@ -25,7 +25,7 @@ import WineCard from "../components/WineCard";
 import Profile from "../pages/Profile";
 // import { Squash as Hamburger } from "hamburger-react";
 
-// Material-UI 表格組件
+// Material-UI
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -162,12 +162,11 @@ function HomePage() {
   useEffect(() => {
     // Fetch top 5 wine suggestions
     axios
-      .get("/api/wines/autocomplete?query=") // 空字符串查询返回热门酒款
+      .get("/api/wines/autocomplete?query=")
       .then((response) => {
         if (response.data.success) {
-          const suggestions = response.data.data.slice(0, 5); // 取前 5 笔数据
+          const suggestions = response.data.data.slice(0, 5);
 
-          // 获取每个酒款的详细信息
           const fetchWineDetails = suggestions.map((wine) =>
             axios.get(`/api/wines/${wine.wineId}`).then((res) => res.data.data)
           );
@@ -230,10 +229,6 @@ function HomePage() {
 
           {/* 右側按鈕和 userInfo */}
           <div className="right-header">
-            {/* <Button className="dark-mode-toggle" onClick={toggleDarkMode}>
-              Dark Mode
-            </Button> */}
-
             {/* 分隔線 */}
             <div className="separator"></div>
 

@@ -156,14 +156,14 @@ button:hover {
 
 .welcome-card-title {
   font-family: "Libre Baskerville", serif;
-  font-weight: 400 !important; /* 粗體 */
-  font-size: 36px; /* 放大标题 */
-  font-weight: bold; /* 加粗标题 */
+  font-weight: 400 !important;
+  font-size: 36px;
+  font-weight: bold;
 }
 
 .welcome-card-text {
-  font-size: 24px; /* 放大文字 */
-  margin-top: 30px; /* 添加一些顶部间距 */
+  font-size: 24px;
+  margin-top: 30px;
 }
 
 /* Header 左側區域 */
@@ -447,7 +447,6 @@ button:hover {
   background-color: var(--light-pink-color);
 }
 
-/* 调整 WineCard 内部样式，以适应全宽布局 */
 .wine-card-header {
   display: flex;
   align-items: flex-start;

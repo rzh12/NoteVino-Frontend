@@ -1,15 +1,12 @@
-/* 颜色变量 */
 :root {
   --info-text-color: #333;
   --card-shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Profile 容器 */
 .profile-container {
   padding: 20px;
 }
 
-/* Profile Card 样式 */
 .profile-card {
   margin-bottom: 20px;
   padding: 10px;
@@ -44,7 +41,7 @@
   align-items: center;
   max-width: 600px;
   justify-content: flex-start;
-  margin-top: 30px; /* 增加项与项之间的间距 */
+  margin-top: 30px;
 }
 
 .profile-card-label {
@@ -71,11 +68,10 @@
   text-align: left; /* 保持文字靠左對齊 */
 }
 
-/* 图片容器 */
 .profile-card-image-container {
   flex-shrink: 0;
-  width: 250px; /* 恢復為 250px */
-  height: 250px; /* 恢復為 250px */
+  width: 250px;
+  height: 250px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,10 +135,10 @@
 
 .chart-title-line,
 .chart-title {
-  font-size: 24px; /* 調整這個值來改變字體大小 */
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 15px;
-  color: #333; /* 調整顏色以符合您的設計 */
+  color: #333;
 }
 
 .chart-title-line {
@@ -150,7 +146,7 @@
 }
 
 .chart-item {
-  width: 48%; /* 留一些間隙 */
+  width: 48%;
 }
 
 .chart-item h3 {

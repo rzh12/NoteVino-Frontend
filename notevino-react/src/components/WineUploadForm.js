@@ -59,10 +59,6 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
     setShowSuggestions(false); // 點擊後隱藏建議
   };
 
-  // const handleInputClick = () => {
-  //   fetchSuggestions(wineInfo.name); // 當點擊輸入框時，查詢當前的內容（包括空字串）
-  // };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);

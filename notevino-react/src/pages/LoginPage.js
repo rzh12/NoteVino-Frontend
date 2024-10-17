@@ -15,21 +15,17 @@ export default function LoginPage({ onLoginSuccess }) {
     event.preventDefault();
 
     try {
-      // 發送登入請求
       const response = await axios.post("/api/users/signin", {
         email,
         password,
       });
 
-      // 存儲 JWT token 到 localStorage
       const { token } = response.data;
       localStorage.setItem("token", token);
 
-      // 登入成功的回調，並導航到首頁
       onLoginSuccess();
       navigate("/home");
     } catch (error) {
-      // 錯誤處理
       console.error("Sign In Error:", error);
       if (error.response && error.response.data) {
         setErrorMessage(error.response.data.error);
