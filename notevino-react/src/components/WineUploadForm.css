@@ -1,17 +1,17 @@
 .form-container {
-  padding: 30px; /* 加大表單內邊距 */
+  padding: 30px;
   border: 1px solid var(--medium-gray-color);
   border-radius: 8px;
   background-color: var(--light-gray-color);
   max-width: 500px;
-  margin: 40px auto; /* 增加表單與外圍的距離 */
-  box-shadow: 0 4px 8px var(--normal-shadow-color); /* 添加輕微陰影 */
+  margin: 40px auto;
+  box-shadow: 0 4px 8px var(--normal-shadow-color);
 }
 
 .form-container h2 {
   text-align: center;
-  margin-bottom: 30px; /* 增加標題與表單間的距離 */
-  font-size: 24px; /* 加大標題字體 */
+  margin-bottom: 30px;
+  font-size: 24px;
   color: var(--deep-text-color);
 }
 
@@ -25,13 +25,13 @@
 }
 
 .form-container .form-group {
-  margin-bottom: 25px; /* 增加每個輸入框之間的間距 */
+  margin-bottom: 25px;
 }
 
 .form-container .form-input,
 .form-container .form-select {
   width: 100%;
-  padding: 12px; /* 調整輸入框的內邊距 */
+  padding: 12px;
   font-size: 18px;
   border: 1px solid var(--medium-gray-color);
   border-radius: 4px;
@@ -45,7 +45,6 @@
   outline: 3px solid var(--green-hover-background-color) !important;
 }
 
-/* 隱藏原生的文件上傳按鈕 */
 .hidden-file-input {
   display: none;
 }
@@ -62,7 +61,7 @@
   outline: 3px solid var(--blue-hover-background-color) !important;
 }
 
-/* 自定義文件上傳按鈕樣式 */
+/* Customized Upload Button */
 .custom-file-upload {
   display: inline-block !important;
   padding: 10px 20px !important;
@@ -73,10 +72,9 @@
   font-size: 16px !important;
 }
 
-/* 檔案名稱顯示在按鈕右邊 */
 .file-name {
-  display: inline-block; /* 讓檔案名稱與按鈕在同一行 */
-  margin-left: 20px; /* 調整與按鈕之間的距離 */
+  display: inline-block;
+  margin-left: 20px;
   font-size: 18px;
   color: var(--deep-text-color);
 }
@@ -116,10 +114,10 @@
 }
 
 .btn-confirm {
-  background-color: var(--green-color) !important; /* 綠色 */
+  background-color: var(--green-color) !important;
   color: white !important;
 }
 
 .btn-confirm:hover {
-  background-color: var(--green-hover-color) !important; /* 綠色 */
+  background-color: var(--green-hover-color) !important;
 }

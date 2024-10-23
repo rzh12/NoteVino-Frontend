@@ -74,22 +74,21 @@ function HomePage() {
   };
 
   const toggleSidebar = () => {
-    setIsSidebarCollapsed(!isSidebarCollapsed); // 切換側邊欄收合狀態
+    setIsSidebarCollapsed(!isSidebarCollapsed); // Toggle the sidebar collapse state
   };
 
-  // 處理推薦按鈕點擊，切換表單顯示/隱藏
+  // Handle recommendation button click
   const handleRecommendClick = () => {
     setShowProfile(false);
-    setShowRecommendationForm(!showRecommendationForm); // 切換推薦表單顯示狀態
-    setIsUploading(false); // 隱藏上傳葡萄酒表單
-    setSelectedWineId(null); // 隱藏葡萄酒詳細信息
+    setShowRecommendationForm(!showRecommendationForm);
+    setIsUploading(false);
+    setSelectedWineId(null);
     if (!showRecommendationForm) {
-      setRecommendations([]); // 隱藏推薦結果
+      setRecommendations([]);
     }
   };
 
   const handleRecommendationsFetch = (data) => {
-    // 處理推薦結果
     setRecommendations(data);
   };
 
@@ -101,13 +100,11 @@ function HomePage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    // 如果沒有 token，跳轉到登入頁
     if (!token) {
       navigate("/login");
       return;
     }
 
-    // 驗證 token 是否有效，獲取用戶資料
     axios
       .get("/api/users/profile", {
         headers: {
@@ -123,7 +120,6 @@ function HomePage() {
       .catch((error) => {
         console.error("Failed to fetch user profile:", error);
 
-        // 如果 token 失效或請求出錯，清除 token 並跳轉到登入頁
         localStorage.removeItem("token");
         setIsLoggedIn(false);
         navigate("/login");
@@ -160,7 +156,7 @@ function HomePage() {
   };
 
   useEffect(() => {
-    // Fetch top 5 wine suggestions
+    // Fetch Top 5 Wine Suggestions
     axios
       .get("/api/wines/autocomplete?query=")
       .then((response) => {
@@ -263,8 +259,8 @@ function HomePage() {
                   >
                     <DropdownItem
                       onClick={() => {
-                        setShowProfile(true); // 顯示 Profile 頁面
-                        setSelectedWineId(null); // 重置其他狀態
+                        setShowProfile(true);
+                        setSelectedWineId(null);
                         setIsUploading(false);
                         setShowRecommendationForm(false);
                       }}
@@ -310,7 +306,7 @@ function HomePage() {
                   <Card className="recommendations-card">
                     <CardBody>
                       <h3 className="title">推薦結果</h3>
-                      {/* 使用 Material-UI 表格組件 */}
+                      {/* Material-UI */}
                       <TableContainer
                         component={Paper}
                         className="table-container"

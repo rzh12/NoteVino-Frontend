@@ -36,24 +36,24 @@
   --spinner-border-left-color: #09f;
 
   --card-shadow-color: rgba(0, 0, 0, 0.3); /* 卡片陰影顏色 */
-  --general-shadow-color: rgba(128, 128, 128, 0.3); /* 其他元素的陰影顏色 */
+  --general-shadow-color: rgba(128, 128, 128, 0.3); /* 其他陰影顏色 */
   --normal-shadow-color: rgba(0, 0, 0, 0.1);
 
   --background-color: var(--light-color); /* 背景底色 */
   --text-color: var(--accent-color); /* 文字顏色 */
   --button-background-color: var(--primary-color); /* 按鈕背景色 */
   --button-text-color: var(--light-color); /* 按鈕文字顏色 */
-  --header-background: var(--blank-color); /* 頁首背景色 */
-  --header-text-color: var(--accent-color); /* 頁首文字顏色 */
+  --header-background: var(--blank-color); /* header 背景色 */
+  --header-text-color: var(--accent-color); /* header 文字顏色 */
   --header-botton-hover-color: var(--primary-deep-hover-color);
   --header-botton-hover-background-color: var(
     --primary-deep-hover-background-color
   );
   --card-background-color: var(--blank-color); /* 卡片背景色 */
   --dropdown-item-hover-color: var(--normal-hover-color);
-  --table-header-background: var(--light-color); /* 表頭背景色 */
-  --table-header-text-color: var(--accent-color); /* 表頭文字顏色 */
-  --table-row-hover-background: var(--normal-hover-color); /* 表格行懸停背景 */
+  --table-header-background: var(--light-color);
+  --table-header-text-color: var(--accent-color);
+  --table-row-hover-background: var(--normal-hover-color);
 }
 
 .header {
@@ -80,20 +80,20 @@
 
 .header-logo {
   display: inline-block;
-  height: 45px; /* 確保 logo 不會過大，根據需要調整 */
+  height: 45px;
   margin-right: 10px;
 }
 
 .header-title {
   display: inline-block;
-  font-size: 36px; /* 調整字體大小 */
+  font-size: 36px;
   font-weight: bold;
   color: var(--header-text-color);
   margin-top: 5px;
   flex-shrink: 0;
 }
 
-/* 按鈕樣式 */
+/* Global 按鈕樣式 */
 button {
   background-color: var(--button-background-color) !important;
   color: var(--button-text-color) !important;
@@ -127,11 +127,11 @@ button:hover {
 }
 
 .homepage-content-expanded {
-  margin-left: 250px; /* 側邊欄展開時的樣式 */
+  margin-left: 250px;
 }
 
 .homepage-content-collapsed {
-  margin-left: 0; /* 側邊欄收起時的樣式 */
+  margin-left: 0;
 }
 
 .content-body {
@@ -145,13 +145,13 @@ button:hover {
 .welcome-card,
 .recommendations-card {
   /* padding: 20px; */
-  border-radius: 8px; /* 添加卡片的圓角 */
+  border-radius: 8px;
   background-color: var(--card-background-color) !important;
   box-shadow: 0 2px 10px var(--card-shadow-color) !important;
 }
 
 .welcome-card-body {
-  text-align: center; /* 水平居中 */
+  text-align: center;
 }
 
 .welcome-card-title {
@@ -191,10 +191,10 @@ button:hover {
 
 .home-button,
 .recommendation-button {
-  background-color: transparent !important; /* 透明背景 */
-  border: none !important; /* 移除邊框 */
-  padding: 5px 15px !important; /* 給按鈕一點內邊距 */
-  box-shadow: none !important; /* 移除陰影 */
+  background-color: transparent !important;
+  border: none !important;
+  padding: 5px 15px !important;
+  box-shadow: none !important;
   color: var(--header-text-color) !important;
   font-size: 18px !important;
   font-weight: bold !important;
@@ -207,9 +207,7 @@ button:hover {
 .home-button:hover,
 .recommendation-button:hover {
   color: var(--primary-deep-hover-color) !important;
-  background-color: var(
-    --primary-deep-hover-background-color
-  ) !important; /* 確保背景色為透明 */
+  background-color: var(--primary-deep-hover-background-color) !important;
 }
 
 /* Header 右側區域 */
@@ -229,7 +227,7 @@ button:hover {
 
 /* user-info 區域 */
 .user-info {
-  position: relative; /* 定位 */
+  position: relative;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -252,7 +250,7 @@ button:hover {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 15px; /* 增加頭像和用戶名之間的距離 */
+  margin-right: 15px;
 }
 
 .user-name {
@@ -279,7 +277,7 @@ button:hover {
 .dropdown-menu-custom {
   border-radius: 0 0 4px 4px !important;
   position: absolute !important;
-  top: 7.5px !important; /* 確保下拉菜單緊貼觸發元素 */
+  top: 7.5px !important;
   right: -40px !important;
   width: 168px !important;
   opacity: 0;
@@ -291,20 +289,20 @@ button:hover {
 
 /* 顯示下拉選單 */
 .dropdown-menu-custom.show {
-  opacity: 1 !important; /* 確保顯示時完全不透明 */
-  visibility: visible !important; /* 顯示時可見 */
+  opacity: 1 !important;
+  visibility: visible !important;
   transform: scaleY(1);
 }
 
 /* 下拉選單項目 */
 .dropdown-item {
-  background-color: transparent !important; /* 移除背景色 */
-  color: var(--text-color) !important; /* 使用默認字體顏色 */
-  border: none !important; /* 移除按鈕邊框 */
-  padding: 10px 20px; /* 調整內邊距 */
+  background-color: transparent !important;
+  color: var(--text-color) !important;
+  border: none !important;
+  padding: 10px 20px;
   border-radius: 0px !important;
-  cursor: pointer; /* 仍然顯示可點擊的手型 */
-  display: flex; /* 將圖標和文字對齊 */
+  cursor: pointer;
+  display: flex;
   align-items: center;
   box-shadow: none !important;
 }
@@ -313,7 +311,6 @@ button:hover {
   background-color: var(--dropdown-item-hover-color) !important;
 }
 
-/* 下拉選單中的圖標 */
 .dropdown-icon {
   margin-right: 10px;
   font-size: 20px;
@@ -326,37 +323,35 @@ button:hover {
 .login-container {
   display: flex;
   align-items: center;
-  background-color: transparent; /* 背景色 */
-  padding: 15px 40px; /* 內邊距 */
-  color: var(--deep-text-color); /* 文字顏色 */
-  cursor: pointer; /* 顯示手型，表明可點擊 */
+  background-color: transparent;
+  padding: 15px 40px;
+  color: var(--deep-text-color);
+  cursor: pointer;
   white-space: nowrap;
   transform: translateX(-15px);
 }
 
 .user-icon {
-  font-size: 24px; /* 調整圖標大小 */
-  margin-right: 15px; /* 圖標與文字保持間距 */
+  font-size: 24px;
+  margin-right: 15px;
 }
 
 .login-text {
-  font-size: 18px; /* 調整文字大小，使其更顯眼 */
+  font-size: 18px;
 }
 
 .login-container:hover {
-  background-color: rgba(0, 123, 255, 0.2); /* 懸停時的背景色 */
+  background-color: rgba(0, 123, 255, 0.2);
 }
 
-/* 表格的通用樣式 */
 .recommendations-table {
   width: 100%;
   border-collapse: collapse; /* 移除表格的間隙，讓邊框合併 */
-  background-color: var(--blank-color); /* 背景色為白色 */
-  border-radius: 2px; /* 添加圓角 */
-  overflow: hidden; /* 隱藏圓角外部的內容 */
+  background-color: var(--blank-color);
+  border-radius: 2px;
+  overflow: hidden;
 }
 
-/* 表頭樣式 */
 .recommendations-table-header {
   background-color: var(--table-header-background);
   color: var(--table-header-text-color);
@@ -370,18 +365,15 @@ button:hover {
   border-bottom: 2px solid var(--gray-color) !important;
 }
 
-/* 表格每行的樣式 */
 .recommendation-row {
   border-bottom: 1px solid var(--gray-color) !important;
   transition: background-color 0.3s ease;
 }
 
-/* 最後一行的特殊樣式 */
 .last-row {
   border-bottom: none !important;
 }
 
-/* 單元格的樣式 */
 .recommendation-cell {
   padding: 12px;
   text-align: left;
@@ -389,7 +381,6 @@ button:hover {
   color: var(--text-color);
 }
 
-/* 懸停效果 */
 .recommendation-row:hover {
   background-color: var(--table-row-hover-background);
 }
@@ -402,8 +393,8 @@ button:hover {
 .title {
   margin-bottom: 20px;
   font-size: 1.5rem;
-  font-weight: bold; /* 如果需要字體加粗，可以加這個屬性 */
-  color: var(--deep-text-color); /* 可選：調整字體顏色 */
+  font-weight: bold;
+  color: var(--deep-text-color);
 }
 
 /* Welcome Card Container */

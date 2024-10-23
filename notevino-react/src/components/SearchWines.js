@@ -16,15 +16,15 @@ function SearchWines({ onSearchResults, resetSearch }) {
     setQuery(value);
 
     if (value.trim()) {
-      handleSearch(value); // 當輸入有內容時，自動觸發搜尋
+      handleSearch(value); // Automatically trigger search when there is input
     } else {
-      resetSearch(); // 當輸入框被清空時重置搜尋
+      resetSearch(); // Reset search when the input field is cleared
     }
   };
 
   const handleSearch = (searchQuery) => {
     if (!searchQuery.trim()) {
-      resetSearch(); // 如果搜尋欄被清空，重置搜尋狀態
+      resetSearch(); // If the search bar is cleared, reset the search state
       return;
     }
 

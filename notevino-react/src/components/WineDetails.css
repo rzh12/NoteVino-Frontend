@@ -1,5 +1,4 @@
 :root {
-  /* 按鈕顏色 */
   --action-button-color: var(--deep-gray-color);
   --info-text-color: var(--deep-text-color);
   --note-edit-hover-color: var(--deep-gray-hover-color);
@@ -10,7 +9,7 @@
   padding: 20px;
 }
 
-/* 卡片樣式 */
+/* Wine Details Card Block*/
 .wine-details-card,
 .notes-card,
 .tasting-note-card,
@@ -42,47 +41,45 @@
 .wine-info-container {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 確保每一行置中 */
-  align-items: center; /* 整個容器的內容置中 */
+  justify-content: center;
+  align-items: center;
 }
 
-/* 標題字體樣式 */
 .wine-info-title {
   padding: 20px;
   font-family: "Libre Baskerville", serif;
-  font-weight: 700 !important; /* 粗體 */
-  font-size: 36px; /* 調整字體大小 */
-  color: var(--accent-color); /* 使用全局設置的主題顏色 */
+  font-weight: 700 !important;
+  font-size: 36px;
+  color: var(--accent-color);
 }
 
-/* 段落樣式 */
 .wine-info {
   display: flex;
   align-items: center;
-  width: 100%; /* 讓行寬度覆蓋整個區域 */
-  max-width: 300px; /* 設定最大寬度，讓內容不超過範圍 */
+  width: 100%;
+  max-width: 300px;
 }
 
 .wine-info-label {
   font-family: "Libre Baskerville", serif;
-  font-size: 24px; /* 調整字體大小 */
-  font-weight: 700; /* 正常字重 */
-  line-height: 1.5; /* 行高，讓文字更易讀 */
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
   color: var(--info-text-color);
-  width: 150px; /* 左邊的項目標籤寬度 */
-  text-align: right; /* 右對齊 */
-  padding-right: 10px; /* 與分隔線的間距 */
+  width: 150px;
+  text-align: right;
+  padding-right: 10px;
 }
 
 .wine-info-text {
   font-family: "Libre Baskerville", serif;
-  font-size: 24px; /* 調整字體大小 */
-  font-weight: 400; /* 正常字重 */
-  line-height: 1.5; /* 行高，讓文字更易讀 */
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
   color: var(--info-text-color);
   flex: 1;
-  padding-left: 10px; /* 與分隔線的間距 */
-  text-align: left; /* 左對齊 */
+  padding-left: 10px;
+  text-align: left;
   position: relative;
 }
 
@@ -110,7 +107,7 @@
   color: var(--deep-gray-color);
 }
 
-/* 圖片容器 */
+/* Wine Image Block */
 .wine-image-container {
   flex-shrink: 0;
   width: 250px;
@@ -139,7 +136,7 @@
   gap: 10px;
 }
 
-/* 通用按鈕樣式（不繼承全局樣式） */
+/* General Button Styles */
 .wine-edit-Button,
 .wine-delete-Button,
 .note-gen-Button,
@@ -149,12 +146,11 @@
   cursor: pointer;
   padding: 10px 12px !important;
   box-shadow: none !important;
-  border-radius: 20px; /* 讓按鈕呈圓形 */
+  border-radius: 20px;
   transition: background-color 0.3s ease;
   color: var(--action-button-color) !important;
 }
 
-/* 按鈕懸停效果 */
 .wine-edit-Button:hover {
   background-color: var(--blue-hover-background-color) !important;
   color: var(--blue-hover-color) !important;
@@ -171,16 +167,16 @@
 }
 
 .detail-item {
-  display: flex; /* 使用 flex 排版 */
+  display: flex;
   align-items: center;
   font-size: 20px;
   margin-bottom: 10px;
-  flex-wrap: wrap; /* 允许在小屏幕下换行 */
+  flex-wrap: wrap;
   color: var(--info-text-color);
 }
 
 .detail-item label {
-  width: 100px; /* 固定標籤寬度 */
+  width: 100px;
   font-weight: 700;
   margin-right: 10px;
   flex-shrink: 0;
@@ -196,7 +192,7 @@
   min-width: 0;
 }
 
-/* 保存按鈕 */
+/* Save Buttons */
 .wine-save-button,
 .note-save-button,
 .sat-save-button {
@@ -214,7 +210,6 @@
   background-color: var(--green-hover-color) !important;
 }
 
-/* note, sat 其他按鈕 */
 .wine-save-container,
 .note-buttons,
 .note-edit-buttons,
@@ -261,16 +256,16 @@
 }
 
 .tasting-note-header h2 {
-  font-size: 36px; /* 調整字體大小 */
-  font-family: "Lato", sans-serif !important; /* 調整字體類型 */
-  font-weight: 700 !important; /* 調整字體粗細 */
+  font-size: 36px;
+  font-family: "Lato", sans-serif !important;
+  font-weight: 700 !important;
   margin-bottom: 40px;
 }
 
 .add-note-button {
   padding: 8px 15px !important;
   box-shadow: none !important;
-  border-radius: 50px !important; /* 讓按鈕呈圓形 */
+  border-radius: 50px !important;
   color: var(--blank-color) !important;
   position: absolute;
   top: 32px;
@@ -300,9 +295,9 @@
 }
 
 ul {
-  margin-top: 0px !important; /* 增加 Tasting Notes 與第一則筆記的距離 */
-  padding-left: 0; /* 去掉 ul 的左邊距 */
-  list-style-type: none; /* 隱藏小黑點 */
+  margin-top: 0px !important;
+  padding-left: 0;
+  list-style-type: none;
 }
 
 .notes-list {
@@ -336,13 +331,11 @@ ul {
   border-radius: 4px;
 }
 
-/* Tasting Note Buttons 5*/
-
 .note-content {
   position: relative;
   padding-right: 30px;
-  align-items: center; /* 垂直方向上居中 */
-  justify-content: flex-start; /* 左對齊 */
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .note-edit-icon {
@@ -367,10 +360,10 @@ ul {
 
 .note-content p {
   position: relative;
-  margin: 0; /* 去掉 p 標籤的默認 margin */
-  font-size: 1rem; /* 調整字體大小 */
-  word-wrap: break-word; /* 強制長字串換行 */
-  overflow-x: hidden; /* 隱藏水平滾動條，避免內容溢出 */
+  margin: 0;
+  font-size: 1rem;
+  word-wrap: break-word;
+  overflow-x: hidden;
 }
 
 .note-updatedAt {
@@ -403,9 +396,9 @@ ul {
 }
 
 .sat-note-header h2 {
-  font-size: 36px; /* 調整字體大小 */
-  font-family: "Lato", sans-serif !important; /* 調整字體類型 */
-  font-weight: 700 !important; /* 調整字體粗細 */
+  font-size: 36px;
+  font-family: "Lato", sans-serif !important;
+  font-weight: 700 !important;
   margin-bottom: 40px;
 }
 
@@ -431,18 +424,17 @@ ul {
 }
 
 .notes-container {
-  display: flex; /* Enables flexbox layout */
-  justify-content: space-between; /* Adds space between the two sections */
-  align-items: flex-start; /* Aligns items at the top */
-  margin-bottom: 20px; /* Adds spacing below the container */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
 }
 
-/* Style for individual note sections */
 .note-section.tasting-notes {
   flex: 2;
   margin-right: 20px;
-  word-wrap: break-word; /* 強制長字串換行 */
-  overflow-x: hidden; /* 隱藏橫向滾動條，避免區塊變寬 */
+  word-wrap: break-word;
+  overflow-x: hidden;
 }
 
 .note-section.sat-notes {
@@ -462,37 +454,37 @@ ul {
 }
 
 .sat-note-table {
-  width: 100%; /* 讓表格寬度自適應 */
-  border-collapse: collapse; /* 讓邊框之間不重疊 */
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .sat-note-table td {
   font-size: 18px !important;
-  padding: 10px; /* 單元格內部填充 */
-  border-bottom: 1px solid #ddd; /* 每行之間的分隔線 */
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
 .sat-note-table td:first-child {
-  font-weight: bold; /* 第一欄的文字加粗 */
+  font-weight: bold;
 }
 
 .sat-note-table td:last-child {
-  text-align: left; /* 內容左對齊 */
+  text-align: left;
 }
 
 .sat-note-buttons {
   display: flex;
-  justify-content: flex-start; /* 按鈕靠左對齊 */
-  gap: 10px; /* 按鈕之間的間距 */
-  margin-top: 20px; /* 上方的間距 */
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .sat-cancel-button {
-  padding: 10px 20px; /* 設置按鈕內邊距 */
-  font-size: 16px; /* 調整字體大小 */
-  border-radius: 5px; /* 調整圓角 */
-  border: none; /* 移除邊框 */
-  cursor: pointer; /* 鼠標樣式 */
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
 }
 
 .input-error {

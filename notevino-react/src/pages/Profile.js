@@ -15,7 +15,7 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import "./Profile.css"; // 用於添加自定義樣式
+import "./Profile.css";
 
 const WINE_TYPES = [
   "Red",
@@ -92,7 +92,6 @@ function Profile({ onAvatarUpdate }) {
 
     fetchData();
 
-    // 動畫邏輯
     const easeOutQuad = (t) => t * (2 - t);
     const animationDuration = 1000;
     const stepTime = 20;
@@ -117,7 +116,6 @@ function Profile({ onAvatarUpdate }) {
       return acc;
     }, {});
 
-    // 只保留有數量的酒類數據
     const pieData = WINE_TYPES.reduce((acc, type) => {
       if (typeCounts[type] && typeCounts[type] > 0) {
         acc.push({
@@ -133,13 +131,11 @@ function Profile({ onAvatarUpdate }) {
 
   const processUploadHistory = (data) => {
     const dailyUploads = data.reduce((acc, wine) => {
-      // 使用 toLocaleDateString 來確保日期格式一致
-      const date = new Date(wine.createdAt).toLocaleDateString("en-CA"); // 使用 'en-CA' 來獲得 YYYY-MM-DD 格式
+      const date = new Date(wine.createdAt).toLocaleDateString("en-CA");
       acc[date] = (acc[date] || 0) + 1;
       return acc;
     }, {});
 
-    // 確保包含今天的日期，即使沒有上傳
     const today = new Date().toLocaleDateString("en-CA");
     if (!dailyUploads[today]) {
       dailyUploads[today] = 0;
@@ -153,7 +149,6 @@ function Profile({ onAvatarUpdate }) {
       }));
 
     setUploadHistory(history);
-    // 更新可見範圍以顯示最新的數據
     setVisibleRange({
       start: Math.max(0, history.length - 7),
       end: history.length,
@@ -171,17 +166,16 @@ function Profile({ onAvatarUpdate }) {
     });
   };
 
-  // 顯示加載狀態
+  // Display loading status
   if (loading) {
     return <div>載入中...</div>;
   }
 
-  // 顯示錯誤信息
+  // Display error message
   if (error) {
     return <div>{error}</div>;
   }
 
-  // 格式化日期
   const formattedDate = new Date(user.createdAt).toLocaleDateString("zh-TW", {
     year: "numeric",
     month: "2-digit",
@@ -191,7 +185,7 @@ function Profile({ onAvatarUpdate }) {
   const formattedTime = new Date(user.createdAt).toLocaleTimeString("zh-TW", {
     hour: "2-digit",
     minute: "2-digit",
-    hour12: false, // 24 小時制
+    hour12: false,
   });
 
   const handleFileChange = (event) => {
@@ -216,13 +210,12 @@ function Profile({ onAvatarUpdate }) {
       })
       .then((response) => {
         if (response.data.imageUrl) {
-          // 更新用戶的頭像 URL
           setUser((prevUser) => ({
             ...prevUser,
             picture: response.data.imageUrl,
           }));
 
-          // 呼叫回呼函數，將新的頭像 URL 傳遞給 HomePage
+          // Call the callback function to pass the new avatar URL to HomePage
           if (onAvatarUpdate) {
             onAvatarUpdate(response.data.imageUrl);
           }
@@ -325,13 +318,11 @@ function Profile({ onAvatarUpdate }) {
     return <span style={{ color }}>{value}</span>;
   };
 
-  // 顯示用戶資料
   return (
     <div className="profile-container">
       <Card className="profile-card">
         <CardBody>
           <div className="profile-card-header">
-            {/* 將圖片容器移到左側 */}
             <div className="profile-card-image-container">
               <label htmlFor="avatar-upload">
                 <img
@@ -358,7 +349,6 @@ function Profile({ onAvatarUpdate }) {
                 />
               </label>
             </div>
-            {/* 資訊容器移到右側 */}
             <div className="profile-card-content">
               <CardTitle className="profile-card-title">{user.name}</CardTitle>
               <p className="profile-card-info">

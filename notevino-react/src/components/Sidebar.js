@@ -7,28 +7,26 @@ import "./Sidebar.css";
 
 function Sidebar({ onWineSelect, onUploadSelect, reload, isCollapsed }) {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-  const [searchResults, setSearchResults] = useState([]); // 用來保存搜索結果
+  const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  // 在 sidebar 展開或收起的瞬間，延遲顯示內容
+  // Delay displaying content at the moment the sidebar expands or collapses
   useEffect(() => {
     if (isCollapsed) {
-      // 先讓文字淡出，然後再隱藏
-      setIsSidebarVisible(false); // 開始淡出過渡
+      setIsSidebarVisible(false);
     } else {
-      setIsSidebarVisible(true); // 在展開時顯示文字
+      setIsSidebarVisible(true);
     }
   }, [isCollapsed]);
 
   const handleSearchResults = (results) => {
-    setSearchResults(results); // 保存搜索結果
-    setIsSearching(true); // 設置為搜索狀態
+    setSearchResults(results);
+    setIsSearching(true);
   };
 
-  // 重置搜尋狀態
   const resetSearch = () => {
-    setIsSearching(false); // 關閉搜尋模式
-    setSearchResults([]); // 清空搜尋結果
+    setIsSearching(false);
+    setSearchResults([]);
   };
 
   return (

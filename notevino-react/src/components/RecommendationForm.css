@@ -49,13 +49,12 @@ input.form-control {
 }
 
 /* Slider */
-/* 滑動條容器 */
 .slider-container {
   margin-bottom: 30px;
-  width: 600px; /* 調整滑動條的長度，使其更符合界面比例 */
+  width: 600px; /* Adjust the length of the slider to better fit the interface proportions */
 }
 
-/* 滑動條的標籤樣式 */
+/* Style for the slider labels */
 .slider-label {
   margin-bottom: 15px;
   font-size: 18px;

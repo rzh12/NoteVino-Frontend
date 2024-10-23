@@ -15,20 +15,19 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [image, setImage] = useState(null);
-  const [fileName, setFileName] = useState("未選擇任何檔案"); // 預設顯示文字
-  const inputRef = useRef(null); // 追蹤 name 輸入框的位置
-  const suggestionsRef = useRef(null); // 追蹤建議框的位置
+  const [fileName, setFileName] = useState("未選擇任何檔案");
+  const inputRef = useRef(null);
+  const suggestionsRef = useRef(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setWineInfo({ ...wineInfo, [name]: value });
 
     if (name === "name") {
-      fetchSuggestions(value); // 當輸入酒名時進行自動完成查詢
+      fetchSuggestions(value);
     }
   };
 
-  // 延遲執行的函數，減少不必要的請求
   const fetchSuggestions = debounce((query) => {
     if (query.length > 0) {
       axios
@@ -38,17 +37,17 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
             setSuggestions(response.data.data);
             setShowSuggestions(true);
           } else {
-            setShowSuggestions(false); // 如果無匹配結果，隱藏建議
+            setShowSuggestions(false);
           }
         })
         .catch((error) => {
           console.error("Error fetching suggestions:", error);
-          setShowSuggestions(false); // 查詢錯誤時隱藏建議
+          setShowSuggestions(false);
         });
     } else {
-      setShowSuggestions(false); // 如果沒有輸入字符，隱藏建議
+      setShowSuggestions(false);
     }
-  }, 300); // 使用 debounce，限制請求頻率
+  }, 300); // Debounce
 
   const handleSuggestionClick = (suggestion) => {
     setWineInfo({
@@ -56,7 +55,7 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
       name: suggestion.name,
       region: suggestion.region,
     });
-    setShowSuggestions(false); // 點擊後隱藏建議
+    setShowSuggestions(false);
   };
 
   const handleImageChange = (e) => {
@@ -64,9 +63,9 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
     setImage(file);
 
     if (file) {
-      setFileName(file.name); // 當選擇檔案後顯示檔案名稱
+      setFileName(file.name);
     } else {
-      setFileName("未選擇任何檔案"); // 沒有選擇檔案時顯示預設文字
+      setFileName("未選擇任何檔案");
     }
   };
 
@@ -77,29 +76,29 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
     formData.append("info", JSON.stringify(wineInfo));
     formData.append("image", image);
 
-    const token = localStorage.getItem("token"); // 假設 token 存儲在 localStorage
+    const token = localStorage.getItem("token");
 
     axios
       .post("/api/wines/upload", formData, {
         headers: {
-          Authorization: `Bearer ${token}`, // 在請求頭中添加 JWT token
+          Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
         if (response.data.success) {
-          const wineId = response.data.data; // 從 response.data.data 獲取 wineId
+          const wineId = response.data.data;
 
           Swal.fire({
             icon: "success",
             title: "葡萄酒上傳成功！",
             text: "你可以選擇繼續上傳或跳轉到該葡萄酒的詳細頁面。",
-            showCancelButton: true, // 顯示取消按鈕
+            showCancelButton: true,
             confirmButtonText: "轉跳到該葡萄酒頁面",
             cancelButtonText: "繼續上傳",
             customClass: {
-              confirmButton: "btn-confirm", // 自定義 confirm 按鈕的樣式
-              cancelButton: "btn-cancel", // 自定義 cancel 按鈕的樣式（可選）
+              confirmButton: "btn-confirm",
+              cancelButton: "btn-cancel",
             },
           }).then((result) => {
             if (result.isConfirmed) {
@@ -121,23 +120,21 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
           toast: true,
           position: "top-end",
           showConfirmButton: false,
-          timer: 2000, // 2 秒後自動關閉
+          timer: 2000,
           timerProgressBar: true,
         });
       });
   };
 
-  // 點擊外部時關閉建議框
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // 確保點擊的不是輸入框、建議框或者建議框中的某個選項
       if (
         inputRef.current &&
         !inputRef.current.contains(event.target) &&
         suggestionsRef.current &&
         !suggestionsRef.current.contains(event.target)
       ) {
-        setShowSuggestions(false); // 點擊外部時隱藏建議框
+        setShowSuggestions(false);
       }
     };
 
@@ -147,19 +144,18 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
     };
   }, []);
 
-  // 滾動時保持建議框的位置
   useEffect(() => {
     const handleScroll = () => {
       if (inputRef.current && suggestionsRef.current) {
         const rect = inputRef.current.getBoundingClientRect();
         suggestionsRef.current.style.top = `${rect.bottom + window.scrollY}px`;
         suggestionsRef.current.style.left = `${rect.left + window.scrollX}px`;
-        suggestionsRef.current.style.width = `${rect.width}px`; // 確保寬度與輸入框一致
+        suggestionsRef.current.style.width = `${rect.width}px`;
       }
     };
 
     if (showSuggestions) {
-      handleScroll(); // 初次顯示時計算位置
+      handleScroll();
       window.addEventListener("scroll", handleScroll, true);
     } else {
       window.removeEventListener("scroll", handleScroll, true);
@@ -255,7 +251,7 @@ function WineUploadForm({ onUploadSuccess, onWineSelect }) {
               className="hidden-file-input"
               onChange={handleImageChange}
             />
-            <span className="file-name">{fileName}</span> {/* 顯示文件名稱 */}
+            <span className="file-name">{fileName}</span>
           </div>
         </FormGroup>
 

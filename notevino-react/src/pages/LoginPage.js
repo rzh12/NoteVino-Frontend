@@ -35,6 +35,28 @@ export default function LoginPage({ onLoginSuccess }) {
     }
   };
 
+  const handleAutoFill = async () => {
+    try {
+      const response = await axios.post("/api/users/signin", {
+        email: "demo001@gmail.com",
+        password: "88888888",
+      });
+
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+
+      onLoginSuccess();
+      navigate("/home");
+    } catch (error) {
+      console.error("Auto-Fill Sign In Error:", error);
+      if (error.response && error.response.data) {
+        setErrorMessage(error.response.data.error);
+      } else {
+        setErrorMessage("An error occurred during auto sign in.");
+      }
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -240,6 +262,25 @@ export default function LoginPage({ onLoginSuccess }) {
           >
             Don't have an account? Sign Up!
           </Link>
+          <Button
+            variant="outlined"
+            onClick={handleAutoFill}
+            sx={{
+              color: "white !important",
+              backgroundColor: "#0056b3 !important",
+              borderColor: "#0056b3 !important",
+              borderRadius: "5px !important",
+              padding: "8px 43px !important",
+              marginTop: "20px",
+              fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: "#09f !important",
+                color: "white !important",
+              },
+            }}
+          >
+            以測試帳號快速瀏覽網站
+          </Button>
         </Box>
       </motion.div>
     </Box>

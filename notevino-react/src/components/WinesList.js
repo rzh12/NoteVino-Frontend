@@ -5,32 +5,31 @@ import "./WinesList.css";
 function WinesList({ onWineSelect, reload }) {
   const [wines, setWines] = useState([]);
   const [loading, setLoading] = useState(true);
-  const isFirstLoad = useRef(true); // 使用 useRef 替代 state
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
-    // 從 localStorage 中獲取 JWT token
     const token = localStorage.getItem("token");
 
     if (isFirstLoad.current) {
-      setLoading(true); // 只在第一次加載時顯示 loading
+      setLoading(true);
     }
 
     axios
       .get("/api/wines/list", {
         headers: {
-          Authorization: `Bearer ${token}`, // 添加 Authorization header
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
         if (response.data.success) {
-          setWines(response.data.data); // 提取 data 來顯示
+          setWines(response.data.data);
         }
-        setLoading(false); // 資料加載完成
-        isFirstLoad.current = false; // 第一次加載完成後將標記設為 false
+        setLoading(false);
+        isFirstLoad.current = false;
       })
       .catch((error) => {
-        setLoading(false); // 無論發生什麼錯誤，都結束 loading
-        isFirstLoad.current = false; // 第一次加載完成後將標記設為 false
+        setLoading(false);
+        isFirstLoad.current = false;
         if (error.response) {
           console.error("Response error:", error.response.data);
         } else if (error.request) {

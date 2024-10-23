@@ -152,8 +152,8 @@ function RecommendationForm({ onRecommendationsFetch }) {
               placeholder="輸入 Region"
               value={region}
               onChange={(e) => setRegion(e.target.value)}
-              disabled={!useRegion} // 當未勾選 "使用 Region" 時禁用輸入框
-              className={useRegion ? "enabled-input" : "disabled-input"} // 根據勾選框狀態調整樣式
+              disabled={!useRegion}
+              className={useRegion ? "enabled-input" : "disabled-input"}
             />
           </InputGroup>
 

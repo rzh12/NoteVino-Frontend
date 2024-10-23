@@ -63,9 +63,9 @@
   line-height: 1.5;
   color: var(--info-text-color);
   flex: 1;
-  padding-left: 0; /* 去除左側 padding */
-  margin-left: 0; /* 確保文字和標籤無空隙 */
-  text-align: left; /* 保持文字靠左對齊 */
+  padding-left: 0;
+  margin-left: 0;
+  text-align: left;
 }
 
 .profile-card-image-container {
@@ -75,9 +75,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 20px; /* 與內容之間的間距 */
-  position: relative; /* 為了定位上傳中遮罩 */
-  cursor: pointer; /* 當鼠標懸停時顯示可點擊狀態 */
+  margin-right: 20px;
+  position: relative;
+  cursor: pointer;
 }
 
 .uploading-overlay {
@@ -86,7 +86,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色遮罩 */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -154,10 +154,9 @@
   text-align: center;
 }
 
-/* 確保圖表容器有足夠的高度 */
 .upload-history-container,
 .pie-chart-container {
-  height: 450px; /* 包括標題的總高度 */
+  height: 450px;
 }
 
 .chart-wrapper {

@@ -108,14 +108,13 @@ export default function RegisterPage() {
           textAlign: "center",
         }}
       >
-        {/* logo 頭像放在頂部 */}
         <Avatar
           sx={{
             width: 80,
             height: 80,
             marginBottom: 2,
           }}
-          src={nvLogo} // 顯示 logo
+          src={nvLogo}
         />
         <Typography
           component="h1"
@@ -268,7 +267,6 @@ export default function RegisterPage() {
             }}
           />
 
-          {/* Avatar 與上傳按鈕排成一行 */}
           <Button
             variant="contained"
             component="label"

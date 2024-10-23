@@ -105,18 +105,16 @@ function WineDetails({
   }, [wineId, token, fetchSatNote]);
 
   const handleDelete = () => {
-    // 使用 SweetAlert2 顯示確認提示
     Swal.fire({
       title: "確定要刪除此葡萄酒？",
       text: "葡萄酒資訊和品飲筆記將一併被刪除且無法復原 ！",
       icon: "warning",
-      showCancelButton: true, // 顯示取消按鈕
+      showCancelButton: true,
       confirmButtonText: "確定刪除",
       cancelButtonText: "取消",
-      reverseButtons: false, // 反轉按鈕順序
+      reverseButtons: false,
     }).then((result) => {
       if (result.isConfirmed) {
-        // 如果使用者確認刪除
         axios
           .delete(`/api/wines/${wineId}`, {
             headers: {
@@ -125,7 +123,6 @@ function WineDetails({
           })
           .then((response) => {
             if (response.status === 204) {
-              // 刪除成功，調用父組件的回調
               Swal.fire({
                 icon: "success",
                 title: "已刪除 ！",
@@ -185,7 +182,7 @@ function WineDetails({
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 1500, // 1.5 秒後自動關閉
+            timer: 1500,
             timerProgressBar: true,
           });
           reloadWines();
@@ -200,7 +197,7 @@ function WineDetails({
           toast: true,
           position: "top-end",
           showConfirmButton: false,
-          timer: 2000, // 2 秒後自動關閉
+          timer: 2000,
           timerProgressBar: true,
         });
       });
@@ -208,17 +205,16 @@ function WineDetails({
 
   const generateTastingNote = async () => {
     try {
-      // 顯示 Loading alert
       Swal.fire({
         title: "Generating Tasting Note...",
         text: "請稍待片刻！😉",
         toast: true,
         position: "top-end",
-        allowOutsideClick: true, // 允許點擊其他地方繼續操作
-        allowEscapeKey: true, // 允許按下ESC繼續操作
-        showConfirmButton: false, // 隱藏確認按鈕
+        allowOutsideClick: true,
+        allowEscapeKey: true,
+        showConfirmButton: false,
         didOpen: () => {
-          Swal.showLoading(); // 顯示 loading 指示器
+          Swal.showLoading();
         },
       });
       const response = await axios.get("/api/wines/generate-tasting-note", {
@@ -260,11 +256,9 @@ function WineDetails({
     }
   };
 
-  // 提交新增筆記
   const handleSubmitNote = (e) => {
     e.preventDefault();
 
-    // 移除 HTML 標籤並檢查內容是否為空
     const strippedContent = newNote.replace(/<[^>]+>/g, "").trim();
     if (!strippedContent) {
       Swal.fire({
@@ -276,7 +270,6 @@ function WineDetails({
       return;
     }
 
-    // 構建與後端期望的 FreeFormNoteRequest 對應的數據
     const freeFormNoteRequest = {
       content: newNote,
     };
@@ -303,7 +296,7 @@ function WineDetails({
             const updatedNotes = [...prevWine.notes, newNoteFromServer];
             const sortedNotes = updatedNotes
               .slice()
-              .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)); // 倒序排序
+              .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
             return { ...prevWine, notes: sortedNotes };
           });
         }
@@ -313,7 +306,6 @@ function WineDetails({
       });
   };
 
-  // 提交修改筆記
   const handleSaveNote = (noteId) => {
     axios
       .put(
@@ -336,11 +328,11 @@ function WineDetails({
             );
             const sortedNotes = updatedNotes
               .slice()
-              .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)); // 倒序排序
+              .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
             return { ...prevWine, notes: sortedNotes };
           });
-          setEditNoteId(null); // 退出編輯模式
-          setNoteContent(""); // 清空編輯框
+          setEditNoteId(null);
+          setNoteContent("");
         }
       })
       .catch((error) => {
@@ -350,18 +342,16 @@ function WineDetails({
 
   // 刪除筆記
   const handleDeleteNote = (noteId) => {
-    // 使用 SweetAlert2 顯示確認提示
     Swal.fire({
       title: "確定要刪除此筆記？",
       text: "此品飲筆記將被刪除且無法復原 ！",
       icon: "warning",
-      showCancelButton: true, // 顯示取消按鈕
+      showCancelButton: true,
       confirmButtonText: "確定刪除",
       cancelButtonText: "取消",
-      reverseButtons: false, // 反轉按鈕順序
+      reverseButtons: false,
     }).then((result) => {
       if (result.isConfirmed) {
-        // 如果使用者確認刪除
         axios
           .delete(`/api/wines/${wineId}/notes/${noteId}`, {
             headers: {
@@ -370,14 +360,12 @@ function WineDetails({
           })
           .then((response) => {
             if (response.status === 204) {
-              // 刪除成功，從筆記列表中移除該筆記
               setWine((prevWine) => ({
                 ...prevWine,
                 notes: prevWine.notes.filter((note) => note.noteId !== noteId),
               }));
-              setEditNoteId(null); // 退出編輯模式
+              setEditNoteId(null);
 
-              // 顯示成功提示
               Swal.fire({
                 icon: "success",
                 title: "已刪除 ！",
@@ -392,7 +380,6 @@ function WineDetails({
           .catch((error) => {
             console.error("Error deleting note:", error);
 
-            // 顯示錯誤提示
             Swal.fire({
               icon: "error",
               title: "Failed to delete",
@@ -408,18 +395,15 @@ function WineDetails({
     });
   };
 
-  // 提交修改葡萄酒資訊
   const saveUpdatedWine = () => {
-    handleSave(updatedWine); // 調用傳遞進來的 handleSave 函數保存修改
+    handleSave(updatedWine);
 
-    // 保留現有的筆記，避免更新時丟失筆記
     setWine((prevWine) => ({
-      ...updatedWine, // 更新葡萄酒的基本信息
-      notes: prevWine.notes, // 保留原有的筆記數據
+      ...updatedWine,
+      notes: prevWine.notes,
     }));
   };
 
-  // 處理表單變更
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedWine({
@@ -428,19 +412,16 @@ function WineDetails({
     });
   };
 
-  // 進入筆記編輯模式
   const handleEditNote = (noteId, content) => {
     setEditNoteId(noteId);
     setNoteContent(content);
   };
 
   if (!wine) {
-    return null; // 在 wine 資料還未載入時，返回 null
+    return null;
   }
 
-  // 保存或更新 SAT Note
   const handleSaveSatNote = () => {
-    // 定義所有必填欄位
     const requiredFields = [
       "sweetness",
       "acidity",
@@ -453,7 +434,6 @@ function WineDetails({
       "potentialForAgeing",
     ];
 
-    // 檢查未填寫的欄位
     const newErrors = {};
     requiredFields.forEach((field) => {
       if (!editedSatNote || !editedSatNote[field]) {
@@ -496,10 +476,10 @@ function WineDetails({
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 1500, // 1.5 秒後自動關閉
+            timer: 1500,
             timerProgressBar: true,
           });
-          // 重新獲取最新的 SAT 筆記
+
           fetchSatNote();
           setIsCreatingSatNote(false);
           setEditedSatNote(null);
@@ -513,7 +493,7 @@ function WineDetails({
           toast: true,
           position: "top-end",
           showConfirmButton: false,
-          timer: 2000, // 2 秒後自動關閉
+          timer: 2000,
           timerProgressBar: true,
         });
       });
@@ -526,7 +506,6 @@ function WineDetails({
       [name]: value,
     }));
 
-    // 清除該欄位的錯誤
     if (errors[name]) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -635,7 +614,7 @@ function WineDetails({
                   {new Date(wine.createdAt).toLocaleTimeString("zh-TW", {
                     hour: "2-digit",
                     minute: "2-digit",
-                    hour12: false, // 24 小时制
+                    hour12: false,
                   })}
                 </span>
               </p>
@@ -706,8 +685,7 @@ function WineDetails({
                   />
                 </Button>
               </div>
-              {/* New note section */}
-              {/* 新增筆記 */}
+              {/* New Note Section */}
               {isAddingNote ? (
                 <form onSubmit={handleSubmitNote} className="form">
                   <ReactQuill
@@ -721,16 +699,6 @@ function WineDetails({
                     <Button type="submit" className="submit-note-button">
                       提交筆記
                     </Button>
-                    {/* <Button
-                      type="button"
-                      onClick={() => {
-                        setIsAddingNote(false);
-                        setNewNote("");
-                      }}
-                      className="cancel-note-button"
-                    >
-                      取消
-                    </Button> */}
                   </div>
                 </form>
               ) : null}
@@ -738,11 +706,10 @@ function WineDetails({
                 {wine.notes && wine.notes.length > 0 ? (
                   wine.notes
                     .slice()
-                    .sort(
-                      (a, b) =>
-                        isAscending
-                          ? new Date(a.updatedAt) - new Date(b.updatedAt) // 正序
-                          : new Date(b.updatedAt) - new Date(a.updatedAt) // 倒序
+                    .sort((a, b) =>
+                      isAscending
+                        ? new Date(a.updatedAt) - new Date(b.updatedAt)
+                        : new Date(b.updatedAt) - new Date(a.updatedAt)
                     )
                     .map((note) => (
                       <li key={note.noteId} className="note-item">
@@ -789,7 +756,7 @@ function WineDetails({
                                     hour: "2-digit",
                                     minute: "2-digit",
                                     second: "2-digit",
-                                    hour12: false, // 24 小時制
+                                    hour12: false,
                                   }
                                 )}
                               </p>
@@ -993,7 +960,7 @@ function WineDetails({
                     <Button
                       onClick={() => {
                         setIsEditingSatNote(false);
-                        setEditedSatNote(null); // 丟棄更改
+                        setEditedSatNote(null);
                         if (isCreatingSatNote) {
                           setSatNote(null);
                           setIsCreatingSatNote(false);
@@ -1069,7 +1036,7 @@ function WineDetails({
                     onClick={() => {
                       setEditedSatNote({ ...satNote });
                       setIsEditingSatNote(true);
-                      setIsCreatingSatNote(false); // 進入更新模式
+                      setIsCreatingSatNote(false);
                     }}
                     className="sat-edit-button"
                   >

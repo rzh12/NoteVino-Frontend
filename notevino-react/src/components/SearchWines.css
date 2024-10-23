@@ -8,7 +8,7 @@
 .search-wines-container {
   position: relative;
   width: 100%;
-  top: -10px; /* 調整 top，讓搜尋欄位置更合適 */
+  top: -10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +17,7 @@
 .input-wrapper {
   position: relative;
   width: 100%;
-  display: flex; /* 確保搜尋欄和重置按鈕在同一行 */
+  display: flex;
   align-items: center;
   gap: 10px;
 }
@@ -25,9 +25,9 @@
 .search-input {
   background-color: var(--search-input-background-color);
   color: var(--search-input);
-  flex: 1 1 auto; /* 允許搜尋欄縮小 */
-  min-width: 0; /* 防止內容撐開 */
-  padding: 10px 10px 10px 40px; /* 左側為放大鏡圖標留出空間 */
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 10px 10px 40px;
   border: 1px solid var(--search-input-border);
   border-radius: 20px;
   font-size: 18px;
@@ -41,22 +41,22 @@
 
 .search-icon {
   position: absolute;
-  left: 10px; /* 圖標距離輸入框左側的距離 */
+  left: 10px;
   top: 50%;
   color: var(--search-icon-color);
   transform: translateY(-50%);
 }
 
 .reset-button {
-  flex: 0 0 auto; /* 保持按鈕自然大小 */
+  flex: 0 0 auto;
   font-size: 18px;
   display: flex;
   align-items: center;
-  background-color: transparent !important; /* 透明背景 */
-  border: none !important; /* 移除邊框 */
-  cursor: pointer; /* 鼠標樣式 */
-  padding: 0px !important; /* 給按鈕一點內邊距 */
-  box-shadow: none !important; /* 移除陰影 */
+  background-color: transparent !important;
+  border: none !important;
+  cursor: pointer;
+  padding: 0px !important;
+  box-shadow: none !important;
   color: var(--search-icon-color) !important;
 }
 
